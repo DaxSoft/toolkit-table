@@ -11,6 +11,7 @@ import {
 } from "./components/ui/dialog";
 import "./App.css";
 import { ColumnDef } from "@tanstack/react-table";
+import Ripple from "./components/ui/ripple";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -41,6 +42,7 @@ export type ToolkitTableProps<ColumnData, BodyData> = {
   buttonAddLabel: React.ReactNode;
   columns: ColumnDef<ColumnData>[];
   data: BodyData[];
+  loading?: boolean;
 };
 
 export default function ToolkitTable<ColumnData, BodyData>({
@@ -50,6 +52,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
   buttonAddLabel,
   columns,
   data,
+  loading = false,
 }: ToolkitTableProps<ColumnData, BodyData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -63,7 +66,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
   return (
     <>
       <div className="fluent-background" />
-      <div className="min-h-screen p-4 md:p-8">
+      <div className="relative min-h-screen p-4 md:p-8">
         <div className="mx-auto max-w-7xl space-y-8">
           <motion.div
             className="fluent-glass rounded-lg p-6 md:p-8"
@@ -71,7 +74,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
             initial="hidden"
             animate="visible"
           >
-            <div className="mb-8">
+            <div className="mb-8 ">
               <motion.div
                 className="flex items-center space-x-2 text-primary mb-2"
                 variants={itemVariants}
@@ -108,6 +111,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
             </Suspense>
           </motion.div>
         </div>
+        {loading && <Ripple />}
       </div>
 
       <Dialog open={showUserForm} onOpenChange={handleCloseForm}>
