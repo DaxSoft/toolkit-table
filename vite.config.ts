@@ -16,10 +16,10 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: "src/App.tsx",
-      name: "CustomTable",
+      entry: "src/toolkit-table.tsx",
+      name: "ToolkitTable",
       formats: ["es", "umd"],
-      fileName: (format) => `custom-table.${format}.js`,
+      fileName: (format) => `toolkit-table.${format}.js`,
     },
     rollupOptions: {
       plugins: [

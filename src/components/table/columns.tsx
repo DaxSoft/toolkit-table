@@ -23,7 +23,7 @@ import { FilterPopover } from "./filter-popover";
 
 type IsSortedType = "false" | "asc" | "desc";
 
-const SortButton = ({
+export const SortButton = ({
   column,
   children,
 }: {
