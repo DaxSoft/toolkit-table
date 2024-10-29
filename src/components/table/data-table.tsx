@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ColumnDef,
@@ -83,17 +83,24 @@ export function DataTable<TData, TValue>({
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
 
-  const table = useReactTable({
-    data: data.map((row: any) => ({
+  // Memoize the enhanced data to prevent unnecessary recalculations
+  const enhancedData = useMemo(() => {
+    return data.map((row: any) => ({
       ...row,
       isPinned: pinnedRows[row.id],
-      togglePinned: () => {
-        setPinnedRows((prev) => ({
-          ...prev,
-          [row.id]: !prev[row.id],
-        }));
-      },
-    })),
+    }));
+  }, [data, pinnedRows]);
+
+  // Memoize the row toggling function
+  const togglePinned = useCallback((id: string) => {
+    setPinnedRows((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }, []);
+
+  const table = useReactTable({
+    data: enhancedData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -144,18 +151,14 @@ export function DataTable<TData, TValue>({
           break;
         case "pin":
           selectedRows.forEach((row) => {
-            setPinnedRows((prev) => ({
-              ...prev,
-              [(row.original as any).id]: true,
-            }));
+            const id = (row.original as any).id;
+            setPinnedRows((prev) => ({ ...prev, [id]: true }));
           });
           break;
         case "unpin":
           selectedRows.forEach((row) => {
-            setPinnedRows((prev) => ({
-              ...prev,
-              [(row.original as any).id]: false,
-            }));
+            const id = (row.original as any).id;
+            setPinnedRows((prev) => ({ ...prev, [id]: false }));
           });
           break;
       }
@@ -163,13 +166,16 @@ export function DataTable<TData, TValue>({
     [table]
   );
 
-  const sortedRows = table.getRowModel().rows.sort((a, b) => {
-    const aPinned = pinnedRows[(a.original as any).id];
-    const bPinned = pinnedRows[(b.original as any).id];
-    if (aPinned && !bPinned) return -1;
-    if (!aPinned && bPinned) return 1;
-    return 0;
-  });
+  // Memoize the sorted rows
+  const sortedRows = useMemo(() => {
+    return table.getRowModel().rows.sort((a, b) => {
+      const aPinned = (a.original as any).isPinned;
+      const bPinned = (b.original as any).isPinned;
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return 0;
+    });
+  }, [table.getRowModel().rows]);
 
   return (
     <motion.div
@@ -323,34 +329,70 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {sortedRows.length ? (
-                sortedRows.map((row, i) => (
+                sortedRows.map((row) => (
                   <TableRow
                     key={row.id}
                     variants={rowVariants}
-                    custom={i}
                     initial="hidden"
                     animate="show"
                     exit="exit"
                     data-state={row.getIsSelected() && "selected"}
                     className={cn(
-                      "group",
-                      pinnedRows[(row.original as any).id] &&
-                        "sticky top-0 bg-muted/50 backdrop-blur-sm"
+                      "group transition-colors duration-200",
+                      (row.original as any).isPinned &&
+                        "sticky top-0 bg-muted/50 backdrop-blur-sm shadow-md"
                     )}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={fontSizeClasses[fontSize]}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      if (cell.column.id === "select") {
+                        return (
+                          <TableCell key={cell.id}>
+                            <div className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={row.getIsSelected()}
+                                onChange={(e) =>
+                                  row.toggleSelected(e.target.checked)
+                                }
+                                className="rounded border-gray-300 text-primary focus:ring-primary"
+                              />
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() =>
+                                  togglePinned((row.original as any).id)
+                                }
+                                className={cn(
+                                  "transition-opacity duration-200",
+                                  row.getIsSelected()
+                                    ? "opacity-100"
+                                    : "opacity-0 group-hover:opacity-100"
+                                )}
+                              >
+                                {(row.original as any).isPinned ? (
+                                  <PinOff className="h-4 w-4" />
+                                ) : (
+                                  <Pin className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </div>
+                          </TableCell>
+                        );
+                      }
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={fontSizeClasses[fontSize]}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (

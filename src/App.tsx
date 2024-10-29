@@ -159,7 +159,7 @@ export default function App() {
                 </div>
               );
             },
-            filterFn: "auto",
+            filterFn: "custom",
             meta: {
               type: "string",
             },
@@ -178,7 +178,7 @@ export default function App() {
                 </div>
               );
             },
-            filterFn: "auto",
+            filterFn: "custom",
             meta: {
               type: "string",
             },
@@ -213,7 +213,7 @@ export default function App() {
                 </Badge>
               );
             },
-            filterFn: "auto",
+            filterFn: "custom",
             meta: {
               type: "string",
             },
@@ -232,7 +232,7 @@ export default function App() {
                 </div>
               );
             },
-            filterFn: "auto",
+            filterFn: "custom",
             meta: {
               type: "string",
             },
@@ -267,7 +267,7 @@ export default function App() {
                 </Badge>
               );
             },
-            filterFn: "auto",
+            filterFn: "custom",
             meta: {
               type: "string",
             },
@@ -287,7 +287,7 @@ export default function App() {
               );
             },
             cell: ({ row }) => format(row.getValue("joinDate"), "PP"),
-            filterFn: "auto",
+            filterFn: "custom",
             sortingFn: (rowA, rowB, columnId) => {
               const a = rowA.getValue(columnId) as Date;
               const b = rowB.getValue(columnId) as Date;

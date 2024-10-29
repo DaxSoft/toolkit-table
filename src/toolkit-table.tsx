@@ -1,5 +1,5 @@
+import React, { useState, useCallback, Suspense } from "react";
 import { DataTable } from "./components/table/data-table";
-import React, { useState, useCallback } from "react";
 import { Plus, Users, ChevronRight } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { motion } from "framer-motion";
@@ -78,12 +78,12 @@ export default function ToolkitTable<ColumnData, BodyData>({
               >
                 {breadcrumbIcon}
                 <ChevronRight className="h-4 w-4" />
-                <span className="text-sm font-medium">{breadcrumbLabel}</span>
+                <span className="text-xl font-medium">{breadcrumbLabel}</span>
               </motion.div>
 
-              <div className="flex flex-col md:flex-row md:items-left md:justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <motion.div variants={itemVariants}>
-                  <p className="mt-2 text-muted-foreground max-w-2xl">
+                  <p className="mt-2 text-left text-muted-foreground max-w-2xl">
                     {tableDescription}
                   </p>
                 </motion.div>
@@ -101,9 +101,11 @@ export default function ToolkitTable<ColumnData, BodyData>({
               </div>
             </div>
 
-            <motion.div variants={itemVariants}>
-              <DataTable columns={columns} data={data} onEdit={handleEdit} />
-            </motion.div>
+            <Suspense fallback={<></>}>
+              <motion.div variants={itemVariants}>
+                <DataTable columns={columns} data={data} onEdit={handleEdit} />
+              </motion.div>
+            </Suspense>
           </motion.div>
         </div>
       </div>
