@@ -4,7 +4,8 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "rollup-plugin-node-resolve";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
+// import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import postcss from "rollup-plugin-postcss";
 
 export default defineConfig({
   plugins: [react(), dts()],
@@ -21,7 +22,16 @@ export default defineConfig({
       fileName: (format) => `custom-table.${format}.js`,
     },
     rollupOptions: {
-      plugins: [peerDepsExternal(), resolve(), commonjs()],
+      plugins: [
+        // peerDepsExternal(),
+        resolve(),
+        commonjs(),
+        postcss({
+          extract: true,
+          minimize: true,
+          modules: true,
+        }),
+      ],
       // Include dependencies in the bundle
       external: [], // Leave this empty to include all dependencies
     },
