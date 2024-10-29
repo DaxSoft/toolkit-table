@@ -215,6 +215,8 @@
   letter-spacing: 0.025em;
   padding: 0.75rem 1rem;
   transition: background-color 0.2s ease;
+  position: relative;
+  user-select: none;
 }
 
 .dark .fluent-table th {

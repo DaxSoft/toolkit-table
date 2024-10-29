@@ -63,6 +63,7 @@ export type DataTableProps<TData, TValue> = {
   viewButton: React.ReactNode;
   toggleComparassion?: boolean;
   setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultColumn?: Partial<ColumnDef<any, unknown>>;
 };
 
 const tableVariants = {
@@ -90,6 +91,7 @@ export function DataTable<TData, TValue>({
   viewButton,
   toggleComparassion,
   setToggleComparassion,
+  defaultColumn,
 }: DataTableProps<TData, TValue>) {
   const itHasToggleComparassion = !!setToggleComparassion;
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -100,6 +102,7 @@ export function DataTable<TData, TValue>({
   const [showVisualizationDialog, setShowVisualizationDialog] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
+  const [columnResizing, setColumnResizing] = useState(false);
   const { theme, setTheme } = useTheme();
 
   // Load saved preferences
@@ -164,6 +167,9 @@ export function DataTable<TData, TValue>({
     meta: {
       onEdit,
     },
+    enableColumnResizing: true,
+    columnResizeMode: "onChange",
+    defaultColumn,
   });
 
   const fontSizeClasses = {
@@ -385,6 +391,10 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={fontSizeClasses[fontSize]}
+                      style={{
+                        width: `${header.getSize()}px`,
+                        position: "relative",
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -392,6 +402,18 @@ export function DataTable<TData, TValue>({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                      {header.column.getCanResize() && (
+                        <div
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={cn(
+                            "absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none",
+                            header.column.getIsResizing()
+                              ? "bg-primary/50"
+                              : "bg-border/50 hover:bg-primary/50"
+                          )}
+                        />
+                      )}
                     </TableHead>
                   );
                 })}
@@ -401,7 +423,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             <AnimatePresence mode="wait">
               {sortedRows.length ? (
-                sortedRows.map((row) => (
+                sortedRows.map((row, i) => (
                   <MotionTableRow
                     key={row.id}
                     variants={rowVariants}
@@ -412,13 +434,21 @@ export function DataTable<TData, TValue>({
                     className={cn(
                       "group transition-colors duration-200",
                       (row.original as any).isPinned &&
-                        "sticky top-0 bg-muted/50 backdrop-blur-sm shadow-md"
+                        "sticky top-0 bg-muted/50 backdrop-blur-sm shadow-md",
+                      i % 2 === 1 && theme === "dark"
+                        ? "bg-gray-800/30"
+                        : i % 2 === 1
+                        ? "bg-gray-50/50"
+                        : ""
                     )}
                   >
                     {row.getVisibleCells().map((cell) => {
                       if (cell.column.id === "select") {
                         return (
-                          <TableCell key={cell.id}>
+                          <TableCell
+                            key={cell.id}
+                            style={{ width: `${cell.column.getSize()}px` }}
+                          >
                             <div className="flex items-center space-x-2">
                               <input
                                 type="checkbox"

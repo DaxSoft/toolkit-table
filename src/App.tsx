@@ -107,6 +107,11 @@ export default function App() {
         }
         toggleComparassion={toggleComparassion}
         setToggleComparassion={setToggleComparassion}
+        defaultColumn={{
+          size: 200, //starting column size
+          minSize: 50, //enforced during column resizing
+          maxSize: 300, //enforced during column resizing
+        }}
         data={sample}
         columns={[
           {
@@ -153,6 +158,7 @@ export default function App() {
             ),
             enableSorting: false,
             enableHiding: false,
+            enableResizing: false,
           },
           {
             accessorKey: "name",
@@ -172,6 +178,7 @@ export default function App() {
             meta: {
               type: "string",
             },
+            enableResizing: true,
           },
           {
             accessorKey: "email",
@@ -191,6 +198,7 @@ export default function App() {
             meta: {
               type: "string",
             },
+            enableResizing: true,
           },
           {
             accessorKey: "role",
@@ -226,6 +234,7 @@ export default function App() {
             meta: {
               type: "string",
             },
+            enableResizing: true,
           },
           {
             accessorKey: "department",
@@ -245,6 +254,7 @@ export default function App() {
             meta: {
               type: "string",
             },
+            enableResizing: true,
           },
           {
             accessorKey: "status",
@@ -280,6 +290,7 @@ export default function App() {
             meta: {
               type: "string",
             },
+            enableResizing: true,
           },
           {
             accessorKey: "joinDate",
@@ -328,6 +339,7 @@ export default function App() {
             meta: {
               type: "date",
             },
+            enableResizing: true,
           },
           {
             id: "actions",
@@ -358,6 +370,8 @@ export default function App() {
                 </DropdownMenu>
               );
             },
+            size: 50,
+            enableResizing: false,
           },
         ]}
       />
