@@ -42,11 +42,13 @@ import {
   Mail,
   Sun,
   Moon,
+  ArrowUpDown,
 } from "lucide-react";
 import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
+import { Switch } from "../ui/switch";
 
 const MotionTableRow = motion(TableRow);
 
@@ -59,6 +61,8 @@ export type DataTableProps<TData, TValue> = {
   exportButton: React.ReactNode;
   visualizeButton: React.ReactNode;
   viewButton: React.ReactNode;
+  toggleComparassion?: boolean;
+  setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const tableVariants = {
@@ -84,7 +88,10 @@ export function DataTable<TData, TValue>({
   exportButton,
   visualizeButton,
   viewButton,
+  toggleComparassion,
+  setToggleComparassion,
 }: DataTableProps<TData, TValue>) {
+  const itHasToggleComparassion = !!setToggleComparassion;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -268,6 +275,16 @@ export function DataTable<TData, TValue>({
               </motion.div>
             </AnimatePresence>
           </Button>
+          {itHasToggleComparassion && (
+            <div className="flex items-center space-x-2 ml-4">
+              <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+              <Switch
+                checked={toggleComparassion}
+                onCheckedChange={setToggleComparassion}
+                className="data-[state=checked]:bg-primary"
+              />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2">
           {table.getSelectedRowModel().rows.length > 0 && (

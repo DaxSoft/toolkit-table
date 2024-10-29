@@ -20,6 +20,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
+import { useState } from "react";
+import { CellComparison } from "./components/table/cell-comparasion";
 
 type ColumnSchema = {
   id: string;
@@ -86,6 +88,8 @@ const sample: ColumnSchema[] = [
 ];
 
 export default function App() {
+  const [toggleComparassion, setToggleComparassion] = useState<boolean>(false);
+
   return (
     <>
       <Table<ColumnSchema, ColumnSchema>
@@ -101,6 +105,8 @@ export default function App() {
             users, edit existing ones, and control access levels.
           </>
         }
+        toggleComparassion={toggleComparassion}
+        setToggleComparassion={setToggleComparassion}
         data={sample}
         columns={[
           {
@@ -289,7 +295,30 @@ export default function App() {
                 </div>
               );
             },
-            cell: ({ row }) => format(row.getValue("joinDate"), "PP"),
+            cell: ({ row, table }) => {
+              const value = row.getValue("joinDate") as Date;
+              const formattedDate = format(value, "PP");
+
+              // Get the next row's value for comparison
+              const rowIndex = row.index;
+              const nextRow = table.getRowModel().rows[rowIndex + 1];
+              const nextValue = nextRow?.getValue("joinDate") as
+                | Date
+                | undefined;
+
+              return (
+                <div className="flex items-center">
+                  <span>{formattedDate}</span>
+                  {!!toggleComparassion && (
+                    <CellComparison
+                      value={value}
+                      nextValue={nextValue}
+                      type="date"
+                    />
+                  )}
+                </div>
+              );
+            },
             filterFn: "custom",
             sortingFn: (rowA, rowB, columnId) => {
               const a = rowA.getValue(columnId) as Date;
