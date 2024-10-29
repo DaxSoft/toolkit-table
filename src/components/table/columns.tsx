@@ -1,25 +1,5 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-  ArrowDown,
-  ArrowUp,
-  ArrowUpDown,
-  Pin,
-  PinOff,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { format } from "date-fns";
-import { FilterPopover } from "./filter-popover";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 type IsSortedType = "false" | "asc" | "desc";
 

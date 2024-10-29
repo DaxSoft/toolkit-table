@@ -102,7 +102,6 @@ export function DataTable<TData, TValue>({
   const [showVisualizationDialog, setShowVisualizationDialog] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
-  const [columnResizing, setColumnResizing] = useState(false);
   const { theme, setTheme } = useTheme();
 
   // Load saved preferences
@@ -150,9 +149,10 @@ export function DataTable<TData, TValue>({
       custom: (row, columnId, filterValue) => {
         if (!filterValue) return true;
         const value = row.getValue(columnId);
-        const column = columns.find(
-          (col) => col.id === columnId // col.accessorKey === columnId || col.id === columnId
-        );
+        const column = columns.find((col) => {
+          const _col = col as any;
+          return _col?.accessorKey === columnId || col.id === columnId;
+        });
         const meta = column?.meta as any;
         const type = (meta?.type as "string" | "number" | "date") || "string";
         return applyFilter(value, filterValue, type);
@@ -171,6 +171,23 @@ export function DataTable<TData, TValue>({
     columnResizeMode: "onChange",
     defaultColumn,
   });
+
+  /**
+   * Instead of calling `column.getSize()` on every render for every header
+   * and especially every data cell (very expensive),
+   * we will calculate all column sizes at once at the root table level in a useMemo
+   * and pass the column sizes down as CSS variables to the <table> element.
+   */
+  const columnSizeVars = useMemo(() => {
+    const headers = table.getFlatHeaders();
+    const colSizes: { [key: string]: number } = {};
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i]!;
+      colSizes[`--header-${header.id}-size`] = header.getSize();
+      colSizes[`--col-${header.column.id}-size`] = header.column.getSize();
+    }
+    return colSizes;
+  }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
 
   const fontSizeClasses = {
     sm: "text-sm",
@@ -382,7 +399,12 @@ export function DataTable<TData, TValue>({
         initial="hidden"
         animate="show"
       >
-        <Table>
+        <Table
+          style={{
+            ...columnSizeVars, //Define column sizes on the <table> element
+            width: table.getTotalSize(),
+          }}
+        >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
