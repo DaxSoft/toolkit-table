@@ -34,116 +34,31 @@ const itemVariants = {
   },
 };
 
-export type ToolkitTableProps<ColumnData, TData> = {
+export type ToolkitTableProps<ColumnData, BodyData> = {
   breadcrumbIcon: React.ReactNode;
   breadcrumbLabel: React.ReactNode;
   tableDescription: React.ReactNode;
   buttonAddLabel: React.ReactNode;
   columns: ColumnDef<ColumnData>[];
+  data: BodyData[];
 };
 
-export default function ToolkitTable<ColumnData, TData>({
+export default function ToolkitTable<ColumnData, BodyData>({
   breadcrumbIcon,
   breadcrumbLabel,
   tableDescription,
   buttonAddLabel,
   columns,
-}: ToolkitTableProps<ColumnData, TData>) {
+  data,
+}: ToolkitTableProps<ColumnData, BodyData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
-  const [formValues, setFormValues] =
-    useState<Partial<UserFormData>>(defaultValues);
 
-  const handleSubmit = useCallback(async (data: UserFormData) => {
-    console.log("Form submitted:", data);
-    setShowUserForm(false);
-    setEditingUser(null);
-    setFormValues(defaultValues);
-  }, []);
+  const handleEdit = useCallback((user: any) => {}, []);
 
-  const handleEdit = useCallback((user: any) => {
-    const formData: Partial<UserFormData> = {
-      general: {
-        _type: "tab",
-        _title: "General Information",
-        _description: "Basic user details",
-        name: {
-          _type: "input",
-          category: "mask",
-          mask: "^[A-Za-z ]*$",
-          value: user.name,
-        },
-        email: {
-          _type: "input",
-          category: "mask",
-          mask: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-          value: user.email,
-        },
-        phone: {
-          _type: "input",
-          category: "mask",
-          mask: "(999) 999-9999",
-          value: "",
-        },
-      },
-      financial: {
-        _type: "tab",
-        _title: "Financial Details",
-        _description: "Salary and budget information",
-        salary: {
-          _type: "input",
-          category: "currency",
-          value: 0,
-        },
-        budget: {
-          _type: "input",
-          category: "number",
-          format: {
-            type: "decimal",
-            prefix: "$",
-          },
-          value: 0,
-        },
-      },
-      projects: {
-        _type: "tab",
-        _title: "Project Assignment",
-        _description: "Manage project assignments",
-        supervisor: {
-          _type: "dialog",
-          _id: "",
-          value: "",
-          endpoint: "/api/supervisors",
-        },
-        assignedProjects: {
-          _type: "table",
-          data:
-            user.projects?.map((project: string) => ({
-              id: crypto.randomUUID(),
-              name: project,
-              role: "member",
-              startDate: new Date(),
-            })) || [],
-        },
-      },
-    };
+  const handleOpenForm = useCallback(() => {}, []);
 
-    setEditingUser(user);
-    setFormValues(formData);
-    setShowUserForm(true);
-  }, []);
-
-  const handleOpenForm = useCallback(() => {
-    setEditingUser(null);
-    setFormValues(defaultValues);
-    setShowUserForm(true);
-  }, []);
-
-  const handleCloseForm = useCallback(() => {
-    setShowUserForm(false);
-    setEditingUser(null);
-    setFormValues(defaultValues);
-  }, []);
+  const handleCloseForm = useCallback(() => {}, []);
 
   return (
     <>
@@ -166,7 +81,7 @@ export default function ToolkitTable<ColumnData, TData>({
                 <span className="text-sm font-medium">{breadcrumbLabel}</span>
               </motion.div>
 
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-left md:justify-between gap-4">
                 <motion.div variants={itemVariants}>
                   <p className="mt-2 text-muted-foreground max-w-2xl">
                     {tableDescription}
@@ -187,7 +102,7 @@ export default function ToolkitTable<ColumnData, TData>({
             </div>
 
             <motion.div variants={itemVariants}>
-              <DataTable columns={columns} data={users} onEdit={handleEdit} />
+              <DataTable columns={columns} data={data} onEdit={handleEdit} />
             </motion.div>
           </motion.div>
         </div>

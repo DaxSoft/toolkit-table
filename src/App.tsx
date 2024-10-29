@@ -32,10 +32,63 @@ type ColumnSchema = {
   projects?: Array<string>;
 };
 
+const sample: ColumnSchema[] = [
+  {
+    id: "1",
+    name: "John Doe",
+    email: "john@example.com",
+    role: "admin",
+    department: "Engineering",
+    status: "active",
+    joinDate: new Date("2023-01-15"),
+    projects: ["Project A", "Project B"],
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "manager",
+    department: "Sales",
+    status: "active",
+    joinDate: new Date("2023-02-20"),
+    projects: ["Project C"],
+  },
+  {
+    id: "3",
+    name: "Bob Wilson",
+    email: "bob@example.com",
+    role: "user",
+    department: "Marketing",
+    status: "inactive",
+    joinDate: new Date("2023-03-10"),
+    projects: [],
+  },
+  {
+    id: "4",
+    name: "Alice Brown",
+    email: "alice@example.com",
+    role: "manager",
+    department: "HR",
+    status: "pending",
+    joinDate: new Date("2023-04-05"),
+    projects: ["Project D"],
+  },
+  {
+    id: "5",
+    name: "Charlie Davis",
+    email: "charlie@example.com",
+    role: "user",
+    department: "Engineering",
+    status: "active",
+    joinDate: new Date("2023-05-15"),
+    projects: ["Project A"],
+  },
+];
+
 export default function App() {
   return (
     <>
-      <Table<ColumnSchema, any>
+      <Table<ColumnSchema, ColumnSchema>
         breadcrumbLabel="Users"
         breadcrumbIcon={<Users className="h-5 w-5" />}
         buttonAddLabel="Add User"
@@ -45,6 +98,7 @@ export default function App() {
             users, edit existing ones, and control access levels.
           </>
         }
+        data={sample}
         columns={[
           {
             id: "select",
