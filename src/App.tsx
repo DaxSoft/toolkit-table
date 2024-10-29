@@ -92,6 +92,9 @@ export default function App() {
         breadcrumbLabel="Users"
         breadcrumbIcon={<Users className="h-5 w-5" />}
         buttonAddLabel="Add User"
+        exportButton="Export"
+        viewButton="View"
+        visualizeButton="Visualization"
         tableDescription={
           <>
             Manage your team members and their account permissions here. Add new
