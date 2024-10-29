@@ -52,11 +52,14 @@ const MotionTableRow = motion(TableRow);
 
 type FontSize = "sm" | "md" | "lg";
 
-interface DataTableProps<TData, TValue> {
+export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onEdit?: (row: TData) => void;
-}
+  exportButton: React.ReactNode;
+  visualizeButton: React.ReactNode;
+  viewButton: React.ReactNode;
+};
 
 const tableVariants = {
   hidden: { opacity: 0 },
@@ -78,6 +81,9 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   onEdit,
+  exportButton,
+  visualizeButton,
+  viewButton,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -303,7 +309,7 @@ export function DataTable<TData, TValue>({
             className="fluent-button dark:text-foreground"
           >
             <BarChart2 className="mr-2 h-4 w-4" />
-            Visualize
+            {visualizeButton}
           </Button>
           <Button
             variant="outline"
@@ -312,7 +318,7 @@ export function DataTable<TData, TValue>({
             className="fluent-button dark:text-foreground"
           >
             <Download className="mr-2 h-4 w-4" />
-            Export
+            {exportButton}
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -322,7 +328,7 @@ export function DataTable<TData, TValue>({
                 className="fluent-button dark:text-foreground"
               >
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
-                View
+                {viewButton}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="fluent-glass">

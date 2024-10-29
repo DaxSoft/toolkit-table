@@ -43,6 +43,9 @@ export type ToolkitTableProps<ColumnData, BodyData> = {
   columns: ColumnDef<ColumnData>[];
   data: BodyData[];
   loading?: boolean;
+  exportButton: React.ReactNode;
+  visualizeButton: React.ReactNode;
+  viewButton: React.ReactNode;
 };
 
 export default function ToolkitTable<ColumnData, BodyData>({
@@ -53,6 +56,9 @@ export default function ToolkitTable<ColumnData, BodyData>({
   columns,
   data,
   loading = false,
+  exportButton = "Export",
+  visualizeButton = "Visualize",
+  viewButton = "View",
 }: ToolkitTableProps<ColumnData, BodyData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -106,7 +112,14 @@ export default function ToolkitTable<ColumnData, BodyData>({
 
             <Suspense fallback={<></>}>
               <motion.div variants={itemVariants}>
-                <DataTable columns={columns} data={data} onEdit={handleEdit} />
+                <DataTable
+                  columns={columns}
+                  data={data}
+                  onEdit={handleEdit}
+                  exportButton={exportButton}
+                  visualizeButton={visualizeButton}
+                  viewButton={viewButton}
+                />
               </motion.div>
             </Suspense>
           </motion.div>
