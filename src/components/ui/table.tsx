@@ -42,7 +42,10 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)}
+    className={cn(
+      "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+      className
+    )}
     {...props}
   />
 ));
@@ -57,9 +60,9 @@ const TableRow = React.forwardRef<
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -10 }}
-    whileHover={{ 
+    whileHover={{
       backgroundColor: "rgba(0, 0, 0, 0.02)",
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     }}
     className={cn(
       "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
@@ -80,9 +83,9 @@ const TableHead = React.forwardRef<
       "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
       className
     )}
-    whileHover={{ 
+    whileHover={{
       backgroundColor: "rgba(0, 0, 0, 0.02)",
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     }}
     {...props}
   />

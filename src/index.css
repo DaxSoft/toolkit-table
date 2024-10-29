@@ -231,6 +231,17 @@
   border-bottom-color: color-mix(in srgb, hsl(var(--border)) 20%, transparent);
 }
 
+.fluent-table tbody tr:nth-child(odd) {
+  background-color: color-mix(in srgb, hsl(var(--muted)) 50%, transparent);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.dark .fluent-table tbody tr:nth-child(odd) {
+  background-color: color-mix(in srgb, hsl(217.2 32.6% 17.5%) 50%, transparent);
+}
+
+
+
 .fluent-table tbody tr:last-child td {
   border-bottom: none;
 }
