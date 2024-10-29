@@ -47,36 +47,63 @@
   --ring: 224.3 76.3% 48%;
 }
 
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .fluent-background {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
   z-index: -1;
 }
 
+.dark .fluent-background {
+  background: linear-gradient(135deg, hsl(222.2 84% 4.9%) 0%, hsl(217.2 32.6% 12%) 100%);
+}
+
 .fluent-glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, hsl(var(--background)) 80%, transparent);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 30%, transparent);
   box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    0 4px 6px -1px rgb(0 0 0 / 0.05),
+    0 2px 4px -1px rgb(0 0 0 / 0.03);
   transition: all 0.2s ease;
+}
+
+.dark .fluent-glass {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 85%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 20%, transparent);
+  box-shadow: 
+    0 4px 6px -1px rgb(0 0 0 / 0.2),
+    0 2px 4px -1px rgb(0 0 0 / 0.1);
 }
 
 .fluent-glass:hover {
   box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    0 10px 15px -3px rgb(0 0 0 / 0.08),
+    0 4px 6px -2px rgb(0 0 0 / 0.03);
+}
+
+.dark .fluent-glass:hover {
+  box-shadow: 
+    0 10px 15px -3px rgb(0 0 0 / 0.3),
+    0 4px 6px -2px rgb(0 0 0 / 0.15);
 }
 
 .fluent-button {
   background: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--primary)/0.8));
   border: none;
-  color: white;
+  color: hsl(var(--primary-foreground));
   font-weight: 500;
   transition: all 0.2s ease;
 }
@@ -87,59 +114,177 @@
 }
 
 .fluent-button-secondary {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #000000;
+  background: color-mix(in srgb, hsl(var(--background)) 95%, transparent);
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 50%, transparent);
+  color: hsl(var(--foreground));
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
+.dark .fluent-button-secondary {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 95%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 30%, transparent);
+}
+
 .fluent-button-secondary:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(0, 0, 0, 0.2);
+  background: color-mix(in srgb, hsl(var(--background)) 98%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 70%, transparent);
   transform: translateY(-1px);
 }
 
+.dark .fluent-button-secondary:hover {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 98%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 50%, transparent);
+}
+
 .fluent-input {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: color-mix(in srgb, hsl(var(--background)) 98%, transparent);
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 50%, transparent);
   transition: all 0.2s ease;
 }
 
+.dark .fluent-input {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 95%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 30%, transparent);
+}
+
 .fluent-input:focus {
-  background: white;
+  background: hsl(var(--background));
   border-color: hsl(var(--primary));
   box-shadow: 0 0 0 2px hsl(var(--primary)/0.2);
+}
+
+.dark .fluent-input:focus {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 98%, transparent);
 }
 
 .fluent-table {
   position: relative;
   overflow-x: auto;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, hsl(var(--background)) 95%, transparent);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 50%, transparent);
+  transition: all 0.2s ease;
+}
+
+.dark .fluent-table {
+  background: color-mix(in srgb, hsl(222.2 84% 4.9%) 90%, transparent);
+  border-color: color-mix(in srgb, hsl(var(--border)) 30%, transparent);
+}
+
+.fluent-table tr {
+  transition: background-color 0.2s ease;
+}
+
+.fluent-table tr:hover {
+  background-color: color-mix(in srgb, hsl(var(--muted)) 50%, transparent);
+}
+
+.dark .fluent-table tr:hover {
+  background-color: color-mix(in srgb, hsl(217.2 32.6% 17.5%) 50%, transparent);
 }
 
 .fluent-table tr[data-state="selected"] {
-  background-color: hsl(var(--primary)/0.1);
+  background-color: color-mix(in srgb, hsl(var(--primary)) 15%, transparent);
+}
+
+.dark .fluent-table tr[data-state="selected"] {
+  background-color: color-mix(in srgb, hsl(var(--primary)) 20%, transparent);
 }
 
 .fluent-table tr.sticky {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: color-mix(in srgb, hsl(var(--background)) 98%, transparent);
   backdrop-filter: blur(8px);
-  border-bottom: 2px solid hsl(var(--primary)/0.2);
+  border-bottom: 2px solid color-mix(in srgb, hsl(var(--primary)) 20%, transparent);
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+.dark .fluent-table tr.sticky {
+  background-color: color-mix(in srgb, hsl(222.2 84% 4.9%) 95%, transparent);
+  border-bottom-color: color-mix(in srgb, hsl(var(--primary)) 30%, transparent);
+}
+
+.fluent-table th {
+  background-color: color-mix(in srgb, hsl(var(--muted)) 50%, transparent);
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dark .fluent-table th {
+  background-color: color-mix(in srgb, hsl(217.2 32.6% 17.5%) 70%, transparent);
+}
+
+.fluent-table td {
+  padding: 0.75rem 1rem;
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid color-mix(in srgb, hsl(var(--border)) 30%, transparent);
+}
+
+.dark .fluent-table td {
+  border-bottom-color: color-mix(in srgb, hsl(var(--border)) 20%, transparent);
+}
+
+.fluent-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Custom scrollbar for Fluent Design */
+.fluent-table::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.fluent-table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fluent-table::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, hsl(var(--muted-foreground)) 20%, transparent);
+  border-radius: 4px;
+}
+
+.dark .fluent-table::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, hsl(var(--muted-foreground)) 30%, transparent);
+}
+
+.fluent-table::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, hsl(var(--muted-foreground)) 30%, transparent);
+}
+
+.dark .fluent-table::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, hsl(var(--muted-foreground)) 40%, transparent);
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5); /* Change color as needed */
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.7); /* Darker on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
 }

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ColumnDef,
@@ -40,10 +40,13 @@ import {
   PinOff,
   Trash2,
   Mail,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/hooks/use-theme";
 
 type FontSize = "sm" | "md" | "lg";
 
@@ -82,6 +85,21 @@ export function DataTable<TData, TValue>({
   const [showVisualizationDialog, setShowVisualizationDialog] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
+  const { theme, setTheme } = useTheme();
+
+  // Load saved preferences
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme as "light" | "dark");
+    }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  }, [theme]);
 
   // Memoize the enhanced data to prevent unnecessary recalculations
   const enhancedData = useMemo(() => {
@@ -218,6 +236,29 @@ export function DataTable<TData, TValue>({
             )}
           >
             <TextIcon className="h-6 w-6" />
+          </Button>
+          <div className="h-4 w-px bg-border/50" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleTheme}
+            className="fluent-button-secondary h-8 w-8 p-0"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={theme}
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {theme === "light" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </motion.div>
+            </AnimatePresence>
           </Button>
         </div>
         <div className="flex items-center gap-2">
