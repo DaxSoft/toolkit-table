@@ -48,6 +48,8 @@ import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
 
+const MotionTableRow = motion(TableRow);
+
 type FontSize = "sm" | "md" | "lg";
 
 interface DataTableProps<TData, TValue> {
@@ -133,10 +135,10 @@ export function DataTable<TData, TValue>({
         if (!filterValue) return true;
         const value = row.getValue(columnId);
         const column = columns.find(
-          (col) => col.accessorKey === columnId || col.id === columnId
+          (col) => col.id === columnId // col.accessorKey === columnId || col.id === columnId
         );
-        const type =
-          (column?.meta?.type as "string" | "number" | "date") || "string";
+        const meta = column?.meta as any;
+        const type = (meta?.type as "string" | "number" | "date") || "string";
         return applyFilter(value, filterValue, type);
       },
     },
@@ -298,7 +300,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             size="sm"
             onClick={() => setShowVisualizationDialog(true)}
-            className="fluent-button"
+            className="fluent-button dark:text-foreground"
           >
             <BarChart2 className="mr-2 h-4 w-4" />
             Visualize
@@ -307,14 +309,18 @@ export function DataTable<TData, TValue>({
             variant="outline"
             size="sm"
             onClick={() => setShowExportDialog(true)}
-            className="fluent-button"
+            className="fluent-button dark:text-foreground"
           >
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="fluent-button">
+              <Button
+                variant="outline"
+                size="sm"
+                className="fluent-button dark:text-foreground"
+              >
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
                 View
               </Button>
@@ -373,7 +379,7 @@ export function DataTable<TData, TValue>({
             <AnimatePresence mode="wait">
               {sortedRows.length ? (
                 sortedRows.map((row) => (
-                  <TableRow
+                  <MotionTableRow
                     key={row.id}
                     variants={rowVariants}
                     initial="hidden"
@@ -434,7 +440,7 @@ export function DataTable<TData, TValue>({
                         </TableCell>
                       );
                     })}
-                  </TableRow>
+                  </MotionTableRow>
                 ))
               ) : (
                 <TableRow>

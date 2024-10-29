@@ -91,7 +91,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
                 <motion.div variants={itemVariants} className="flex-shrink-0">
                   <Button
                     onClick={handleOpenForm}
-                    className="fluent-button w-full md:w-auto"
+                    className="fluent-button w-full md:w-auto dark:text-foreground"
                     size="lg"
                   >
                     <Plus className="mr-2 h-4 w-4" />
