@@ -52,21 +52,6 @@ import { Switch } from "../ui/switch";
 
 const MotionTableRow = motion(TableRow);
 
-type FontSize = "sm" | "md" | "lg";
-
-export type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  onEdit?: (row: TData) => void;
-  exportButton: React.ReactNode;
-  visualizeButton: React.ReactNode;
-  viewButton: React.ReactNode;
-  toggleComparassion?: boolean;
-  setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
-  defaultColumn?: Partial<ColumnDef<any, unknown>>;
-  bulkActionsLabel: React.ReactNode;
-};
-
 const tableVariants = {
   hidden: { opacity: 0 },
   show: {
@@ -83,6 +68,22 @@ const rowVariants = {
   exit: { opacity: 0, x: 20 },
 };
 
+type FontSize = "sm" | "md" | "lg";
+
+export type DataTableProps<TData, TValue> = {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  onEdit?: (row: TData) => void;
+  exportButton: React.ReactNode;
+  visualizeButton: React.ReactNode;
+  viewButton: React.ReactNode;
+  toggleComparassion?: boolean;
+  setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultColumn?: Partial<ColumnDef<any, unknown>>;
+  bulkActionsLabel: React.ReactNode;
+  enableResizing: boolean;
+};
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -94,6 +95,7 @@ export function DataTable<TData, TValue>({
   setToggleComparassion,
   defaultColumn,
   bulkActionsLabel,
+  enableResizing,
 }: DataTableProps<TData, TValue>) {
   const itHasToggleComparassion = !!setToggleComparassion;
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -169,7 +171,7 @@ export function DataTable<TData, TValue>({
     meta: {
       onEdit,
     },
-    enableColumnResizing: itHasToggleComparassion,
+    enableColumnResizing: enableResizing,
     columnResizeMode: "onChange",
     defaultColumn,
   });
@@ -408,7 +410,7 @@ export function DataTable<TData, TValue>({
         <Table
           style={{
             ...columnSizeVars, //Define column sizes on the <table> element
-            width: itHasToggleComparassion ? table.getTotalSize() : undefined,
+            width: enableResizing ? table.getTotalSize() : undefined,
           }}
         >
           <TableHeader>

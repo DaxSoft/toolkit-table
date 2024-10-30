@@ -87,6 +87,7 @@ export default function App() {
   return (
     <>
       <Table<ColumnSchema, ColumnSchema>
+        enableResizing={false}
         breadcrumbLabel="Users"
         breadcrumbIcon={<Users className="h-5 w-5" />}
         buttonAddLabel="Add User"
@@ -100,8 +101,8 @@ export default function App() {
             users, edit existing ones, and control access levels.
           </>
         }
-        // toggleComparassion={toggleComparassion
-        // setToggleComparassion={setToggleComparassion}
+        toggleComparassion={toggleComparassion}
+        setToggleComparassion={setToggleComparassion}
         defaultColumn={{
           size: 200, //starting column size
           minSize: 50, //enforced during column resizing
@@ -207,6 +208,27 @@ export default function App() {
                     filterValue={column.getFilterValue() as any}
                     onFilterChange={(value) => column.setFilterValue(value)}
                   />
+                </div>
+              );
+            },
+            cell: ({ row, table }) => {
+              const value = row.getValue("age") as number;
+
+              // Get the next row's value for comparison
+              const rowIndex = row.index;
+              const nextRow = table.getRowModel().rows[rowIndex + 1];
+              const nextValue = nextRow?.getValue("age") as number | undefined;
+
+              return (
+                <div className="flex items-center">
+                  <span>{value}</span>
+                  {!!toggleComparassion && (
+                    <CellComparison
+                      value={value}
+                      nextValue={nextValue}
+                      type="number"
+                    />
+                  )}
                 </div>
               );
             },
