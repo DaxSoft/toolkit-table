@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
     meta: {
       onEdit,
     },
-    enableColumnResizing: true,
+    enableColumnResizing: itHasToggleComparassion,
     columnResizeMode: "onChange",
     defaultColumn,
   });

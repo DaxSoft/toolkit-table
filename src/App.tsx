@@ -105,8 +105,8 @@ export default function App() {
             users, edit existing ones, and control access levels.
           </>
         }
-        toggleComparassion={toggleComparassion}
-        setToggleComparassion={setToggleComparassion}
+        // toggleComparassion={toggleComparassion
+        // setToggleComparassion={setToggleComparassion}
         defaultColumn={{
           size: 200, //starting column size
           minSize: 50, //enforced during column resizing
@@ -159,6 +159,7 @@ export default function App() {
             enableSorting: false,
             enableHiding: false,
             enableResizing: false,
+            size: 50,
           },
           {
             accessorKey: "name",
