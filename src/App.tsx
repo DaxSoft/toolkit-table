@@ -22,6 +22,7 @@ import {
 } from "./components/ui/dropdown-menu";
 import { useState } from "react";
 import { CellComparison } from "./components/table/cell-comparasion";
+import { ComparassionToggle } from "./components/table/data-table";
 
 type ColumnSchema = {
   id: string;
@@ -82,12 +83,15 @@ const sample: ColumnSchema[] = [
 ];
 
 export default function App() {
-  const [toggleComparassion, setToggleComparassion] = useState<boolean>(false);
+  const [comparassionToggle, setComparassionToggle] =
+    useState<ComparassionToggle>("none");
 
   return (
     <>
       <Table<ColumnSchema, ColumnSchema>
         enableResizing={false}
+        comparassionToggle={comparassionToggle}
+        setComparassionToggle={setComparassionToggle}
         breadcrumbLabel="Users"
         breadcrumbIcon={<Users className="h-5 w-5" />}
         buttonAddLabel="Add User"
@@ -101,8 +105,6 @@ export default function App() {
             users, edit existing ones, and control access levels.
           </>
         }
-        toggleComparassion={toggleComparassion}
-        setToggleComparassion={setToggleComparassion}
         defaultColumn={{
           size: 200, //starting column size
           minSize: 50, //enforced during column resizing
@@ -216,13 +218,16 @@ export default function App() {
 
               // Get the next row's value for comparison
               const rowIndex = row.index;
-              const nextRow = table.getRowModel().rows[rowIndex + 1];
+              const nextRow =
+                table.getRowModel().rows[
+                  comparassionToggle === "down" ? rowIndex + 1 : rowIndex - 1
+                ];
               const nextValue = nextRow?.getValue("age") as number | undefined;
 
               return (
                 <div className="flex items-center">
                   <span>{value}</span>
-                  {!!toggleComparassion && (
+                  {comparassionToggle !== "none" && (
                     <CellComparison
                       value={value}
                       nextValue={nextValue}
@@ -294,7 +299,10 @@ export default function App() {
 
               // Get the next row's value for comparison
               const rowIndex = row.index;
-              const nextRow = table.getRowModel().rows[rowIndex + 1];
+              const nextRow =
+                table.getRowModel().rows[
+                  comparassionToggle === "down" ? rowIndex + 1 : rowIndex - 1
+                ];
               const nextValue = nextRow?.getValue("joinDate") as
                 | Date
                 | undefined;
@@ -302,7 +310,7 @@ export default function App() {
               return (
                 <div className="flex items-center">
                   <span>{formattedDate}</span>
-                  {!!toggleComparassion && (
+                  {comparassionToggle !== "none" && (
                     <CellComparison
                       value={value}
                       nextValue={nextValue}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, Suspense } from "react";
-import { DataTable } from "./components/table/data-table";
+import { ComparassionToggle, DataTable } from "./components/table/data-table";
 import { Plus, Users, ChevronRight } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { motion } from "framer-motion";
@@ -46,11 +46,13 @@ export type ToolkitTableProps<ColumnData, BodyData> = {
   exportButton: React.ReactNode;
   visualizeButton: React.ReactNode;
   viewButton: React.ReactNode;
-  toggleComparassion?: boolean;
-  setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
   defaultColumn?: Partial<ColumnDef<any, unknown>>;
   bulkActionsLabel: React.ReactNode;
   enableResizing: boolean;
+  comparassionToggle?: ComparassionToggle;
+  setComparassionToggle?: React.Dispatch<
+    React.SetStateAction<ComparassionToggle>
+  >;
 };
 
 export default function ToolkitTable<ColumnData, BodyData>({
@@ -64,11 +66,11 @@ export default function ToolkitTable<ColumnData, BodyData>({
   exportButton = "Export",
   visualizeButton = "Visualize",
   viewButton = "View",
-  toggleComparassion,
-  setToggleComparassion,
   defaultColumn,
   bulkActionsLabel,
   enableResizing,
+  comparassionToggle,
+  setComparassionToggle,
 }: ToolkitTableProps<ColumnData, BodyData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -129,11 +131,11 @@ export default function ToolkitTable<ColumnData, BodyData>({
                   exportButton={exportButton}
                   visualizeButton={visualizeButton}
                   viewButton={viewButton}
-                  toggleComparassion={toggleComparassion}
-                  setToggleComparassion={setToggleComparassion}
                   defaultColumn={defaultColumn}
                   bulkActionsLabel={bulkActionsLabel}
                   enableResizing={enableResizing}
+                  comparassionToggle={comparassionToggle}
+                  setComparassionToggle={setComparassionToggle}
                 />
               </motion.div>
             </Suspense>

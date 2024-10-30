@@ -71,7 +71,7 @@ const rowVariants = {
 };
 
 type FontSize = "sm" | "md" | "lg";
-type ComparassionToggle = "down" | "up" | "none";
+export type ComparassionToggle = "down" | "up" | "none";
 
 const fontSizeClasses = {
   sm: "text-sm",
@@ -86,11 +86,13 @@ export type DataTableProps<TData, TValue> = {
   exportButton: React.ReactNode;
   visualizeButton: React.ReactNode;
   viewButton: React.ReactNode;
-  toggleComparassion?: boolean;
-  setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
   defaultColumn?: Partial<ColumnDef<any, unknown>>;
   bulkActionsLabel: React.ReactNode;
   enableResizing: boolean;
+  comparassionToggle?: ComparassionToggle;
+  setComparassionToggle?: React.Dispatch<
+    React.SetStateAction<ComparassionToggle>
+  >;
 };
 
 export function DataTable<TData, TValue>({
@@ -100,13 +102,13 @@ export function DataTable<TData, TValue>({
   exportButton,
   visualizeButton,
   viewButton,
-  toggleComparassion,
-  setToggleComparassion,
   defaultColumn,
   bulkActionsLabel,
   enableResizing,
+  comparassionToggle,
+  setComparassionToggle,
 }: DataTableProps<TData, TValue>) {
-  const itHasToggleComparassion = !!setToggleComparassion;
+  const itHasToggleComparassion = !!setComparassionToggle;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -116,8 +118,6 @@ export function DataTable<TData, TValue>({
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
   const { theme, setTheme } = useTheme();
-  const [comparassionToggle, setComparassionToggle] =
-    useState<ComparassionToggle>("none");
 
   // Load saved preferences
   useEffect(() => {
@@ -237,10 +237,12 @@ export function DataTable<TData, TValue>({
   }, [table.getRowModel().rows]);
 
   const toggleComparassionSetting = useCallback(() => {
-    setComparassionToggle((state) =>
-      state === "none" ? "down" : state === "down" ? "up" : "none"
-    );
-  }, []);
+    if (setComparassionToggle) {
+      setComparassionToggle((state) =>
+        state === "none" ? "down" : state === "down" ? "up" : "none"
+      );
+    }
+  }, [setComparassionToggle]);
 
   return (
     <motion.div
@@ -333,16 +335,6 @@ export function DataTable<TData, TValue>({
               </AnimatePresence>
             </Button>
           )}
-          {/* {itHasToggleComparassion && (
-            <div className="flex items-center space-x-2 ml-4">
-              <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
-              <Switch
-                checked={toggleComparassion}
-                onCheckedChange={setToggleComparassion}
-                className="data-[state=checked]:bg-primary"
-              />
-            </div>
-          )} */}
         </div>
         <div className="flex items-center gap-2">
           {table.getSelectedRowModel().rows.length > 0 && (
