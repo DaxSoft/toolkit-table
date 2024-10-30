@@ -43,6 +43,8 @@ import {
   Sun,
   Moon,
   ArrowUpDown,
+  ArrowDown,
+  ArrowUp,
 } from "lucide-react";
 import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
@@ -69,6 +71,13 @@ const rowVariants = {
 };
 
 type FontSize = "sm" | "md" | "lg";
+type ComparassionToggle = "down" | "up" | "none";
+
+const fontSizeClasses = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
+};
 
 export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -107,6 +116,8 @@ export function DataTable<TData, TValue>({
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [pinnedRows, setPinnedRows] = useState<Record<string, boolean>>({});
   const { theme, setTheme } = useTheme();
+  const [comparassionToggle, setComparassionToggle] =
+    useState<ComparassionToggle>("none");
 
   // Load saved preferences
   useEffect(() => {
@@ -176,12 +187,6 @@ export function DataTable<TData, TValue>({
     defaultColumn,
   });
 
-  /**
-   * Instead of calling `column.getSize()` on every render for every header
-   * and especially every data cell (very expensive),
-   * we will calculate all column sizes at once at the root table level in a useMemo
-   * and pass the column sizes down as CSS variables to the <table> element.
-   */
   const columnSizeVars = useMemo(() => {
     const headers = table.getFlatHeaders();
     const colSizes: { [key: string]: number } = {};
@@ -192,12 +197,6 @@ export function DataTable<TData, TValue>({
     }
     return colSizes;
   }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
-
-  const fontSizeClasses = {
-    sm: "text-sm",
-    md: "text-base",
-    lg: "text-lg",
-  };
 
   const handleBulkAction = useCallback(
     (action: string) => {
@@ -236,6 +235,12 @@ export function DataTable<TData, TValue>({
       return 0;
     });
   }, [table.getRowModel().rows]);
+
+  const toggleComparassionSetting = useCallback(() => {
+    setComparassionToggle((state) =>
+      state === "none" ? "down" : state === "down" ? "up" : "none"
+    );
+  }, []);
 
   return (
     <motion.div
@@ -303,6 +308,32 @@ export function DataTable<TData, TValue>({
             </AnimatePresence>
           </Button>
           {itHasToggleComparassion && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleComparassionSetting}
+              className="fluent-button-secondary h-8 w-8 p-0"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={comparassionToggle}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {comparassionToggle === "none" ? (
+                    <ArrowUpDown className="h-4 w-4" />
+                  ) : comparassionToggle === "down" ? (
+                    <ArrowDown className="h-4 w-4" />
+                  ) : (
+                    <ArrowUp className="h-4 w-4" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+          )}
+          {/* {itHasToggleComparassion && (
             <div className="flex items-center space-x-2 ml-4">
               <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
               <Switch
@@ -311,7 +342,7 @@ export function DataTable<TData, TValue>({
                 className="data-[state=checked]:bg-primary"
               />
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex items-center gap-2">
           {table.getSelectedRowModel().rows.length > 0 && (
