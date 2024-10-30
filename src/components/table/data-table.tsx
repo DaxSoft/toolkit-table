@@ -314,7 +314,7 @@ export function DataTable<TData, TValue>({
               variant="outline"
               size="sm"
               onClick={toggleComparassionSetting}
-              className="fluent-button-secondary h-8 w-8 p-0"
+              className="fluent-button-secondary h-8 w-32 p-0"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -323,6 +323,7 @@ export function DataTable<TData, TValue>({
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 20, opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  className="flex gap-3"
                 >
                   {comparassionToggle === "none" ? (
                     <ArrowUpDown className="h-4 w-4" />
@@ -330,6 +331,13 @@ export function DataTable<TData, TValue>({
                     <ArrowDown className="h-4 w-4" />
                   ) : (
                     <ArrowUp className="h-4 w-4" />
+                  )}
+                  {comparassionToggle === "none" ? (
+                    <>Comparassion</>
+                  ) : comparassionToggle === "down" ? (
+                    <>Next row</>
+                  ) : (
+                    <>Previous row</>
                   )}
                 </motion.div>
               </AnimatePresence>
