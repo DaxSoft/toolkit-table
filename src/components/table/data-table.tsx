@@ -408,7 +408,7 @@ export function DataTable<TData, TValue>({
         <Table
           style={{
             ...columnSizeVars, //Define column sizes on the <table> element
-            width: table.getTotalSize(),
+            width: itHasToggleComparassion ? table.getTotalSize() : undefined,
           }}
         >
           <TableHeader>

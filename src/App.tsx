@@ -29,6 +29,7 @@ type ColumnSchema = {
   email: string;
   status: "active" | "inactive" | "pending";
   joinDate: Date;
+  age: number;
   projects?: Array<string>;
 };
 
@@ -39,6 +40,7 @@ const sample: ColumnSchema[] = [
     email: "john@example.com",
     status: "active",
     joinDate: new Date("2023-01-15"),
+    age: 16,
     projects: ["Project A", "Project B"],
   },
   {
@@ -47,6 +49,7 @@ const sample: ColumnSchema[] = [
     email: "jane@example.com",
     status: "active",
     joinDate: new Date("2023-02-20"),
+    age: 18,
     projects: ["Project C"],
   },
   {
@@ -55,6 +58,7 @@ const sample: ColumnSchema[] = [
     email: "bob@example.com",
     status: "inactive",
     joinDate: new Date("2023-03-10"),
+    age: 33,
     projects: [],
   },
   {
@@ -63,6 +67,7 @@ const sample: ColumnSchema[] = [
     email: "alice@example.com",
     status: "pending",
     joinDate: new Date("2023-04-05"),
+    age: 45,
     projects: ["Project D"],
   },
   {
@@ -71,6 +76,7 @@ const sample: ColumnSchema[] = [
     email: "charlie@example.com",
     status: "active",
     joinDate: new Date("2023-05-15"),
+    age: 17,
     projects: ["Project A"],
   },
 ];
@@ -187,6 +193,26 @@ export default function App() {
             filterFn: "custom",
             meta: {
               type: "string",
+            },
+            enableResizing: true,
+          },
+          {
+            accessorKey: "age",
+            header: ({ column }) => {
+              return (
+                <div className="flex items-center space-x-2">
+                  <SortButton column={column}>Age</SortButton>
+                  <FilterPopover
+                    column={column}
+                    filterValue={column.getFilterValue() as any}
+                    onFilterChange={(value) => column.setFilterValue(value)}
+                  />
+                </div>
+              );
+            },
+            filterFn: "custom",
+            meta: {
+              type: "number",
             },
             enableResizing: true,
           },
