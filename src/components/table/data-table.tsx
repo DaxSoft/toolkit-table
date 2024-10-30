@@ -64,6 +64,7 @@ export type DataTableProps<TData, TValue> = {
   toggleComparassion?: boolean;
   setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
   defaultColumn?: Partial<ColumnDef<any, unknown>>;
+  bulkActionsLabel: React.ReactNode;
 };
 
 const tableVariants = {
@@ -92,6 +93,7 @@ export function DataTable<TData, TValue>({
   toggleComparassion,
   setToggleComparassion,
   defaultColumn,
+  bulkActionsLabel,
 }: DataTableProps<TData, TValue>) {
   const itHasToggleComparassion = !!setToggleComparassion;
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -313,9 +315,13 @@ export function DataTable<TData, TValue>({
           {table.getSelectedRowModel().rows.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="fluent-button">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="fluent-button dark:text-foreground"
+                >
                   <MoreHorizontal className="mr-2 h-4 w-4" />
-                  Bulk Actions ({table.getSelectedRowModel().rows.length})
+                  {bulkActionsLabel} ({table.getSelectedRowModel().rows.length})
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="fluent-glass">
@@ -506,7 +512,7 @@ export function DataTable<TData, TValue>({
                       return (
                         <TableCell
                           key={cell.id}
-                          className={cn(fontSizeClasses[fontSize])}
+                          className={cn(fontSizeClasses[fontSize], "text-left")}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

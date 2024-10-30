@@ -37,6 +37,8 @@ const sample: ColumnSchema[] = [
     id: "1",
     name: "John Doe",
     email: "john@example.com",
+    role: "admin",
+    department: "Engineering",
     status: "active",
     joinDate: new Date("2023-01-15"),
     projects: ["Project A", "Project B"],
@@ -45,6 +47,8 @@ const sample: ColumnSchema[] = [
     id: "2",
     name: "Jane Smith",
     email: "jane@example.com",
+    role: "manager",
+    department: "Sales",
     status: "active",
     joinDate: new Date("2023-02-20"),
     projects: ["Project C"],
@@ -53,6 +57,8 @@ const sample: ColumnSchema[] = [
     id: "3",
     name: "Bob Wilson",
     email: "bob@example.com",
+    role: "user",
+    department: "Marketing",
     status: "inactive",
     joinDate: new Date("2023-03-10"),
     projects: [],
@@ -61,6 +67,8 @@ const sample: ColumnSchema[] = [
     id: "4",
     name: "Alice Brown",
     email: "alice@example.com",
+    role: "manager",
+    department: "HR",
     status: "pending",
     joinDate: new Date("2023-04-05"),
     projects: ["Project D"],
@@ -69,6 +77,8 @@ const sample: ColumnSchema[] = [
     id: "5",
     name: "Charlie Davis",
     email: "charlie@example.com",
+    role: "user",
+    department: "Engineering",
     status: "active",
     joinDate: new Date("2023-05-15"),
     projects: ["Project A"],
@@ -176,6 +186,62 @@ export default function App() {
               return (
                 <div className="flex items-center space-x-2">
                   <SortButton column={column}>Email</SortButton>
+                  <FilterPopover
+                    column={column}
+                    filterValue={column.getFilterValue() as any}
+                    onFilterChange={(value) => column.setFilterValue(value)}
+                  />
+                </div>
+              );
+            },
+            filterFn: "custom",
+            meta: {
+              type: "string",
+            },
+            enableResizing: true,
+          },
+          {
+            accessorKey: "role",
+            header: ({ column }) => {
+              return (
+                <div className="flex items-center space-x-2">
+                  <SortButton column={column}>Role</SortButton>
+                  <FilterPopover
+                    column={column}
+                    filterValue={column.getFilterValue() as any}
+                    onFilterChange={(value) => column.setFilterValue(value)}
+                  />
+                </div>
+              );
+            },
+            cell: ({ row }) => {
+              const role = row.getValue("role") as string;
+              return (
+                <Badge
+                  variant={
+                    role === "admin"
+                      ? "destructive"
+                      : role === "manager"
+                      ? "default"
+                      : "secondary"
+                  }
+                >
+                  {role}
+                </Badge>
+              );
+            },
+            filterFn: "custom",
+            meta: {
+              type: "string",
+            },
+            enableResizing: true,
+          },
+          {
+            accessorKey: "department",
+            header: ({ column }) => {
+              return (
+                <div className="flex items-center space-x-2">
+                  <SortButton column={column}>Department</SortButton>
                   <FilterPopover
                     column={column}
                     filterValue={column.getFilterValue() as any}

@@ -49,6 +49,7 @@ export type ToolkitTableProps<ColumnData, BodyData> = {
   toggleComparassion?: boolean;
   setToggleComparassion?: React.Dispatch<React.SetStateAction<boolean>>;
   defaultColumn?: Partial<ColumnDef<any, unknown>>;
+  bulkActionsLabel: React.ReactNode;
 };
 
 export default function ToolkitTable<ColumnData, BodyData>({
@@ -65,6 +66,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
   toggleComparassion,
   setToggleComparassion,
   defaultColumn,
+  bulkActionsLabel,
 }: ToolkitTableProps<ColumnData, BodyData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -128,6 +130,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
                   toggleComparassion={toggleComparassion}
                   setToggleComparassion={setToggleComparassion}
                   defaultColumn={defaultColumn}
+                  bulkActionsLabel={bulkActionsLabel}
                 />
               </motion.div>
             </Suspense>
