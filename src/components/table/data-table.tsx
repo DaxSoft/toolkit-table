@@ -506,7 +506,7 @@ export function DataTable<TData, TValue>({
                       return (
                         <TableCell
                           key={cell.id}
-                          className={fontSizeClasses[fontSize]}
+                          className={cn(fontSizeClasses[fontSize])}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
