@@ -647,7 +647,13 @@ export function DataTable<ColumnData>(
           </TableBody>
         </Table>
       </motion.div>
-      {tableFeatures?.Pagination && <DataTablePagination table={table} />}
+      {tableFeatures?.Pagination && (
+        <DataTablePagination
+          table={table}
+          rowsPerPage={settingsTable?.rowsPerPage || undefined}
+          tableLabels={tableLabels}
+        />
+      )}
       <ExportXlsxDialog
         table={table}
         open={showExportDialog}

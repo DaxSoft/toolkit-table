@@ -83,6 +83,7 @@ export type ToolkitTableSettingsTable = {
   defaultColumnsParamater?: Partial<ColumnDef<any, unknown>>;
   buttonAddCallback?: () => void;
   onRefresh?: () => Promise<void>;
+  rowsPerPage?: number[];
 };
 
 export type ToolkitTableSettingsFontSize = {

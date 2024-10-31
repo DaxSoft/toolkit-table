@@ -14,23 +14,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { ToolkitTableLabelsTable } from "@/types/table-types";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  rowsPerPage?: number[];
+  tableLabels: ToolkitTableLabelsTable;
 }
 
 export function DataTablePagination<TData>({
   table,
+  rowsPerPage = [10, 20, 50, 100],
+  tableLabels,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected
+        {table.getFilteredSelectedRowModel().rows.length} -{" "}
+        {table.getFilteredRowModel().rows.length}&nbsp;
+        {tableLabels.rowsSelectedLabel}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium text-foreground">Rows per page</p>
+          <p className="text-sm font-medium text-foreground">
+            {tableLabels.rowsPerPageLabel}
+          </p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -54,7 +62,7 @@ export function DataTablePagination<TData>({
                 "dark:backdrop-blur-xl"
               )}
             >
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {rowsPerPage?.map((pageSize) => (
                 <SelectItem
                   key={pageSize}
                   value={`${pageSize}`}
@@ -71,8 +79,8 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium text-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          {tableLabels.perPageLabel}&nbsp;
+          {table.getState().pagination.pageIndex + 1} - {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button
