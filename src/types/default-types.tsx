@@ -1,4 +1,8 @@
-import { ToolkitTableIconsTable, ToolkitTableLabelsTable } from "./table-types";
+import {
+  ToolkitTableBulkAction,
+  ToolkitTableIconsTable,
+  ToolkitTableLabelsTable,
+} from "./table-types";
 import {
   ArrowDownIcon,
   ArrowUpDownIcon,

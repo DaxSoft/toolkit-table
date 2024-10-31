@@ -1,4 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -47,21 +47,22 @@ export type ToolkitTableIcons = {
   table: ToolkitTableIconsTable;
 };
 
+export type ToolkitTableBulkAction = {
+  icon?: React.ReactNode;
+  label: React.ReactNode;
+  action: string;
+  callback: (selectedRows: Row<any>[]) => void;
+  disabled?: boolean;
+};
+
 export type ToolkitTableProps<ColumnData> = {
   label: ToolkitTableLabels;
   icons: ToolkitTableIcons;
-  breadcrumbIcon: React.ReactNode;
-  breadcrumbLabel: React.ReactNode;
-  tableDescription: React.ReactNode;
-  buttonAddLabel: React.ReactNode;
   columns: ColumnDef<ColumnData>[];
   data: ColumnData[];
+  bulkAction?: ToolkitTableBulkAction[];
   loading?: boolean;
-  exportButton: React.ReactNode;
-  visualizeButton: React.ReactNode;
-  viewButton: React.ReactNode;
   defaultColumn?: Partial<ColumnDef<any, unknown>>;
-  bulkActionsLabel: React.ReactNode;
   enableResizing: boolean;
   comparassionToggle?: ComparassionToggle;
   setComparassionToggle?: React.Dispatch<
