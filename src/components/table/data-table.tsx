@@ -31,22 +31,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { DataTablePagination } from "./pagination";
-import {
-  Download,
-  BarChart2,
-  SlidersHorizontal,
-  TextIcon,
-  MoreHorizontal,
-  Pin,
-  PinOff,
-  Trash2,
-  Mail,
-  Sun,
-  Moon,
-  ArrowUpDown,
-  ArrowDown,
-  ArrowUp,
-} from "lucide-react";
+import { ArrowUpDown, ArrowDown, ArrowUp } from "lucide-react";
 import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
@@ -54,8 +39,6 @@ import { useTheme } from "@/hooks/use-theme";
 import {
   ComparassionToggle,
   FontSize,
-  ToolkitTableBulkAction,
-  ToolkitTableFeatureTable,
   ToolkitTableProps,
 } from "@/types/table-types";
 import {
@@ -371,11 +354,9 @@ export function DataTable<ColumnData>(
                   exit={{ y: 20, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {theme === "light" ? (
-                    <Sun className="h-4 w-4" />
-                  ) : (
-                    <Moon className="h-4 w-4" />
-                  )}
+                  {theme === "light"
+                    ? tableIcons.themeWhite
+                    : tableIcons.themeBlack}
                 </motion.div>
               </AnimatePresence>
             </Button>
@@ -606,11 +587,9 @@ export function DataTable<ColumnData>(
                                     : "opacity-0 group-hover:opacity-100"
                                 )}
                               >
-                                {(row.original as any).isPinned ? (
-                                  <PinOff className="h-4 w-4" />
-                                ) : (
-                                  <Pin className="h-4 w-4" />
-                                )}
+                                {(row.original as any).isPinned
+                                  ? tableIcons.pinOff
+                                  : tableIcons.pinOn}
                               </Button>
                             </div>
                           </TableCell>
