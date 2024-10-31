@@ -20,6 +20,7 @@ export type ToolkitTableLabelsTable = {
   bulkActionLabel?: React.ReactNode;
   bulkActionPinOn?: React.ReactNode;
   bulkActionPinOff?: React.ReactNode;
+  refreshLabel?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
@@ -44,6 +45,7 @@ export type ToolkitTableIconsTable = {
   view?: React.ReactNode;
   export?: React.ReactNode;
   visualization?: React.ReactNode;
+  refresh?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
@@ -82,6 +84,7 @@ export enum ToolkitTableFeatureTable {
   Pagination = "Pagination",
   Description = "Description",
   Breadcrumb = "Breadcrumb",
+  Refresh = "Refresh",
 }
 
 export type ToolkitTableFeatures = {

@@ -17,6 +17,7 @@ import {
   PinIcon,
   PinOffIcon,
   PlusIcon,
+  RefreshCcwIcon,
   SlidersHorizontalIcon,
   SunIcon,
   TableIcon,
@@ -39,6 +40,7 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   bulkActionPinOn: "Pin Selected",
   bulkActionPinOff: "Unpin Selected",
   name: "Table",
+  refreshLabel: "Refresh",
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
@@ -59,6 +61,7 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   view: <SlidersHorizontalIcon className="mr-2 h-4 w-4" />,
   visualization: <BarChart2Icon className="mr-2 h-4 w-4" />,
   export: <DownloadIcon className="mr-2 h-4 w-4" />,
+  refresh: <RefreshCcwIcon className="mr-2 h-4 w-4" />,
 };
 
 export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
@@ -73,5 +76,6 @@ export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
     ToolkitTableFeatureTable.Pagination,
     ToolkitTableFeatureTable.View,
     ToolkitTableFeatureTable.Visualization,
+    ToolkitTableFeatureTable.Refresh,
   ],
 };
