@@ -102,7 +102,7 @@ export enum ToolkitTableFeatureTable {
 }
 
 export type ToolkitTableFeatures = {
-  table?: ToolkitTableFeatureTable[];
+  table?: Record<ToolkitTableFeatureTable, boolean>;
 };
 
 export type ToolkitTableRowAction<ColumnSchema> = {

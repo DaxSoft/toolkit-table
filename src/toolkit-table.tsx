@@ -12,6 +12,7 @@ import "./App.css";
 import Ripple from "./components/ui/ripple";
 import { ToolkitTableProps } from "./types/table-types";
 import {
+  DefaultToolkitTableFeatures,
   DefaultToolkitTableIcons,
   DefaultToolkitTableLabelsTable,
 } from "./types/default-types";
@@ -53,6 +54,12 @@ export default function ToolkitTable<ColumnData>(
     [tableProps?.icons]
   );
 
+  const tableFeatures = React.useMemo(
+    () => ({ ...DefaultToolkitTableFeatures, ...tableProps?.features?.table }),
+
+    [tableProps?.features?.table]
+  );
+
   const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
 
   const [showUserForm, setShowUserForm] = useState(false);
@@ -81,34 +88,41 @@ export default function ToolkitTable<ColumnData>(
             animate="visible"
           >
             <div className="mb-8 ">
-              <motion.div
-                className="flex items-center space-x-2 text-primary mb-2"
-                variants={itemVariants}
-              >
-                {tableIcons.breadcrumbIcon}
-                {tableIcons.breadcrumbArrow}
-                <span className="text-xl font-medium">
-                  {tableLabels.breadcrumbLabel}
-                </span>
-              </motion.div>
-
+              {tableFeatures?.Breadcrumb && (
+                <motion.div
+                  className="flex items-center space-x-2 text-primary mb-2"
+                  variants={itemVariants}
+                >
+                  {tableIcons.breadcrumbIcon}
+                  {tableIcons.breadcrumbArrow}
+                  <span className="text-xl font-medium">
+                    {tableLabels.breadcrumbLabel}
+                  </span>
+                </motion.div>
+              )}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <motion.div variants={itemVariants}>
-                  <p className="mt-2 text-left text-muted-foreground max-w-2xl">
-                    {tableLabels.description}
-                  </p>
-                </motion.div>
+                {tableFeatures?.Description ? (
+                  <motion.div variants={itemVariants}>
+                    <p className="mt-2 text-left text-muted-foreground max-w-2xl">
+                      {tableLabels.description}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <></>
+                )}
 
-                <motion.div variants={itemVariants} className="flex-shrink-0">
-                  <Button
-                    onClick={handleOpenForm}
-                    className="fluent-button w-full md:w-auto dark:text-foreground"
-                    size="lg"
-                  >
-                    {tableIcons.addButton}
-                    {tableLabels.buttonAdd}
-                  </Button>
-                </motion.div>
+                {tableFeatures?.Add && (
+                  <motion.div variants={itemVariants} className="flex-shrink-0">
+                    <Button
+                      onClick={handleOpenForm}
+                      className="fluent-button w-full md:w-auto dark:text-foreground"
+                      size="lg"
+                    >
+                      {tableIcons.addButton}
+                      {tableLabels.buttonAdd}
+                    </Button>
+                  </motion.div>
+                )}
               </div>
             </div>
 

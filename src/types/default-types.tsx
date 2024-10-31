@@ -71,18 +71,22 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
 };
 
-export const DefaultToolkitTableFeatures: ToolkitTableFeatureTable[] = [
-  ToolkitTableFeatureTable.Comparassion,
-  ToolkitTableFeatureTable.FontSize,
-  ToolkitTableFeatureTable.Add,
-  ToolkitTableFeatureTable.Breadcrumb,
-  ToolkitTableFeatureTable.Description,
-  ToolkitTableFeatureTable.Export,
-  ToolkitTableFeatureTable.Pagination,
-  ToolkitTableFeatureTable.View,
-  ToolkitTableFeatureTable.Visualization,
-  ToolkitTableFeatureTable.Refresh,
-];
+export const DefaultToolkitTableFeatures: Record<
+  ToolkitTableFeatureTable,
+  boolean
+> = {
+  [ToolkitTableFeatureTable.Add]: true,
+  [ToolkitTableFeatureTable.Breadcrumb]: true,
+  [ToolkitTableFeatureTable.Comparassion]: true,
+  [ToolkitTableFeatureTable.Description]: true,
+  [ToolkitTableFeatureTable.Export]: true,
+  [ToolkitTableFeatureTable.FontSize]: true,
+  [ToolkitTableFeatureTable.Pagination]: true,
+  [ToolkitTableFeatureTable.Refresh]: true,
+  [ToolkitTableFeatureTable.Theme]: false,
+  [ToolkitTableFeatureTable.View]: true,
+  [ToolkitTableFeatureTable.Visualization]: true,
+};
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
   sm: "text-sm",

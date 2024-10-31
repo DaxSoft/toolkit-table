@@ -148,16 +148,9 @@ export function DataTable<ColumnData>(
   );
 
   const tableFeatures = useMemo(
-    () =>
-      Object.assign(
-        tableProps?.features?.table || [],
-        DefaultToolkitTableFeatures
-      ),
-    [tableProps?.features?.table]
-  );
+    () => ({ ...DefaultToolkitTableFeatures, ...tableProps?.features?.table }),
 
-  const itHasToggleComparassion = tableFeatures?.includes(
-    ToolkitTableFeatureTable.Comparassion
+    [tableProps?.features?.table]
   );
 
   const [comparassionToggle, setComparassionToggle] =
@@ -300,25 +293,6 @@ export function DataTable<ColumnData>(
     }
   }, [setComparassionToggle]);
 
-  const itHasFontSize = tableFeatures?.includes(
-    ToolkitTableFeatureTable.FontSize
-  );
-
-  const itHasThemeChange = tableFeatures?.includes(
-    ToolkitTableFeatureTable.Theme
-  );
-
-  const itHasVisualization = tableFeatures?.includes(
-    ToolkitTableFeatureTable.Visualization
-  );
-
-  const itHasView = tableFeatures?.includes(ToolkitTableFeatureTable.View);
-
-  const itHasExport = tableFeatures?.includes(ToolkitTableFeatureTable.Export);
-  const itHasPagination = tableFeatures?.includes(
-    ToolkitTableFeatureTable.Pagination
-  );
-
   const bulkActions = useMemo(() => {
     const actions = tableProps?.bulkAction || [];
     return actions.map((value) => {
@@ -344,7 +318,7 @@ export function DataTable<ColumnData>(
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {itHasFontSize && (
+          {tableFeatures?.FontSize && (
             <>
               <Button
                 variant="outline"
@@ -382,7 +356,7 @@ export function DataTable<ColumnData>(
               <div className="h-4 w-px bg-border/50" />
             </>
           )}
-          {itHasThemeChange && (
+          {tableFeatures?.Theme && (
             <Button
               variant="outline"
               size="sm"
@@ -406,7 +380,7 @@ export function DataTable<ColumnData>(
               </AnimatePresence>
             </Button>
           )}
-          {itHasToggleComparassion && (
+          {tableFeatures?.Comparassion && (
             <Button
               variant="outline"
               size="sm"
@@ -473,7 +447,7 @@ export function DataTable<ColumnData>(
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-          {itHasVisualization && (
+          {tableFeatures?.Visualization && (
             <Button
               variant="outline"
               size="sm"
@@ -484,7 +458,7 @@ export function DataTable<ColumnData>(
               {tableLabels.visualizationLabel}
             </Button>
           )}
-          {itHasExport && (
+          {tableFeatures?.Export && (
             <Button
               variant="outline"
               size="sm"
@@ -495,7 +469,7 @@ export function DataTable<ColumnData>(
               {tableLabels.exportLabel}
             </Button>
           )}
-          {itHasView && (
+          {tableFeatures?.View && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -673,7 +647,7 @@ export function DataTable<ColumnData>(
           </TableBody>
         </Table>
       </motion.div>
-      {itHasPagination && <DataTablePagination table={table} />}
+      {tableFeatures?.Pagination && <DataTablePagination table={table} />}
       <ExportXlsxDialog
         table={table}
         open={showExportDialog}
