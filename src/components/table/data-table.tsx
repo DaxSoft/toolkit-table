@@ -87,17 +87,6 @@ export function DataTable<ColumnData>(
   tableProps: ToolkitTableProps<ColumnData>
 ) {
   const data = tableProps.data;
-  const columns = tableProps.columns;
-
-  const settingsTable = useMemo(
-    () => tableProps?.settings?.table,
-    [tableProps?.settings?.table]
-  );
-
-  const fontSizeClasses = useMemo(
-    () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
-    [tableProps?.settings?.fontSize]
-  );
 
   const tableLabels = useMemo(
     () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
@@ -107,6 +96,55 @@ export function DataTable<ColumnData>(
   const tableIcons = useMemo(
     () => ({ ...DefaultToolkitTableIcons, ...tableProps?.icons?.table }),
     [tableProps?.icons]
+  );
+
+  const columns = useMemo(() => {
+    const rowActions = tableProps?.rowActions || [];
+    return rowActions.length > 0
+      ? [
+          ...tableProps.columns,
+          {
+            id: "actions",
+            cell: (context) => {
+              return (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      {tableIcons.rowAction}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="fluent-glass">
+                    {rowActions.map((action) => {
+                      return (
+                        <DropdownMenuItem
+                          key={action.action}
+                          onClick={() => action.callback(context)}
+                          disabled={!!action?.disabled}
+                        >
+                          {action?.icon}
+                          {action.label}
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              );
+            },
+            size: 50,
+            enableResizing: false,
+          },
+        ]
+      : tableProps.columns;
+  }, [tableProps.columns, tableProps?.rowActions, tableIcons]);
+
+  const settingsTable = useMemo(
+    () => tableProps?.settings?.table,
+    [tableProps?.settings?.table]
+  );
+
+  const fontSizeClasses = useMemo(
+    () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
+    [tableProps?.settings?.fontSize]
   );
 
   const tableFeatures = useMemo(

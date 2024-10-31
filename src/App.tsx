@@ -1,4 +1,12 @@
-import { MoreHorizontal, Pencil, Pin, PinOff, Trash2 } from "lucide-react";
+import {
+  EditIcon,
+  MoreHorizontal,
+  Pencil,
+  Pin,
+  PinOff,
+  Trash2,
+  TrashIcon,
+} from "lucide-react";
 import Table from "./toolkit-table";
 import { z } from "zod";
 import { Checkbox } from "./components/ui/checkbox";
@@ -309,37 +317,21 @@ export default function App() {
             },
             enableResizing: true,
           },
+        ]}
+        rowActions={[
           {
-            id: "actions",
-            cell: ({ row, table }) => {
-              return (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="fluent-glass">
-                    <DropdownMenuItem
-                      onClick={() =>
-                        (table.options.meta as any)?.onEdit?.(row.original)
-                      }
-                    >
-                      <Pencil className="mr-2 h-4 w-4" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => console.log("Delete:", row.original)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              );
-            },
-            size: 50,
-            enableResizing: false,
+            action: "edit",
+            icon: <EditIcon className="mr-2 h-4 w-4" />,
+            label: "Edit",
+            callback(context) {},
+            disabled: true,
+          },
+          {
+            action: "delete",
+            icon: <TrashIcon className="text-red-600 mr-2 h-4 w-4" />,
+            label: <span className="text-red-600">Delete</span>,
+            callback(context) {},
+            disabled: true,
           },
         ]}
       />
