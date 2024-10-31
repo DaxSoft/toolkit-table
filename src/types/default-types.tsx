@@ -74,7 +74,6 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
 export const DefaultToolkitTableFeatures: ToolkitTableFeatureTable[] = [
   ToolkitTableFeatureTable.Comparassion,
   ToolkitTableFeatureTable.FontSize,
-  ToolkitTableFeatureTable.Theme,
   ToolkitTableFeatureTable.Add,
   ToolkitTableFeatureTable.Breadcrumb,
   ToolkitTableFeatureTable.Description,

@@ -44,13 +44,12 @@ export default function ToolkitTable<ColumnData>(
   const loading = tableProps?.loading;
 
   const tableLabels = React.useMemo(
-    () =>
-      Object.assign(tableProps?.label?.table, DefaultToolkitTableLabelsTable),
+    () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
     [tableProps?.label]
   );
 
   const tableIcons = React.useMemo(
-    () => Object.assign(tableProps?.icons?.table, DefaultToolkitTableIcons),
+    () => ({ ...DefaultToolkitTableIcons, ...tableProps?.icons?.table }),
     [tableProps?.icons]
   );
 

@@ -95,18 +95,17 @@ export function DataTable<ColumnData>(
   );
 
   const fontSizeClasses = useMemo(
-    () => Object.assign(tableProps?.settings?.fontSize, DefaultFontSizeClasses),
+    () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
     [tableProps?.settings?.fontSize]
   );
 
   const tableLabels = useMemo(
-    () =>
-      Object.assign(tableProps?.label?.table, DefaultToolkitTableLabelsTable),
+    () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
     [tableProps?.label]
   );
 
   const tableIcons = useMemo(
-    () => Object.assign(tableProps?.icons?.table, DefaultToolkitTableIcons),
+    () => ({ ...DefaultToolkitTableIcons, ...tableProps?.icons?.table }),
     [tableProps?.icons]
   );
 
