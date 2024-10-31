@@ -103,7 +103,14 @@ export default function ToolkitTable<ColumnData>(
         <CommandGroup heading={key} key={key}>
           {actions.map((action, n) => {
             return (
-              <CommandItem onClick={action.callback} key={`${key}_${n}`}>
+              <CommandItem
+                onSelect={(value) => {
+                  action.callback();
+                  setOpenCommand(false);
+                }}
+                key={`${key}_${n}`}
+                className="cursor-pointer"
+              >
                 {action?.icon}
                 {action?.label}
               </CommandItem>

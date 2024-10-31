@@ -1,12 +1,4 @@
-import {
-  EditIcon,
-  MoreHorizontal,
-  Pencil,
-  Pin,
-  PinOff,
-  Trash2,
-  TrashIcon,
-} from "lucide-react";
+import { EditIcon, MailIcon, Pin, PinOff, TrashIcon } from "lucide-react";
 import Table from "./toolkit-table";
 import { z } from "zod";
 import { Checkbox } from "./components/ui/checkbox";
@@ -15,12 +7,6 @@ import { SortButton } from "./components/table/columns";
 import { FilterPopover } from "./components/table/filter-popover";
 import { Badge } from "./components/ui/badge";
 import { format } from "date-fns";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./components/ui/dropdown-menu";
 import { CellComparison } from "./components/table/cell-comparasion";
 import { ComparassionToggle } from "./types/table-types";
 
@@ -334,6 +320,15 @@ export default function App() {
             disabled: true,
           },
         ]}
+        commands={{
+          Shortcut: [
+            {
+              label: "Send e-mail to active users",
+              icon: <MailIcon className="mr-2 h-4 w-4" />,
+              callback() {},
+            },
+          ],
+        }}
       />
     </>
   );
