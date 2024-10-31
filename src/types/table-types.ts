@@ -41,6 +41,9 @@ export type ToolkitTableIconsTable = {
   bulkAction?: React.ReactNode;
   pinOn?: React.ReactNode;
   pinOff?: React.ReactNode;
+  view?: React.ReactNode;
+  export?: React.ReactNode;
+  visualization?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
@@ -55,6 +58,36 @@ export type ToolkitTableBulkAction = {
   disabled?: boolean;
 };
 
+export type ToolkitTableSettingsTable = {
+  enableResizing?: boolean;
+  comparassionToggle?: ComparassionToggle;
+  setComparassionToggle?: React.Dispatch<
+    React.SetStateAction<ComparassionToggle>
+  >;
+  defaultColumnsParamater?: Partial<ColumnDef<any, unknown>>;
+};
+
+export type ToolkitTableSettings = {
+  table: ToolkitTableSettingsTable;
+};
+
+export enum ToolkitTableFeatureTable {
+  Comparassion = "Comparassion",
+  FontSize = "FontSize",
+  Theme = "Theme",
+  Visualization = "Visualization",
+  Export = "Export",
+  View = "View",
+  Add = "Add",
+  Pagination = "Pagination",
+  Description = "Description",
+  Breadcrumb = "Breadcrumb",
+}
+
+export type ToolkitTableFeatures = {
+  table?: ToolkitTableFeatureTable[];
+};
+
 export type ToolkitTableProps<ColumnData> = {
   label: ToolkitTableLabels;
   icons: ToolkitTableIcons;
@@ -62,10 +95,5 @@ export type ToolkitTableProps<ColumnData> = {
   data: ColumnData[];
   bulkAction?: ToolkitTableBulkAction[];
   loading?: boolean;
-  defaultColumn?: Partial<ColumnDef<any, unknown>>;
-  enableResizing: boolean;
-  comparassionToggle?: ComparassionToggle;
-  setComparassionToggle?: React.Dispatch<
-    React.SetStateAction<ComparassionToggle>
-  >;
+  settings?: ToolkitTableSettings;
 };

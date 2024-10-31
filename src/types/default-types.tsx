@@ -1,5 +1,7 @@
 import {
   ToolkitTableBulkAction,
+  ToolkitTableFeatures,
+  ToolkitTableFeatureTable,
   ToolkitTableIconsTable,
   ToolkitTableLabelsTable,
 } from "./table-types";
@@ -7,12 +9,15 @@ import {
   ArrowDownIcon,
   ArrowUpDownIcon,
   ArrowUpIcon,
+  BarChart2Icon,
   ChevronRightIcon,
+  DownloadIcon,
   MoonIcon,
   MoreHorizontalIcon,
   PinIcon,
   PinOffIcon,
   PlusIcon,
+  SlidersHorizontalIcon,
   SunIcon,
   TableIcon,
   TextIcon,
@@ -51,4 +56,22 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   bulkAction: <MoreHorizontalIcon className="mr-2 h-4 w-4" />,
   pinOn: <PinIcon className="mr-2 h-4 w-4" />,
   pinOff: <PinOffIcon className="mr-2 h-4 w-4" />,
+  view: <SlidersHorizontalIcon className="mr-2 h-4 w-4" />,
+  visualization: <BarChart2Icon className="mr-2 h-4 w-4" />,
+  export: <DownloadIcon className="mr-2 h-4 w-4" />,
+};
+
+export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
+  table: [
+    ToolkitTableFeatureTable.Comparassion,
+    ToolkitTableFeatureTable.FontSize,
+    ToolkitTableFeatureTable.Theme,
+    ToolkitTableFeatureTable.Add,
+    ToolkitTableFeatureTable.Breadcrumb,
+    ToolkitTableFeatureTable.Description,
+    ToolkitTableFeatureTable.Export,
+    ToolkitTableFeatureTable.Pagination,
+    ToolkitTableFeatureTable.View,
+    ToolkitTableFeatureTable.Visualization,
+  ],
 };
