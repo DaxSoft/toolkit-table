@@ -26,10 +26,17 @@ export type ToolkitTableLabelsTable = {
   bulkActionPinOff?: React.ReactNode;
   refreshLabel?: React.ReactNode;
   visualizationLabel?: React.ReactNode;
+  commandLabel?: React.ReactNode;
+};
+
+export type ToolkitTableLabelsCommand = {
+  placeholder?: string;
+  empty?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
-  table: ToolkitTableLabelsTable;
+  table?: ToolkitTableLabelsTable;
+  command?: ToolkitTableLabelsCommand;
 };
 
 export type ToolkitTableIconsTable = {
@@ -52,6 +59,7 @@ export type ToolkitTableIconsTable = {
   visualization?: React.ReactNode;
   refresh?: React.ReactNode;
   rowAction?: React.ReactNode;
+  command?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
@@ -131,5 +139,5 @@ export type ToolkitTableProps<ColumnData> = {
   settings?: ToolkitTableSettings;
   rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
   features?: ToolkitTableFeatures;
-  commands?: Record<string, ToolkitTableCommand>;
+  commands?: Record<string, ToolkitTableCommand[]>;
 };

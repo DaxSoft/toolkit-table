@@ -14,8 +14,17 @@ import { ToolkitTableProps } from "./types/table-types";
 import {
   DefaultToolkitTableFeatures,
   DefaultToolkitTableIcons,
+  DefaultToolkitTableLabelsCommand,
   DefaultToolkitTableLabelsTable,
 } from "./types/default-types";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "./components/ui/command";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -42,11 +51,20 @@ const itemVariants = {
 export default function ToolkitTable<ColumnData>(
   tableProps: ToolkitTableProps<ColumnData>
 ) {
+  const [openCommand, setOpenCommand] = useState(false);
   const loading = tableProps?.loading;
+
+  const commandLabels = React.useMemo(
+    () => ({
+      ...DefaultToolkitTableLabelsCommand,
+      ...tableProps?.label?.command,
+    }),
+    [tableProps?.label?.command]
+  );
 
   const tableLabels = React.useMemo(
     () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
-    [tableProps?.label]
+    [tableProps?.label.table]
   );
 
   const tableIcons = React.useMemo(
@@ -59,6 +77,25 @@ export default function ToolkitTable<ColumnData>(
 
     [tableProps?.features?.table]
   );
+
+  const commandsGroups = React.useMemo(() => {
+    const keys = Object.keys(tableProps?.commands || {});
+    return keys.map((key) => {
+      const actions = tableProps.commands[key];
+      return (
+        <CommandGroup heading={key} key={key}>
+          {actions.map((action, n) => {
+            return (
+              <CommandItem onClick={action.callback} key={`${key}_${n}`}>
+                {action?.icon}
+                {action?.label}
+              </CommandItem>
+            );
+          })}
+        </CommandGroup>
+      );
+    });
+  }, [tableProps?.commands]);
 
   const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
   const onRefresh = tableProps?.settings?.table?.onRefresh;
@@ -120,21 +157,6 @@ export default function ToolkitTable<ColumnData>(
                 )}
 
                 <div className="flex flex-col md:flex-row md:items-center gap-4">
-                  {tableFeatures?.Add && (
-                    <motion.div
-                      variants={itemVariants}
-                      className="flex-shrink-0"
-                    >
-                      <Button
-                        onClick={handleOpenForm}
-                        className="fluent-button w-full md:w-auto dark:text-foreground"
-                        size="lg"
-                      >
-                        {tableIcons.addButton}
-                        {tableLabels.buttonAdd}
-                      </Button>
-                    </motion.div>
-                  )}
                   {tableFeatures?.Refresh && (
                     <motion.div
                       variants={itemVariants}
@@ -151,6 +173,37 @@ export default function ToolkitTable<ColumnData>(
                       </Button>
                     </motion.div>
                   )}
+                  {tableFeatures?.Command && (
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex-shrink-0"
+                    >
+                      <Button
+                        onClick={() => setOpenCommand((s) => !s)}
+                        className="fluent-button-secondary w-full md:w-auto gap-2"
+                        size="lg"
+                        variant="outline"
+                      >
+                        {tableIcons.command}
+                        {tableLabels.commandLabel}
+                      </Button>
+                    </motion.div>
+                  )}
+                  {tableFeatures?.Add && (
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex-shrink-0"
+                    >
+                      <Button
+                        onClick={handleOpenForm}
+                        className="fluent-button w-full md:w-auto dark:text-foreground"
+                        size="lg"
+                      >
+                        {tableIcons.addButton}
+                        {tableLabels.buttonAdd}
+                      </Button>
+                    </motion.div>
+                  )}
                 </div>
               </div>
             </div>
@@ -164,6 +217,14 @@ export default function ToolkitTable<ColumnData>(
         </div>
         {loading && <Ripple />}
       </div>
+
+      <CommandDialog open={openCommand} onOpenChange={setOpenCommand}>
+        <CommandInput placeholder={commandLabels.placeholder} />
+        <CommandList>
+          <CommandEmpty>{commandLabels.empty}</CommandEmpty>
+          {commandsGroups}
+        </CommandList>
+      </CommandDialog>
 
       {/* <Dialog open={showUserForm} onOpenChange={handleCloseForm}>
         <DialogContent className="fluent-glass sm:max-w-[800px]">

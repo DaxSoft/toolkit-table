@@ -3,6 +3,7 @@ import {
   ToolkitTableFeatureTable,
   ToolkitTableIconsTable,
   ToolkitTableLabels,
+  ToolkitTableLabelsCommand,
   ToolkitTableLabelsTable,
   ToolkitTableSettingsFontSize,
 } from "./table-types";
@@ -12,6 +13,7 @@ import {
   ArrowUpIcon,
   BarChart2Icon,
   ChevronRightIcon,
+  CommandIcon,
   DownloadIcon,
   ListRestartIcon,
   MoonIcon,
@@ -43,6 +45,7 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   name: "Table",
   refreshLabel: "Refresh",
   visualizationLabel: "Visualization",
+  commandLabel: "Commands",
 };
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
@@ -69,6 +72,7 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   export: <DownloadIcon className="mr-2 h-4 w-4" />,
   refresh: <ListRestartIcon className="mr-2 h-4 w-4" />,
   rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
+  command: <CommandIcon className="h-4 w-4" />,
 };
 
 export const DefaultToolkitTableFeatures: Record<
@@ -93,4 +97,9 @@ export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
   sm: "text-sm",
   md: "text-base",
   lg: "text-lg",
+};
+
+export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
+  placeholder: "Type a command or search...",
+  empty: "No results found.",
 };
