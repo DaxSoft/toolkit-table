@@ -326,9 +326,7 @@ export default function App() {
             {
               label: "Send e-mail to active users",
               icon: <MailIcon className="mr-2 h-4 w-4" />,
-              callback() {
-                toast.info("It works!");
-              },
+              callback() {},
             },
           ],
         }}
