@@ -9,6 +9,7 @@ import { Badge } from "./components/ui/badge";
 import { format } from "date-fns";
 import { CellComparison } from "./components/table/cell-comparasion";
 import { ComparassionToggle } from "./types/table-types";
+import { toast } from "sonner";
 
 type ColumnSchema = {
   id: string;
@@ -325,7 +326,9 @@ export default function App() {
             {
               label: "Send e-mail to active users",
               icon: <MailIcon className="mr-2 h-4 w-4" />,
-              callback() {},
+              callback() {
+                toast.info("It works!");
+              },
             },
           ],
         }}

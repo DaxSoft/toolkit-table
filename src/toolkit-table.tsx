@@ -26,6 +26,7 @@ import {
   CommandItem,
   CommandList,
 } from "./components/ui/command";
+import { Toaster } from "./components/ui/sonner";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -147,6 +148,7 @@ export default function ToolkitTable<ColumnData>(
 
   return (
     <>
+      <Toaster />
       <div className="fluent-background" />
       <div className="relative min-h-screen p-4 md:p-8">
         <div className="mx-auto max-w-7xl space-y-8">
