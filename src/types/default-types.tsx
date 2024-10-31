@@ -5,6 +5,7 @@ import {
   ToolkitTableLabels,
   ToolkitTableLabelsCommand,
   ToolkitTableLabelsTable,
+  ToolkitTableLabelsVisualization,
   ToolkitTableSettingsFontSize,
 } from "./table-types";
 import {
@@ -53,9 +54,16 @@ export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
   empty: "No results found.",
 };
 
+export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualization =
+  {
+    goBack: "Go Back",
+    title: "Visualization",
+  };
+
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
   table: DefaultToolkitTableLabelsTable,
   command: DefaultToolkitTableLabelsCommand,
+  visualization: DefaultToolkitTableLabelsVisualization,
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {

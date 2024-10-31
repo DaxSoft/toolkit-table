@@ -34,9 +34,15 @@ export type ToolkitTableLabelsCommand = {
   empty?: React.ReactNode;
 };
 
+export type ToolkitTableLabelsVisualization = {
+  title?: React.ReactNode;
+  goBack?: React.ReactNode;
+};
+
 export type ToolkitTableLabels = {
   table: ToolkitTableLabelsTable;
   command: ToolkitTableLabelsCommand;
+  visualization: ToolkitTableLabelsVisualization;
 };
 
 export type ToolkitTableIconsTable = {

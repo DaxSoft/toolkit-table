@@ -46,6 +46,7 @@ import {
   DefaultToolkitTableIcons,
   DefaultToolkitTableLabelsTable,
 } from "@/types/default-types";
+import { TableVisualization } from "./visualization";
 
 const MotionTableRow = motion(TableRow);
 
@@ -644,7 +645,15 @@ export function DataTable<ColumnData>(
           onOpenChange={setShowExportDialog}
         />
       )}
-      {tableFeatures?.Visualization && <></>}
+      {tableFeatures?.Visualization && (
+        <>
+          <TableVisualization<ColumnData>
+            showVisualizationDialog={showVisualizationDialog}
+            setShowVisualizationDialog={setShowVisualizationDialog}
+            tableProps={tableProps}
+          />
+        </>
+      )}
     </>
   );
 }
