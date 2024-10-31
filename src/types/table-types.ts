@@ -74,6 +74,7 @@ export type ToolkitTableSettingsTable = {
   >;
   defaultColumnsParamater?: Partial<ColumnDef<any, unknown>>;
   buttonAddCallback?: () => void;
+  onRefresh?: () => Promise<void>;
 };
 
 export type ToolkitTableSettingsFontSize = {
@@ -99,6 +100,7 @@ export enum ToolkitTableFeatureTable {
   Description = "Description",
   Breadcrumb = "Breadcrumb",
   Refresh = "Refresh",
+  Command = "Command",
 }
 
 export type ToolkitTableFeatures = {
@@ -113,6 +115,12 @@ export type ToolkitTableRowAction<ColumnSchema> = {
   disabled?: boolean;
 };
 
+export type ToolkitTableCommand = {
+  callback: () => void;
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+};
+
 export type ToolkitTableProps<ColumnData> = {
   label?: ToolkitTableLabels;
   icons?: ToolkitTableIcons;
@@ -123,4 +131,5 @@ export type ToolkitTableProps<ColumnData> = {
   settings?: ToolkitTableSettings;
   rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
   features?: ToolkitTableFeatures;
+  commands?: Record<string, ToolkitTableCommand>;
 };

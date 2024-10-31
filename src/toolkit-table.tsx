@@ -61,6 +61,7 @@ export default function ToolkitTable<ColumnData>(
   );
 
   const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
+  const onRefresh = tableProps?.settings?.table?.onRefresh;
 
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -73,6 +74,13 @@ export default function ToolkitTable<ColumnData>(
       return;
     }
   }, [buttonAddCallback]);
+
+  const handleRefresh = useCallback(() => {
+    if (onRefresh) {
+      onRefresh().catch(console.error);
+      return;
+    }
+  }, [onRefresh]);
 
   const handleCloseForm = useCallback(() => {}, []);
 
@@ -111,18 +119,39 @@ export default function ToolkitTable<ColumnData>(
                   <></>
                 )}
 
-                {tableFeatures?.Add && (
-                  <motion.div variants={itemVariants} className="flex-shrink-0">
-                    <Button
-                      onClick={handleOpenForm}
-                      className="fluent-button w-full md:w-auto dark:text-foreground"
-                      size="lg"
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  {tableFeatures?.Add && (
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex-shrink-0"
                     >
-                      {tableIcons.addButton}
-                      {tableLabels.buttonAdd}
-                    </Button>
-                  </motion.div>
-                )}
+                      <Button
+                        onClick={handleOpenForm}
+                        className="fluent-button w-full md:w-auto dark:text-foreground"
+                        size="lg"
+                      >
+                        {tableIcons.addButton}
+                        {tableLabels.buttonAdd}
+                      </Button>
+                    </motion.div>
+                  )}
+                  {tableFeatures?.Refresh && (
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex-shrink-0"
+                    >
+                      <Button
+                        onClick={handleRefresh}
+                        className="fluent-button-secondary w-full md:w-auto "
+                        size="lg"
+                        variant="outline"
+                      >
+                        {tableIcons.refresh}
+                        {tableLabels.refreshLabel}
+                      </Button>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -86,6 +86,7 @@ export const DefaultToolkitTableFeatures: Record<
   [ToolkitTableFeatureTable.Theme]: false,
   [ToolkitTableFeatureTable.View]: true,
   [ToolkitTableFeatureTable.Visualization]: true,
+  [ToolkitTableFeatureTable.Command]: true,
 };
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
