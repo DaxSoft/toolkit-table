@@ -272,6 +272,9 @@ export function DataTable<ColumnData>(
   const itHasView = tableFeatures?.includes(ToolkitTableFeatureTable.View);
 
   const itHasExport = tableFeatures?.includes(ToolkitTableFeatureTable.Export);
+  const itHasPagination = tableFeatures?.includes(
+    ToolkitTableFeatureTable.Pagination
+  );
 
   const bulkActions = useMemo(() => {
     const actions = tableProps?.bulkAction || [];
@@ -511,19 +514,19 @@ export function DataTable<ColumnData>(
                         position: "relative",
                       }}
                     >
-                      {header.isPlaceholder
+                      {header?.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-                      {header.column.getCanResize() && (
+                      {header?.column?.getCanResize() && (
                         <div
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
+                          onMouseDown={header?.getResizeHandler()}
+                          onTouchStart={header?.getResizeHandler()}
                           className={cn(
                             "absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none",
-                            header.column.getIsResizing()
+                            header?.column?.getIsResizing()
                               ? "bg-primary/50"
                               : "bg-border/50 hover:bg-primary/50"
                           )}
@@ -538,7 +541,7 @@ export function DataTable<ColumnData>(
           <TableBody>
             <AnimatePresence mode="wait">
               {sortedRows.length ? (
-                sortedRows.map((row, i) => (
+                sortedRows?.map((row, i) => (
                   <MotionTableRow
                     key={row.id}
                     variants={rowVariants}
@@ -627,7 +630,7 @@ export function DataTable<ColumnData>(
           </TableBody>
         </Table>
       </motion.div>
-      <DataTablePagination table={table} />
+      {itHasPagination && <DataTablePagination table={table} />}
       <ExportXlsxDialog
         table={table}
         open={showExportDialog}
