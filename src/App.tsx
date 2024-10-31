@@ -191,6 +191,10 @@ export default function App() {
             },
             cell: ({ row, table }) => {
               const value = row.getValue("age") as number;
+              const meta: any = table.options?.meta;
+              const comparassionToggle = meta?.comparassionToggle as
+                | ComparassionToggle
+                | undefined;
 
               // Get the next row's value for comparison
               const rowIndex = row.index;
@@ -274,6 +278,10 @@ export default function App() {
             cell: ({ row, table }) => {
               const value = row.getValue("joinDate") as Date;
               const formattedDate = format(value, "PP");
+              const meta: any = table.options?.meta;
+              const comparassionToggle = meta?.comparassionToggle as
+                | ComparassionToggle
+                | undefined;
 
               // Get the next row's value for comparison
               const rowIndex = row.index;

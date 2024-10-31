@@ -195,7 +195,9 @@ export function DataTable<ColumnData>(
       columnVisibility,
       rowSelection,
     },
-    meta: {},
+    meta: {
+      comparassionToggle,
+    },
     enableColumnResizing: !!settingsTable?.enableResizing,
     columnResizeMode: "onChange",
     defaultColumn: settingsTable?.defaultColumnsParamater,
