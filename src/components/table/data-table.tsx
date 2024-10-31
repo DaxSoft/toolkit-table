@@ -292,351 +292,359 @@ export function DataTable<ColumnData>(
   }, [tableProps?.bulkAction]);
 
   return (
-    <motion.div
-      className="space-y-4"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          {tableFeatures?.FontSize && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setFontSize("sm")}
-                className={cn(
-                  "fluent-button-secondary h-8 w-8 p-0",
-                  fontSize === "sm" && "bg-muted"
-                )}
-              >
-                {tableIcons.fontSizeSmall}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setFontSize("md")}
-                className={cn(
-                  "fluent-button-secondary h-8 w-8 p-0",
-                  fontSize === "md" && "bg-muted"
-                )}
-              >
-                {tableIcons.fontSizeMedium}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setFontSize("lg")}
-                className={cn(
-                  "fluent-button-secondary h-8 w-8 p-0",
-                  fontSize === "lg" && "bg-muted"
-                )}
-              >
-                {tableIcons.fontSizeBig}
-              </Button>
-              <div className="h-4 w-px bg-border/50" />
-            </>
-          )}
-          {tableFeatures?.Theme && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleTheme}
-              className="fluent-button-secondary h-8 w-8 p-0"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={theme}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {theme === "light"
-                    ? tableIcons.themeWhite
-                    : tableIcons.themeBlack}
-                </motion.div>
-              </AnimatePresence>
-            </Button>
-          )}
-          {tableFeatures?.Comparassion && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleComparassionSetting}
-              className="fluent-button-secondary h-8 w-32 p-0"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={comparassionToggle}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex gap-3"
-                >
-                  {comparassionToggle === "none" ? (
-                    <ArrowUpDown className="h-4 w-4" />
-                  ) : comparassionToggle === "down" ? (
-                    <ArrowDown className="h-4 w-4" />
-                  ) : (
-                    <ArrowUp className="h-4 w-4" />
+    <>
+      <motion.div
+        className="space-y-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            {tableFeatures?.FontSize && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setFontSize("sm")}
+                  className={cn(
+                    "fluent-button-secondary h-8 w-8 p-0",
+                    fontSize === "sm" && "bg-muted"
                   )}
-                  {comparassionToggle === "none" ? (
-                    <>Comparassion</>
-                  ) : comparassionToggle === "down" ? (
-                    <>Next row</>
-                  ) : (
-                    <>Previous row</>
+                >
+                  {tableIcons.fontSizeSmall}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setFontSize("md")}
+                  className={cn(
+                    "fluent-button-secondary h-8 w-8 p-0",
+                    fontSize === "md" && "bg-muted"
                   )}
-                </motion.div>
-              </AnimatePresence>
-            </Button>
-          )}
+                >
+                  {tableIcons.fontSizeMedium}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setFontSize("lg")}
+                  className={cn(
+                    "fluent-button-secondary h-8 w-8 p-0",
+                    fontSize === "lg" && "bg-muted"
+                  )}
+                >
+                  {tableIcons.fontSizeBig}
+                </Button>
+                <div className="h-4 w-px bg-border/50" />
+              </>
+            )}
+            {tableFeatures?.Theme && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleTheme}
+                className="fluent-button-secondary h-8 w-8 p-0"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={theme}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {theme === "light"
+                      ? tableIcons.themeWhite
+                      : tableIcons.themeBlack}
+                  </motion.div>
+                </AnimatePresence>
+              </Button>
+            )}
+            {tableFeatures?.Comparassion && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleComparassionSetting}
+                className="fluent-button-secondary h-8 w-32 p-0"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={comparassionToggle}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex gap-3"
+                  >
+                    {comparassionToggle === "none" ? (
+                      <ArrowUpDown className="h-4 w-4" />
+                    ) : comparassionToggle === "down" ? (
+                      <ArrowDown className="h-4 w-4" />
+                    ) : (
+                      <ArrowUp className="h-4 w-4" />
+                    )}
+                    {comparassionToggle === "none" ? (
+                      <>Comparassion</>
+                    ) : comparassionToggle === "down" ? (
+                      <>Next row</>
+                    ) : (
+                      <>Previous row</>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </Button>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {table.getSelectedRowModel().rows.length > 0 && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="fluent-button dark:text-foreground"
+                  >
+                    {tableIcons.bulkAction}
+                    {tableLabels.bulkActionLabel} (
+                    {table.getSelectedRowModel().rows.length})
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="fluent-glass">
+                  <DropdownMenuItem onClick={() => handleBulkAction("pin")}>
+                    {tableIcons.pinOn}
+                    {tableLabels.bulkActionPinOn}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleBulkAction("unpin")}>
+                    {tableIcons.pinOff}
+                    {tableLabels.bulkActionPinOff}
+                  </DropdownMenuItem>
+                  {bulkActions.length > 0 && (
+                    <>
+                      <DropdownMenuSeparator />
+                      {bulkActions}
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+            {tableFeatures?.Visualization && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowVisualizationDialog(true)}
+                className="fluent-button dark:text-foreground"
+              >
+                {tableIcons.visualization}
+                {tableLabels.visualizationLabel}
+              </Button>
+            )}
+            {tableFeatures?.Export && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowExportDialog(true)}
+                className="fluent-button dark:text-foreground"
+              >
+                {tableIcons.export}
+                {tableLabels.exportLabel}
+              </Button>
+            )}
+            {tableFeatures?.View && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="fluent-button dark:text-foreground"
+                  >
+                    {tableIcons.view}
+                    {tableLabels.viewLabel}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="fluent-glass">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          {table.getSelectedRowModel().rows.length > 0 && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="fluent-button dark:text-foreground"
-                >
-                  {tableIcons.bulkAction}
-                  {tableLabels.bulkActionLabel} (
-                  {table.getSelectedRowModel().rows.length})
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="fluent-glass">
-                <DropdownMenuItem onClick={() => handleBulkAction("pin")}>
-                  {tableIcons.pinOn}
-                  {tableLabels.bulkActionPinOn}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleBulkAction("unpin")}>
-                  {tableIcons.pinOff}
-                  {tableLabels.bulkActionPinOff}
-                </DropdownMenuItem>
-                {bulkActions.length > 0 && (
-                  <>
-                    <DropdownMenuSeparator />
-                    {bulkActions}
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-          {tableFeatures?.Visualization && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowVisualizationDialog(true)}
-              className="fluent-button dark:text-foreground"
-            >
-              {tableIcons.visualization}
-              {tableLabels.visualizationLabel}
-            </Button>
-          )}
-          {tableFeatures?.Export && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowExportDialog(true)}
-              className="fluent-button dark:text-foreground"
-            >
-              {tableIcons.export}
-              {tableLabels.exportLabel}
-            </Button>
-          )}
-          {tableFeatures?.View && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="fluent-button dark:text-foreground"
-                >
-                  {tableIcons.view}
-                  {tableLabels.viewLabel}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="fluent-glass">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
+        <motion.div
+          className="fluent-table"
+          variants={tableVariants}
+          initial="hidden"
+          animate="show"
+        >
+          <Table
+            style={{
+              ...columnSizeVars, //Define column sizes on the <table> element
+              width: settingsTable?.enableResizing
+                ? table.getTotalSize()
+                : undefined,
+            }}
+          >
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
                     return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
+                      <TableHead
+                        key={header.id}
+                        className={fontSizeClasses[fontSize]}
+                        style={{
+                          width: `${header.getSize()}px`,
+                          position: "relative",
+                        }}
                       >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
+                        {header?.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        {header?.column?.getCanResize() && (
+                          <div
+                            onMouseDown={header?.getResizeHandler()}
+                            onTouchStart={header?.getResizeHandler()}
+                            className={cn(
+                              "absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none",
+                              header?.column?.getIsResizing()
+                                ? "bg-primary/50"
+                                : "bg-border/50 hover:bg-primary/50"
+                            )}
+                          />
+                        )}
+                      </TableHead>
                     );
                   })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-        </div>
-      </div>
-      <motion.div
-        className="fluent-table"
-        variants={tableVariants}
-        initial="hidden"
-        animate="show"
-      >
-        <Table
-          style={{
-            ...columnSizeVars, //Define column sizes on the <table> element
-            width: settingsTable?.enableResizing
-              ? table.getTotalSize()
-              : undefined,
-          }}
-        >
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className={fontSizeClasses[fontSize]}
-                      style={{
-                        width: `${header.getSize()}px`,
-                        position: "relative",
-                      }}
-                    >
-                      {header?.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                      {header?.column?.getCanResize() && (
-                        <div
-                          onMouseDown={header?.getResizeHandler()}
-                          onTouchStart={header?.getResizeHandler()}
-                          className={cn(
-                            "absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none",
-                            header?.column?.getIsResizing()
-                              ? "bg-primary/50"
-                              : "bg-border/50 hover:bg-primary/50"
-                          )}
-                        />
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              <AnimatePresence mode="wait">
+                {sortedRows.length ? (
+                  sortedRows?.map((row, i) => (
+                    <MotionTableRow
+                      key={row.id}
+                      variants={rowVariants}
+                      initial="hidden"
+                      animate="show"
+                      exit="exit"
+                      data-state={row.getIsSelected() && "selected"}
+                      className={cn(
+                        "group transition-colors duration-200",
+                        (row.original as any).isPinned &&
+                          "sticky top-0 bg-muted/50 backdrop-blur-sm shadow-md",
+                        i % 2 === 1 && theme === "dark"
+                          ? "bg-gray-800/30"
+                          : i % 2 === 1
+                          ? "bg-gray-50/50"
+                          : ""
                       )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            <AnimatePresence mode="wait">
-              {sortedRows.length ? (
-                sortedRows?.map((row, i) => (
-                  <MotionTableRow
-                    key={row.id}
-                    variants={rowVariants}
-                    initial="hidden"
-                    animate="show"
-                    exit="exit"
-                    data-state={row.getIsSelected() && "selected"}
-                    className={cn(
-                      "group transition-colors duration-200",
-                      (row.original as any).isPinned &&
-                        "sticky top-0 bg-muted/50 backdrop-blur-sm shadow-md",
-                      i % 2 === 1 && theme === "dark"
-                        ? "bg-gray-800/30"
-                        : i % 2 === 1
-                        ? "bg-gray-50/50"
-                        : ""
-                    )}
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      if (cell.column.id === "select") {
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        if (cell.column.id === "select") {
+                          return (
+                            <TableCell
+                              key={cell.id}
+                              style={{ width: `${cell.column.getSize()}px` }}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  checked={row.getIsSelected()}
+                                  onChange={(e) =>
+                                    row.toggleSelected(e.target.checked)
+                                  }
+                                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                                />
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() =>
+                                    togglePinned((row.original as any).id)
+                                  }
+                                  className={cn(
+                                    "transition-opacity duration-200",
+                                    row.getIsSelected()
+                                      ? "opacity-100"
+                                      : "opacity-0 group-hover:opacity-100"
+                                  )}
+                                >
+                                  {(row.original as any).isPinned
+                                    ? tableIcons.pinOff
+                                    : tableIcons.pinOn}
+                                </Button>
+                              </div>
+                            </TableCell>
+                          );
+                        }
                         return (
                           <TableCell
                             key={cell.id}
-                            style={{ width: `${cell.column.getSize()}px` }}
+                            className={cn(
+                              fontSizeClasses[fontSize],
+                              "text-left"
+                            )}
                           >
-                            <div className="flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                checked={row.getIsSelected()}
-                                onChange={(e) =>
-                                  row.toggleSelected(e.target.checked)
-                                }
-                                className="rounded border-gray-300 text-primary focus:ring-primary"
-                              />
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() =>
-                                  togglePinned((row.original as any).id)
-                                }
-                                className={cn(
-                                  "transition-opacity duration-200",
-                                  row.getIsSelected()
-                                    ? "opacity-100"
-                                    : "opacity-0 group-hover:opacity-100"
-                                )}
-                              >
-                                {(row.original as any).isPinned
-                                  ? tableIcons.pinOff
-                                  : tableIcons.pinOn}
-                              </Button>
-                            </div>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
                           </TableCell>
                         );
-                      }
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          className={cn(fontSizeClasses[fontSize], "text-left")}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </MotionTableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className={cn(
-                      "h-24 text-center",
-                      fontSizeClasses[fontSize]
-                    )}
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </AnimatePresence>
-          </TableBody>
-        </Table>
+                      })}
+                    </MotionTableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className={cn(
+                        "h-24 text-center",
+                        fontSizeClasses[fontSize]
+                      )}
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </AnimatePresence>
+            </TableBody>
+          </Table>
+        </motion.div>
+        {tableFeatures?.Pagination && (
+          <DataTablePagination
+            table={table}
+            rowsPerPage={settingsTable?.rowsPerPage || undefined}
+            tableLabels={tableLabels}
+          />
+        )}
       </motion.div>
-      {tableFeatures?.Pagination && (
-        <DataTablePagination
+      {tableFeatures?.Export && (
+        <ExportXlsxDialog
           table={table}
-          rowsPerPage={settingsTable?.rowsPerPage || undefined}
-          tableLabels={tableLabels}
+          open={showExportDialog}
+          onOpenChange={setShowExportDialog}
         />
       )}
-      <ExportXlsxDialog
-        table={table}
-        open={showExportDialog}
-        onOpenChange={setShowExportDialog}
-      />
-    </motion.div>
+      {tableFeatures?.Visualization && <></>}
+    </>
   );
 }
