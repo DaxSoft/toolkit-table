@@ -275,6 +275,50 @@
   background: color-mix(in srgb, hsl(var(--muted-foreground)) 40%, transparent);
 }
 
+.windows11-mica {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.3s ease;
+}
+
+.dark .windows11-mica {
+  background: rgba(32, 32, 32, 0.7);
+}
+
+[cmdk-dialog] {
+  max-width: 640px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+[cmdk-item] {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+[cmdk-item][aria-selected="true"] {
+  background: rgba(0, 120, 212, 0.1);
+}
+
+.dark [cmdk-item][aria-selected="true"] {
+  background: rgba(0, 120, 212, 0.3);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
