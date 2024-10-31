@@ -1,6 +1,5 @@
 import React, { useState, useCallback, Suspense } from "react";
-import { ComparassionToggle, DataTable } from "./components/table/data-table";
-import { Plus, Users, ChevronRight } from "lucide-react";
+import { DataTable } from "./components/table/data-table";
 import { Button } from "./components/ui/button";
 import { motion } from "framer-motion";
 import {
@@ -10,8 +9,12 @@ import {
   DialogTitle,
 } from "./components/ui/dialog";
 import "./App.css";
-import { ColumnDef } from "@tanstack/react-table";
 import Ripple from "./components/ui/ripple";
+import { ToolkitTableProps } from "./types/table-types";
+import {
+  DefaultToolkitTableIcons,
+  DefaultToolkitTableLabelsTable,
+} from "./types/default-types";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -35,49 +38,35 @@ const itemVariants = {
   },
 };
 
-export type ToolkitTableProps<ColumnData> = {
-  breadcrumbIcon: React.ReactNode;
-  breadcrumbLabel: React.ReactNode;
-  tableDescription: React.ReactNode;
-  buttonAddLabel: React.ReactNode;
-  columns: ColumnDef<ColumnData>[];
-  data: ColumnData[];
-  loading?: boolean;
-  exportButton: React.ReactNode;
-  visualizeButton: React.ReactNode;
-  viewButton: React.ReactNode;
-  defaultColumn?: Partial<ColumnDef<any, unknown>>;
-  bulkActionsLabel: React.ReactNode;
-  enableResizing: boolean;
-  comparassionToggle?: ComparassionToggle;
-  setComparassionToggle?: React.Dispatch<
-    React.SetStateAction<ComparassionToggle>
-  >;
-};
+export default function ToolkitTable<ColumnData>(
+  tableProps: ToolkitTableProps<ColumnData>
+) {
+  const loading = tableProps?.loading;
 
-export default function ToolkitTable<ColumnData>({
-  breadcrumbIcon,
-  breadcrumbLabel,
-  tableDescription,
-  buttonAddLabel,
-  columns,
-  data,
-  loading = false,
-  exportButton = "Export",
-  visualizeButton = "Visualize",
-  viewButton = "View",
-  defaultColumn,
-  bulkActionsLabel,
-  enableResizing,
-  comparassionToggle,
-  setComparassionToggle,
-}: ToolkitTableProps<ColumnData>) {
+  const tableLabels = React.useMemo(
+    () =>
+      Object.assign(tableProps?.label?.table, DefaultToolkitTableLabelsTable),
+    [tableProps?.label]
+  );
+
+  const tableIcons = React.useMemo(
+    () => Object.assign(tableProps?.icons?.table, DefaultToolkitTableIcons),
+    [tableProps?.icons]
+  );
+
+  const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
+
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
 
   const handleEdit = useCallback((user: any) => {}, []);
 
-  const handleOpenForm = useCallback(() => {}, []);
+  const handleOpenForm = useCallback(() => {
+    if (buttonAddCallback) {
+      buttonAddCallback();
+      return;
+    }
+  }, [buttonAddCallback]);
 
   const handleCloseForm = useCallback(() => {}, []);
 
@@ -97,15 +86,17 @@ export default function ToolkitTable<ColumnData>({
                 className="flex items-center space-x-2 text-primary mb-2"
                 variants={itemVariants}
               >
-                {breadcrumbIcon}
-                <ChevronRight className="h-4 w-4" />
-                <span className="text-xl font-medium">{breadcrumbLabel}</span>
+                {tableIcons.breadcrumbIcon}
+                {tableIcons.breadcrumbArrow}
+                <span className="text-xl font-medium">
+                  {tableLabels.breadcrumbLabel}
+                </span>
               </motion.div>
 
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <motion.div variants={itemVariants}>
                   <p className="mt-2 text-left text-muted-foreground max-w-2xl">
-                    {tableDescription}
+                    {tableLabels.description}
                   </p>
                 </motion.div>
 
@@ -115,8 +106,8 @@ export default function ToolkitTable<ColumnData>({
                     className="fluent-button w-full md:w-auto dark:text-foreground"
                     size="lg"
                   >
-                    <Plus className="mr-2 h-4 w-4" />
-                    {buttonAddLabel}
+                    {tableIcons.addButton}
+                    {tableLabels.buttonAdd}
                   </Button>
                 </motion.div>
               </div>
@@ -124,19 +115,7 @@ export default function ToolkitTable<ColumnData>({
 
             <Suspense fallback={<></>}>
               <motion.div variants={itemVariants}>
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  onEdit={handleEdit}
-                  exportButton={exportButton}
-                  visualizeButton={visualizeButton}
-                  viewButton={viewButton}
-                  defaultColumn={defaultColumn}
-                  bulkActionsLabel={bulkActionsLabel}
-                  enableResizing={enableResizing}
-                  comparassionToggle={comparassionToggle}
-                  setComparassionToggle={setComparassionToggle}
-                />
+                <DataTable<ColumnData> {...tableProps} />
               </motion.div>
             </Suspense>
           </motion.div>
@@ -144,7 +123,7 @@ export default function ToolkitTable<ColumnData>({
         {loading && <Ripple />}
       </div>
 
-      <Dialog open={showUserForm} onOpenChange={handleCloseForm}>
+      {/* <Dialog open={showUserForm} onOpenChange={handleCloseForm}>
         <DialogContent className="fluent-glass sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>
@@ -152,7 +131,7 @@ export default function ToolkitTable<ColumnData>({
             </DialogTitle>
           </DialogHeader>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

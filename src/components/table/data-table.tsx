@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -50,6 +51,19 @@ import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
+import {
+  ComparassionToggle,
+  FontSize,
+  ToolkitTableBulkAction,
+  ToolkitTableFeatureTable,
+  ToolkitTableProps,
+} from "@/types/table-types";
+import {
+  DefaultFontSizeClasses,
+  DefaultToolkitTableFeatures,
+  DefaultToolkitTableIcons,
+  DefaultToolkitTableLabelsTable,
+} from "@/types/default-types";
 
 const MotionTableRow = motion(TableRow);
 
@@ -69,45 +83,48 @@ const rowVariants = {
   exit: { opacity: 0, x: 20 },
 };
 
-type FontSize = "sm" | "md" | "lg";
-export type ComparassionToggle = "down" | "up" | "none";
+export function DataTable<ColumnData>(
+  tableProps: ToolkitTableProps<ColumnData>
+) {
+  const data = tableProps.data;
+  const columns = tableProps.columns;
 
-const fontSizeClasses = {
-  sm: "text-sm",
-  md: "text-base",
-  lg: "text-lg",
-};
+  const settingsTable = useMemo(
+    () => tableProps?.settings?.table,
+    [tableProps?.settings?.table]
+  );
 
-export type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  onEdit?: (row: TData) => void;
-  exportButton: React.ReactNode;
-  visualizeButton: React.ReactNode;
-  viewButton: React.ReactNode;
-  defaultColumn?: Partial<ColumnDef<any, unknown>>;
-  bulkActionsLabel: React.ReactNode;
-  enableResizing: boolean;
-  comparassionToggle?: ComparassionToggle;
-  setComparassionToggle?: React.Dispatch<
-    React.SetStateAction<ComparassionToggle>
-  >;
-};
+  const fontSizeClasses = useMemo(
+    () => Object.assign(tableProps?.settings?.fontSize, DefaultFontSizeClasses),
+    [tableProps?.settings?.fontSize]
+  );
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  onEdit,
-  exportButton,
-  visualizeButton,
-  viewButton,
-  defaultColumn,
-  bulkActionsLabel,
-  enableResizing,
-  comparassionToggle,
-  setComparassionToggle,
-}: DataTableProps<TData, TValue>) {
-  const itHasToggleComparassion = !!setComparassionToggle;
+  const tableLabels = useMemo(
+    () =>
+      Object.assign(tableProps?.label?.table, DefaultToolkitTableLabelsTable),
+    [tableProps?.label]
+  );
+
+  const tableIcons = useMemo(
+    () => Object.assign(tableProps?.icons?.table, DefaultToolkitTableIcons),
+    [tableProps?.icons]
+  );
+
+  const tableFeatures = useMemo(
+    () =>
+      Object.assign(
+        tableProps?.features?.table || [],
+        DefaultToolkitTableFeatures
+      ),
+    [tableProps?.features?.table]
+  );
+
+  const itHasToggleComparassion = tableFeatures?.includes(
+    ToolkitTableFeatureTable.Comparassion
+  );
+
+  const [comparassionToggle, setComparassionToggle] =
+    useState<ComparassionToggle>("none");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -178,12 +195,10 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-    meta: {
-      onEdit,
-    },
-    enableColumnResizing: enableResizing,
+    meta: {},
+    enableColumnResizing: !!settingsTable?.enableResizing,
     columnResizeMode: "onChange",
-    defaultColumn,
+    defaultColumn: settingsTable?.defaultColumnsParamater,
   });
 
   const columnSizeVars = useMemo(() => {
@@ -198,15 +213,9 @@ export function DataTable<TData, TValue>({
   }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
 
   const handleBulkAction = useCallback(
-    (action: string) => {
+    (action: string, callback?: (selectedRows: Row<any>[]) => void) => {
       const selectedRows = table.getSelectedRowModel().rows;
       switch (action) {
-        case "delete":
-          console.log("Delete selected rows:", selectedRows);
-          break;
-        case "email":
-          console.log("Email selected users:", selectedRows);
-          break;
         case "pin":
           selectedRows.forEach((row) => {
             const id = (row.original as any).id;
@@ -218,6 +227,11 @@ export function DataTable<TData, TValue>({
             const id = (row.original as any).id;
             setPinnedRows((prev) => ({ ...prev, [id]: false }));
           });
+          break;
+        default:
+          if (callback) {
+            callback(selectedRows);
+          }
           break;
       }
     },
@@ -243,6 +257,38 @@ export function DataTable<TData, TValue>({
     }
   }, [setComparassionToggle]);
 
+  const itHasFontSize = tableFeatures?.includes(
+    ToolkitTableFeatureTable.FontSize
+  );
+
+  const itHasThemeChange = tableFeatures?.includes(
+    ToolkitTableFeatureTable.Theme
+  );
+
+  const itHasVisualization = tableFeatures?.includes(
+    ToolkitTableFeatureTable.Visualization
+  );
+
+  const itHasView = tableFeatures?.includes(ToolkitTableFeatureTable.View);
+
+  const itHasExport = tableFeatures?.includes(ToolkitTableFeatureTable.Export);
+
+  const bulkActions = useMemo(() => {
+    const actions = tableProps?.bulkAction || [];
+    return actions.map((value) => {
+      return (
+        <DropdownMenuItem
+          key={value.action}
+          onClick={() => handleBulkAction(value.action, value.callback)}
+          disabled={!!value?.disabled}
+        >
+          {value?.icon}
+          {value.label}
+        </DropdownMenuItem>
+      );
+    });
+  }, [tableProps?.bulkAction]);
+
   return (
     <motion.div
       className="space-y-4"
@@ -252,62 +298,68 @@ export function DataTable<TData, TValue>({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setFontSize("sm")}
-            className={cn(
-              "fluent-button-secondary h-8 w-8 p-0",
-              fontSize === "sm" && "bg-muted"
-            )}
-          >
-            <TextIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setFontSize("md")}
-            className={cn(
-              "fluent-button-secondary h-8 w-8 p-0",
-              fontSize === "md" && "bg-muted"
-            )}
-          >
-            <TextIcon className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setFontSize("lg")}
-            className={cn(
-              "fluent-button-secondary h-8 w-8 p-0",
-              fontSize === "lg" && "bg-muted"
-            )}
-          >
-            <TextIcon className="h-6 w-6" />
-          </Button>
-          <div className="h-4 w-px bg-border/50" />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleTheme}
-            className="fluent-button-secondary h-8 w-8 p-0"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={theme}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 20, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {theme === "light" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
+          {itHasFontSize && (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFontSize("sm")}
+                className={cn(
+                  "fluent-button-secondary h-8 w-8 p-0",
+                  fontSize === "sm" && "bg-muted"
                 )}
-              </motion.div>
-            </AnimatePresence>
-          </Button>
+              >
+                {tableIcons.fontSizeSmall}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFontSize("md")}
+                className={cn(
+                  "fluent-button-secondary h-8 w-8 p-0",
+                  fontSize === "md" && "bg-muted"
+                )}
+              >
+                {tableIcons.fontSizeMedium}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFontSize("lg")}
+                className={cn(
+                  "fluent-button-secondary h-8 w-8 p-0",
+                  fontSize === "lg" && "bg-muted"
+                )}
+              >
+                {tableIcons.fontSizeBig}
+              </Button>
+              <div className="h-4 w-px bg-border/50" />
+            </>
+          )}
+          {itHasThemeChange && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleTheme}
+              className="fluent-button-secondary h-8 w-8 p-0"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={theme}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {theme === "light" ? (
+                    <Sun className="h-4 w-4" />
+                  ) : (
+                    <Moon className="h-4 w-4" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+          )}
           {itHasToggleComparassion && (
             <Button
               variant="outline"
@@ -352,83 +404,84 @@ export function DataTable<TData, TValue>({
                   size="sm"
                   className="fluent-button dark:text-foreground"
                 >
-                  <MoreHorizontal className="mr-2 h-4 w-4" />
-                  {bulkActionsLabel} ({table.getSelectedRowModel().rows.length})
+                  {tableIcons.bulkAction}
+                  {tableLabels.bulkActionLabel} (
+                  {table.getSelectedRowModel().rows.length})
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="fluent-glass">
                 <DropdownMenuItem onClick={() => handleBulkAction("pin")}>
-                  <Pin className="mr-2 h-4 w-4" />
-                  Pin Selected
+                  {tableIcons.pinOn}
+                  {tableLabels.bulkActionPinOn}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleBulkAction("unpin")}>
-                  <PinOff className="mr-2 h-4 w-4" />
-                  Unpin Selected
+                  {tableIcons.pinOff}
+                  {tableLabels.bulkActionPinOff}
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleBulkAction("email")}>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Email Selected
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleBulkAction("delete")}
-                  className="text-red-600"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Selected
-                </DropdownMenuItem>
+                {bulkActions.length > 0 && (
+                  <>
+                    <DropdownMenuSeparator />
+                    {bulkActions}
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowVisualizationDialog(true)}
-            className="fluent-button dark:text-foreground"
-          >
-            <BarChart2 className="mr-2 h-4 w-4" />
-            {visualizeButton}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowExportDialog(true)}
-            className="fluent-button dark:text-foreground"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            {exportButton}
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="fluent-button dark:text-foreground"
-              >
-                <SlidersHorizontal className="mr-2 h-4 w-4" />
-                {viewButton}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="fluent-glass">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {itHasVisualization && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowVisualizationDialog(true)}
+              className="fluent-button dark:text-foreground"
+            >
+              {tableIcons.visualization}
+              {tableLabels.visualizationLabel}
+            </Button>
+          )}
+          {itHasExport && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowExportDialog(true)}
+              className="fluent-button dark:text-foreground"
+            >
+              {tableIcons.export}
+              {tableLabels.exportLabel}
+            </Button>
+          )}
+          {itHasView && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="fluent-button dark:text-foreground"
+                >
+                  {tableIcons.view}
+                  {tableLabels.viewLabel}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="fluent-glass">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
       <motion.div
@@ -440,7 +493,9 @@ export function DataTable<TData, TValue>({
         <Table
           style={{
             ...columnSizeVars, //Define column sizes on the <table> element
-            width: enableResizing ? table.getTotalSize() : undefined,
+            width: settingsTable?.enableResizing
+              ? table.getTotalSize()
+              : undefined,
           }}
         >
           <TableHeader>

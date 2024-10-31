@@ -22,7 +22,6 @@ import {
 } from "./components/ui/dropdown-menu";
 import { useState } from "react";
 import { CellComparison } from "./components/table/cell-comparasion";
-import { ComparassionToggle } from "./components/table/data-table";
 
 type ColumnSchema = {
   id: string;
@@ -83,12 +82,9 @@ const sample: ColumnSchema[] = [
 ];
 
 export default function App() {
-  const [comparassionToggle, setComparassionToggle] =
-    useState<ComparassionToggle>("none");
-
   return (
     <>
-      <Table<ColumnSchema>
+      {/* <Table<ColumnSchema>
         enableResizing={false}
         comparassionToggle={comparassionToggle}
         setComparassionToggle={setComparassionToggle}
@@ -364,7 +360,7 @@ export default function App() {
             enableResizing: false,
           },
         ]}
-      />
+      /> */}
     </>
   );
 }

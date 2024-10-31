@@ -21,6 +21,7 @@ export type ToolkitTableLabelsTable = {
   bulkActionPinOn?: React.ReactNode;
   bulkActionPinOff?: React.ReactNode;
   refreshLabel?: React.ReactNode;
+  visualizationLabel?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
@@ -68,6 +69,7 @@ export type ToolkitTableSettingsTable = {
     React.SetStateAction<ComparassionToggle>
   >;
   defaultColumnsParamater?: Partial<ColumnDef<any, unknown>>;
+  buttonAddCallback?: () => void;
 };
 
 export type ToolkitTableSettingsFontSize = {
@@ -108,12 +110,13 @@ export type ToolkitTableRowAction<ColumnSchema> = {
 };
 
 export type ToolkitTableProps<ColumnData> = {
-  label: ToolkitTableLabels;
-  icons: ToolkitTableIcons;
+  label?: ToolkitTableLabels;
+  icons?: ToolkitTableIcons;
   columns: ColumnDef<ColumnData>[];
   data: ColumnData[];
   bulkAction?: ToolkitTableBulkAction[];
   loading?: boolean;
   settings?: ToolkitTableSettings;
   rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
+  features?: ToolkitTableFeatures;
 };

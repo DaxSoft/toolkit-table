@@ -2,6 +2,7 @@ import {
   ToolkitTableFeatures,
   ToolkitTableFeatureTable,
   ToolkitTableIconsTable,
+  ToolkitTableLabels,
   ToolkitTableLabelsTable,
   ToolkitTableSettingsFontSize,
 } from "./table-types";
@@ -25,8 +26,8 @@ import {
 } from "lucide-react";
 
 export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
-  buttonAdd: "Add {{title}}",
-  breadcrumbLabel: "{{title}}",
+  buttonAdd: "Add",
+  breadcrumbLabel: "Table",
   exportLabel: "Export",
   viewLabel: "View",
   comparassionLabelNone: "Comparassion",
@@ -41,6 +42,11 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   bulkActionPinOff: "Unpin Selected",
   name: "Table",
   refreshLabel: "Refresh",
+  visualizationLabel: "Visualization",
+};
+
+export const DefaultToolkitTableLabels: ToolkitTableLabels = {
+  table: DefaultToolkitTableLabelsTable,
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
@@ -65,21 +71,19 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
 };
 
-export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
-  table: [
-    ToolkitTableFeatureTable.Comparassion,
-    ToolkitTableFeatureTable.FontSize,
-    ToolkitTableFeatureTable.Theme,
-    ToolkitTableFeatureTable.Add,
-    ToolkitTableFeatureTable.Breadcrumb,
-    ToolkitTableFeatureTable.Description,
-    ToolkitTableFeatureTable.Export,
-    ToolkitTableFeatureTable.Pagination,
-    ToolkitTableFeatureTable.View,
-    ToolkitTableFeatureTable.Visualization,
-    ToolkitTableFeatureTable.Refresh,
-  ],
-};
+export const DefaultToolkitTableFeatures: ToolkitTableFeatureTable[] = [
+  ToolkitTableFeatureTable.Comparassion,
+  ToolkitTableFeatureTable.FontSize,
+  ToolkitTableFeatureTable.Theme,
+  ToolkitTableFeatureTable.Add,
+  ToolkitTableFeatureTable.Breadcrumb,
+  ToolkitTableFeatureTable.Description,
+  ToolkitTableFeatureTable.Export,
+  ToolkitTableFeatureTable.Pagination,
+  ToolkitTableFeatureTable.View,
+  ToolkitTableFeatureTable.Visualization,
+  ToolkitTableFeatureTable.Refresh,
+];
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
   sm: "text-sm",
