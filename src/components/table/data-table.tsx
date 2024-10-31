@@ -50,7 +50,6 @@ import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
-import { Switch } from "../ui/switch";
 
 const MotionTableRow = motion(TableRow);
 

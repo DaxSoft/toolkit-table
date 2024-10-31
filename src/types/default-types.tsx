@@ -1,9 +1,9 @@
 import {
-  ToolkitTableBulkAction,
   ToolkitTableFeatures,
   ToolkitTableFeatureTable,
   ToolkitTableIconsTable,
   ToolkitTableLabelsTable,
+  ToolkitTableSettingsFontSize,
 } from "./table-types";
 import {
   ArrowDownIcon,
@@ -12,12 +12,12 @@ import {
   BarChart2Icon,
   ChevronRightIcon,
   DownloadIcon,
+  ListRestartIcon,
   MoonIcon,
   MoreHorizontalIcon,
   PinIcon,
   PinOffIcon,
   PlusIcon,
-  RefreshCcwIcon,
   SlidersHorizontalIcon,
   SunIcon,
   TableIcon,
@@ -61,7 +61,8 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   view: <SlidersHorizontalIcon className="mr-2 h-4 w-4" />,
   visualization: <BarChart2Icon className="mr-2 h-4 w-4" />,
   export: <DownloadIcon className="mr-2 h-4 w-4" />,
-  refresh: <RefreshCcwIcon className="mr-2 h-4 w-4" />,
+  refresh: <ListRestartIcon className="mr-2 h-4 w-4" />,
+  rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
 };
 
 export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
@@ -78,4 +79,10 @@ export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
     ToolkitTableFeatureTable.Visualization,
     ToolkitTableFeatureTable.Refresh,
   ],
+};
+
+export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
 };

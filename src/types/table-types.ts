@@ -1,4 +1,4 @@
-import { ColumnDef, Row } from "@tanstack/react-table";
+import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -46,6 +46,7 @@ export type ToolkitTableIconsTable = {
   export?: React.ReactNode;
   visualization?: React.ReactNode;
   refresh?: React.ReactNode;
+  rowAction?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
@@ -69,8 +70,15 @@ export type ToolkitTableSettingsTable = {
   defaultColumnsParamater?: Partial<ColumnDef<any, unknown>>;
 };
 
+export type ToolkitTableSettingsFontSize = {
+  sm?: string;
+  md?: string;
+  lg?: string;
+};
+
 export type ToolkitTableSettings = {
-  table: ToolkitTableSettingsTable;
+  table?: ToolkitTableSettingsTable;
+  fontSize?: ToolkitTableSettingsFontSize;
 };
 
 export enum ToolkitTableFeatureTable {
@@ -91,6 +99,14 @@ export type ToolkitTableFeatures = {
   table?: ToolkitTableFeatureTable[];
 };
 
+export type ToolkitTableRowAction<ColumnSchema> = {
+  icon?: React.ReactNode;
+  label: React.ReactNode;
+  action: string;
+  callback: (context: CellContext<ColumnSchema, unknown>) => void;
+  disabled?: boolean;
+};
+
 export type ToolkitTableProps<ColumnData> = {
   label: ToolkitTableLabels;
   icons: ToolkitTableIcons;
@@ -99,4 +115,5 @@ export type ToolkitTableProps<ColumnData> = {
   bulkAction?: ToolkitTableBulkAction[];
   loading?: boolean;
   settings?: ToolkitTableSettings;
+  rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
 };
