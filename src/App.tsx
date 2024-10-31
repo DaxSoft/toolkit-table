@@ -1,11 +1,4 @@
-import {
-  MoreHorizontal,
-  Pencil,
-  Pin,
-  PinOff,
-  Trash2,
-  Users,
-} from "lucide-react";
+import { MoreHorizontal, Pencil, Pin, PinOff, Trash2 } from "lucide-react";
 import Table from "./toolkit-table";
 import { z } from "zod";
 import { Checkbox } from "./components/ui/checkbox";
@@ -20,7 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
-import { useState } from "react";
 import { CellComparison } from "./components/table/cell-comparasion";
 import { ComparassionToggle } from "./types/table-types";
 
