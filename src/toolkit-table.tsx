@@ -59,12 +59,12 @@ export default function ToolkitTable<ColumnData>(
       ...DefaultToolkitTableLabelsCommand,
       ...tableProps?.label?.command,
     }),
-    [tableProps?.label?.command]
+    [tableProps?.label]
   );
 
   const tableLabels = React.useMemo(
     () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
-    [tableProps?.label.table]
+    [tableProps?.label]
   );
 
   const tableIcons = React.useMemo(
@@ -77,6 +77,22 @@ export default function ToolkitTable<ColumnData>(
 
     [tableProps?.features?.table]
   );
+
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (
+        e.key === "j" &&
+        (e.metaKey || e.ctrlKey) &&
+        tableFeatures?.Command === true
+      ) {
+        e.preventDefault();
+        setOpenCommand((open) => !open);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   const commandsGroups = React.useMemo(() => {
     const keys = Object.keys(tableProps?.commands || {});

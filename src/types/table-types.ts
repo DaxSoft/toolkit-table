@@ -35,8 +35,8 @@ export type ToolkitTableLabelsCommand = {
 };
 
 export type ToolkitTableLabels = {
-  table?: ToolkitTableLabelsTable;
-  command?: ToolkitTableLabelsCommand;
+  table: ToolkitTableLabelsTable;
+  command: ToolkitTableLabelsCommand;
 };
 
 export type ToolkitTableIconsTable = {

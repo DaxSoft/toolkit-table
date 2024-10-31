@@ -48,8 +48,14 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   commandLabel: "Commands",
 };
 
+export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
+  placeholder: "Type a command or search...",
+  empty: "No results found.",
+};
+
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
   table: DefaultToolkitTableLabelsTable,
+  command: DefaultToolkitTableLabelsCommand,
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
@@ -97,9 +103,4 @@ export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
   sm: "text-sm",
   md: "text-base",
   lg: "text-lg",
-};
-
-export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
-  placeholder: "Type a command or search...",
-  empty: "No results found.",
 };
