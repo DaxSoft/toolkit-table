@@ -17,6 +17,9 @@ export type ToolkitTableLabelsTable = {
   rowsPerPageLabel?: React.ReactNode;
   perPageLabel?: React.ReactNode;
   name?: string;
+  bulkActionLabel?: React.ReactNode;
+  bulkActionPinOn?: React.ReactNode;
+  bulkActionPinOff?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
@@ -27,6 +30,17 @@ export type ToolkitTableIconsTable = {
   breadcrumbIcon?: React.ReactNode;
   breadcrumbArrow?: React.ReactNode;
   addButton?: React.ReactNode;
+  fontSizeSmall?: React.ReactNode;
+  fontSizeMedium?: React.ReactNode;
+  fontSizeBig?: React.ReactNode;
+  themeWhite?: React.ReactNode;
+  themeBlack?: React.ReactNode;
+  comparassionLabelNone?: React.ReactNode;
+  comparassionLabelUp?: React.ReactNode;
+  comparassionLabelDown?: React.ReactNode;
+  bulkAction?: React.ReactNode;
+  pinOn?: React.ReactNode;
+  pinOff?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
