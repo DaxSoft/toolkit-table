@@ -35,13 +35,13 @@ const itemVariants = {
   },
 };
 
-export type ToolkitTableProps<ColumnData, BodyData> = {
+export type ToolkitTableProps<ColumnData> = {
   breadcrumbIcon: React.ReactNode;
   breadcrumbLabel: React.ReactNode;
   tableDescription: React.ReactNode;
   buttonAddLabel: React.ReactNode;
   columns: ColumnDef<ColumnData>[];
-  data: BodyData[];
+  data: ColumnData[];
   loading?: boolean;
   exportButton: React.ReactNode;
   visualizeButton: React.ReactNode;
@@ -55,7 +55,7 @@ export type ToolkitTableProps<ColumnData, BodyData> = {
   >;
 };
 
-export default function ToolkitTable<ColumnData, BodyData>({
+export default function ToolkitTable<ColumnData>({
   breadcrumbIcon,
   breadcrumbLabel,
   tableDescription,
@@ -71,7 +71,7 @@ export default function ToolkitTable<ColumnData, BodyData>({
   enableResizing,
   comparassionToggle,
   setComparassionToggle,
-}: ToolkitTableProps<ColumnData, BodyData>) {
+}: ToolkitTableProps<ColumnData>) {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
 

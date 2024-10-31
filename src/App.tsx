@@ -88,7 +88,7 @@ export default function App() {
 
   return (
     <>
-      <Table<ColumnSchema, ColumnSchema>
+      <Table<ColumnSchema>
         enableResizing={false}
         comparassionToggle={comparassionToggle}
         setComparassionToggle={setComparassionToggle}
