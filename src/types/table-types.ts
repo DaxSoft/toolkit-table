@@ -2,7 +2,11 @@ import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
-export type ComparassionToggle = "down" | "up" | "none";
+export enum ComparassionToggle {
+  none = "none",
+  down = "down",
+  up = "up",
+}
 
 export type ToolkitTableLabelsTable = {
   buttonAdd?: React.ReactNode;

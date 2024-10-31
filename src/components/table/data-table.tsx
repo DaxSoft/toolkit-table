@@ -124,7 +124,7 @@ export function DataTable<ColumnData>(
   );
 
   const [comparassionToggle, setComparassionToggle] =
-    useState<ComparassionToggle>("none");
+    useState<ComparassionToggle>(ComparassionToggle.none);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -252,7 +252,11 @@ export function DataTable<ColumnData>(
   const toggleComparassionSetting = useCallback(() => {
     if (setComparassionToggle) {
       setComparassionToggle((state) =>
-        state === "none" ? "down" : state === "down" ? "up" : "none"
+        state === ComparassionToggle.none
+          ? ComparassionToggle.down
+          : state === ComparassionToggle.down
+          ? ComparassionToggle.up
+          : ComparassionToggle.none
       );
     }
   }, [setComparassionToggle]);

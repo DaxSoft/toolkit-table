@@ -22,6 +22,7 @@ import {
 } from "./components/ui/dropdown-menu";
 import { useState } from "react";
 import { CellComparison } from "./components/table/cell-comparasion";
+import { ComparassionToggle } from "./types/table-types";
 
 type ColumnSchema = {
   id: string;
@@ -84,28 +85,7 @@ const sample: ColumnSchema[] = [
 export default function App() {
   return (
     <>
-      {/* <Table<ColumnSchema>
-        enableResizing={false}
-        comparassionToggle={comparassionToggle}
-        setComparassionToggle={setComparassionToggle}
-        breadcrumbLabel="Users"
-        breadcrumbIcon={<Users className="h-5 w-5" />}
-        buttonAddLabel="Add User"
-        exportButton="Export"
-        viewButton="View"
-        visualizeButton="Visualization"
-        bulkActionsLabel="Bulk Actions"
-        tableDescription={
-          <>
-            Manage your team members and their account permissions here. Add new
-            users, edit existing ones, and control access levels.
-          </>
-        }
-        defaultColumn={{
-          size: 200, //starting column size
-          minSize: 50, //enforced during column resizing
-          maxSize: 300, //enforced during column resizing
-        }}
+      <Table<ColumnSchema>
         data={sample}
         columns={[
           {
@@ -216,14 +196,16 @@ export default function App() {
               const rowIndex = row.index;
               const nextRow =
                 table.getRowModel().rows[
-                  comparassionToggle === "down" ? rowIndex + 1 : rowIndex - 1
+                  comparassionToggle === ComparassionToggle.down
+                    ? rowIndex + 1
+                    : rowIndex - 1
                 ];
               const nextValue = nextRow?.getValue("age") as number | undefined;
 
               return (
                 <div className="flex items-center">
                   <span>{value}</span>
-                  {comparassionToggle !== "none" && (
+                  {comparassionToggle !== ComparassionToggle.none && (
                     <CellComparison
                       value={value}
                       nextValue={nextValue}
@@ -360,7 +342,7 @@ export default function App() {
             enableResizing: false,
           },
         ]}
-      /> */}
+      />
     </>
   );
 }
