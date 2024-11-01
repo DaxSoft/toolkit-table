@@ -46,9 +46,11 @@ export function TableVisualization<ColumnData>({
     const charts = tableProps?.visualizations || {};
     const keys = Object.keys(charts);
 
+    const firstKey = keys[0];
+
     return (
       <>
-        <Tabs defaultValue="account">
+        <Tabs defaultValue={firstKey}>
           <TabsList className="grid w-full grid-cols-2">
             {keys.map((key) => (
               <TabsTrigger key={key} value={key}>
