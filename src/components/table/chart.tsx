@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import ReactECharts from "echarts-for-react";
 import { ArrowDown, ArrowUp, TrendingUp } from "lucide-react";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 
 export interface DataPoint {
   category: string;
@@ -10,7 +10,7 @@ export interface DataPoint {
 }
 
 interface PremiumChartCardProps {
-  title: string;
+  title: ReactNode;
   data: DataPoint[];
   className?: string;
 }

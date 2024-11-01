@@ -22,6 +22,8 @@ import { cn } from "@/lib/utils";
 import { DataPoint, PremiumChartCard } from "./chart";
 import { useMemo } from "react";
 import { DefaultToolkitTableLabelsVisualization } from "@/types/default-types";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { TabsContent } from "@radix-ui/react-tabs";
 
 const sampleData: DataPoint[] = [
   { category: "Jan", value: 1200 },
@@ -55,6 +57,41 @@ export function TableVisualization<ColumnData>({
     [tableProps?.label]
   );
 
+  const visualizations = useMemo(() => {
+    const charts = tableProps?.visualizations || {};
+    const keys = Object.keys(charts);
+
+    return (
+      <>
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList className="grid w-full grid-cols-2">
+            {keys.map((key) => (
+              <TabsTrigger key={key} value={key}>
+                {key}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {keys.map((key) => {
+            const data = charts[key];
+            return (
+              <TabsContent value={key}>
+                <div className="space-y-4 py-4">
+                  <ScrollArea className="h-[70vh] rounded-md p-4">
+                    <PremiumChartCard
+                      title={data.title}
+                      data={data.data}
+                      className="w-full"
+                    />
+                  </ScrollArea>
+                </div>
+              </TabsContent>
+            );
+          })}
+        </Tabs>
+      </>
+    );
+  }, [tableProps?.visualizations]);
+
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
@@ -68,7 +105,7 @@ export function TableVisualization<ColumnData>({
             className={cn(["windows11-mica fluent-glass sm:max-w-[960px]"])}
           >
             <DialogHeader>
-              <DialogTitle>Visualization</DialogTitle>
+              <DialogTitle>{tableLabels.title}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <ScrollArea className="h-[70vh] rounded-md p-4">

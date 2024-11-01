@@ -1,3 +1,4 @@
+import { DataPoint } from "@/components/table/chart";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 
 export type SortedType = "false" | "asc" | "desc";
@@ -136,6 +137,11 @@ export type ToolkitTableCommand = {
   icon?: React.ReactNode;
 };
 
+export type ToolkitTableVisualization = {
+  title: React.ReactNode;
+  data: DataPoint[];
+};
+
 export type ToolkitTableProps<ColumnData> = {
   label?: ToolkitTableLabels;
   icons?: ToolkitTableIcons;
@@ -147,4 +153,5 @@ export type ToolkitTableProps<ColumnData> = {
   rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
   features?: ToolkitTableFeatures;
   commands?: Record<string, ToolkitTableCommand[]>;
+  visualizations?: Record<string, ToolkitTableVisualization>;
 };
