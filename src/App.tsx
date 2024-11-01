@@ -330,6 +330,12 @@ export default function App() {
             },
           ],
         }}
+        visualizations={{
+          Age: {
+            title: "Age",
+            data: sample.map((d) => ({ category: d.name, value: d.age })),
+          },
+        }}
       />
     </>
   );

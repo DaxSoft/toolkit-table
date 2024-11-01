@@ -58,6 +58,10 @@ export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualiza
   {
     goBack: "Go Back",
     title: "Visualization",
+    averageLabel: "Average",
+    highestLabel: "Highest",
+    lowestLabel: "Lowest",
+    totalLabel: "Sum",
   };
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {

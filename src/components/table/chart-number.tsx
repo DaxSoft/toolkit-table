@@ -9,17 +9,25 @@ export interface DataPoint {
   value: number;
 }
 
-interface PremiumChartCardProps {
+interface ChartNumberCardProps {
   title: ReactNode;
   data: DataPoint[];
   className?: string;
+  highestLabel?: React.ReactNode;
+  lowestLabel?: React.ReactNode;
+  averageLabel?: React.ReactNode;
+  totalLabel?: React.ReactNode;
 }
 
-export function PremiumChartCard({
+export function ChartNumberCard({
   title,
   data,
   className,
-}: PremiumChartCardProps) {
+  highestLabel,
+  lowestLabel,
+  totalLabel,
+  averageLabel,
+}: ChartNumberCardProps) {
   const stats = useMemo(() => {
     const values = data.map((d) => d.value);
     return {
@@ -43,7 +51,7 @@ export function PremiumChartCard({
         const dataPoint = params[0];
         return `
           <div class="font-medium">${dataPoint.name}</div>
-          <div class="text-sm text-gray-500">Value: ${dataPoint.value}</div>
+          <div class="text-sm text-gray-500">${dataPoint.value}</div>
         `;
       },
     },
@@ -150,22 +158,22 @@ export function PremiumChartCard({
         </div>
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           <StatCard
-            title="Highest"
+            title={highestLabel}
             value={stats.highest}
             icon={<ArrowUp className="h-4 w-4 text-green-500" />}
           />
           <StatCard
-            title="Lowest"
+            title={lowestLabel}
             value={stats.lowest}
             icon={<ArrowDown className="h-4 w-4 text-red-500" />}
           />
           <StatCard
-            title="Average"
+            title={averageLabel}
             value={stats.average.toFixed(2)}
             icon={<TrendingUp className="h-4 w-4 text-blue-500" />}
           />
           <StatCard
-            title="Total"
+            title={totalLabel}
             value={stats.total}
             icon={<TrendingUp className="h-4 w-4 text-purple-500" />}
           />
@@ -176,7 +184,7 @@ export function PremiumChartCard({
 }
 
 interface StatCardProps {
-  title: string;
+  title: React.ReactNode;
   value: number | string;
   icon: React.ReactNode;
 }

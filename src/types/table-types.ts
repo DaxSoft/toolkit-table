@@ -1,4 +1,4 @@
-import { DataPoint } from "@/components/table/chart";
+import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 
 export type SortedType = "false" | "asc" | "desc";
@@ -38,6 +38,10 @@ export type ToolkitTableLabelsCommand = {
 export type ToolkitTableLabelsVisualization = {
   title?: React.ReactNode;
   goBack?: React.ReactNode;
+  highestLabel?: React.ReactNode;
+  lowestLabel?: React.ReactNode;
+  averageLabel?: React.ReactNode;
+  totalLabel?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
