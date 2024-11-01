@@ -335,6 +335,13 @@ export default function App() {
             title: "Age",
             data: sample.map((d) => ({ category: d.name, value: d.age })),
           },
+          "Age - Join Date": {
+            title: "Age per Join Date",
+            data: sample.map((d) => ({
+              category: format(d.joinDate, "PP"),
+              value: d.age,
+            })),
+          },
         }}
       />
     </>
