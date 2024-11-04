@@ -217,6 +217,9 @@ export type ToolkitTableFormProps =
       description?: React.ReactNode;
       placeholder?: React.ReactNode;
       mask?: string;
+      decimalScale?: number;
+      prefix?: string;
+      suffix?: string;
     };
 
 export type ToolkitTableProps<ColumnData> = {
