@@ -69,7 +69,14 @@ export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualiza
     totalLabel: "Sum",
   };
 
-export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {};
+export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
+  add: "Add",
+  deleteDescription: "Are you sure?",
+  remove: "Remove",
+  delete: "Delete",
+  deleteCancel: "Cancel",
+  deleteContinue: "Continue",
+};
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
   table: DefaultToolkitTableLabelsTable,

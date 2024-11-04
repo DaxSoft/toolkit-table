@@ -50,6 +50,10 @@ export type ToolkitTableLabelsVisualization = {
 export type ToolkitTableLabelsForm = {
   add?: React.ReactNode;
   remove?: React.ReactNode;
+  deleteDescription?: React.ReactNode;
+  delete?: React.ReactNode;
+  deleteCancel?: React.ReactNode;
+  deleteContinue?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
@@ -96,7 +100,7 @@ export type ToolkitTableBulkAction = {
   disabled?: boolean;
 };
 
-export type ToolkitTableSettingsTable = {
+export type ToolkitTableSettingsTable<ColumnData> = {
   enableResizing?: boolean;
   comparassionToggle?: ComparassionToggle;
   setComparassionToggle?: React.Dispatch<
@@ -106,6 +110,7 @@ export type ToolkitTableSettingsTable = {
   buttonAddCallback?: () => void;
   onRefresh?: () => Promise<void>;
   rowsPerPage?: number[];
+  onDelete?: (context: CellContext<ColumnData, unknown>) => Promise<void>;
 };
 
 export type ToolkitTableSettingsFontSize = {
@@ -114,8 +119,8 @@ export type ToolkitTableSettingsFontSize = {
   lg?: string;
 };
 
-export type ToolkitTableSettings = {
-  table?: ToolkitTableSettingsTable;
+export type ToolkitTableSettings<ColumnData> = {
+  table?: ToolkitTableSettingsTable<ColumnData>;
   fontSize?: ToolkitTableSettingsFontSize;
 };
 
@@ -176,7 +181,7 @@ export type ToolkitTableProps<ColumnData> = {
   data: ColumnData[];
   bulkAction?: ToolkitTableBulkAction[];
   loading?: boolean;
-  settings?: ToolkitTableSettings;
+  settings?: ToolkitTableSettings<ColumnData>;
   rowActions?: Array<ToolkitTableRowAction<ColumnData>>;
   features?: ToolkitTableFeatures;
   commands?: Record<string, ToolkitTableCommand[]>;

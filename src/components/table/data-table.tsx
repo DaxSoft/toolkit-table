@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  CellContext,
   ColumnFiltersState,
   Row,
   SortingState,
@@ -50,9 +51,20 @@ import {
   DefaultFontSizeClasses,
   DefaultToolkitTableFeatures,
   DefaultToolkitTableIcons,
+  DefaultToolkitTableLabelsForm,
   DefaultToolkitTableLabelsTable,
 } from "@/types/default-types";
 import { TableVisualization } from "./visualization";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 const MotionTableRow = motion(TableRow);
 
@@ -76,6 +88,9 @@ export function DataTable<ColumnData>(
   tableProps: ToolkitTableProps<ColumnData>
 ) {
   const data = tableProps.data;
+  const [currentDelete, setCurrentDelete] = useState<
+    CellContext<ColumnData, unknown> | undefined
+  >();
 
   const tableFeatures = useMemo(
     () => ({ ...DefaultToolkitTableFeatures, ...tableProps?.features?.table }),
@@ -90,6 +105,21 @@ export function DataTable<ColumnData>(
   const tableIcons = useMemo(
     () => ({ ...DefaultToolkitTableIcons, ...tableProps?.icons?.table }),
     [tableProps?.icons]
+  );
+
+  const settingsTable = useMemo(
+    () => tableProps?.settings?.table,
+    [tableProps?.settings?.table]
+  );
+
+  const fontSizeClasses = useMemo(
+    () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
+    [tableProps?.settings?.fontSize]
+  );
+
+  const formLabels = useMemo(
+    () => ({ ...DefaultToolkitTableLabelsForm, ...tableProps?.label?.form }),
+    [tableProps?.label]
   );
 
   const columns = useMemo(() => {
@@ -109,7 +139,9 @@ export function DataTable<ColumnData>(
         action: "delete",
         icon: tableIcons.delete,
         label: tableLabels.deleteLabel,
-        callback(context) {},
+        callback(context) {
+          setCurrentDelete(context);
+        },
       });
     }
 
@@ -149,16 +181,6 @@ export function DataTable<ColumnData>(
         ]
       : tableProps.columns;
   }, [tableProps.columns, tableProps?.rowActions, tableIcons, tableFeatures]);
-
-  const settingsTable = useMemo(
-    () => tableProps?.settings?.table,
-    [tableProps?.settings?.table]
-  );
-
-  const fontSizeClasses = useMemo(
-    () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
-    [tableProps?.settings?.fontSize]
-  );
 
   const [comparassionToggle, setComparassionToggle] =
     useState<ComparassionToggle>(ComparassionToggle.none);
@@ -315,6 +337,13 @@ export function DataTable<ColumnData>(
       );
     });
   }, [tableProps?.bulkAction]);
+
+  const onDelete = () => {
+    if (settingsTable?.onDelete) {
+      settingsTable.onDelete(currentDelete);
+      setCurrentDelete(undefined);
+    }
+  };
 
   return (
     <>
@@ -676,6 +705,35 @@ export function DataTable<ColumnData>(
             setShowVisualizationDialog={setShowVisualizationDialog}
             tableProps={tableProps}
           />
+        </>
+      )}
+      {tableFeatures?.Delete && (
+        <>
+          <AlertDialog
+            open={Boolean(currentDelete)}
+            onOpenChange={(open) => {
+              if (!open) {
+                setCurrentDelete(undefined);
+              }
+            }}
+          >
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{formLabels.delete}</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {formLabels.deleteDescription}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setCurrentDelete(undefined)}>
+                  {formLabels.deleteCancel}
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={onDelete}>
+                  {formLabels.deleteContinue}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </>
       )}
     </>
