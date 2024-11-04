@@ -71,7 +71,8 @@ export function ExportXlsxDialog<TData>({
       await exportToExcel(
         table,
         "users",
-        Object.keys(exportSettingsHeaders).filter((key) => selectedFields[key])
+        Object.keys(selectedFields).filter((key) => selectedFields[key]) || [],
+        exportSettingsHeaders
       );
       onOpenChange(false);
     } catch (error) {
