@@ -179,6 +179,10 @@ export type ToolkitTableVisualization =
       chart: (title: string, data: Record<string, any>[]) => EChartsOption;
     };
 
+export type ToolkitTableSettingsProps = {
+  headers?: Record<string, string>;
+};
+
 export type ToolkitTableFormProps = {};
 
 export type ToolkitTableProps<ColumnData> = {
@@ -194,4 +198,5 @@ export type ToolkitTableProps<ColumnData> = {
   commands?: Record<string, ToolkitTableCommand[]>;
   visualizations?: Record<string, ToolkitTableVisualization>;
   form?: ToolkitTableFormProps;
+  exportSettings?: ToolkitTableSettingsProps;
 };

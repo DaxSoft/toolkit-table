@@ -39,6 +39,7 @@ export function ExportXlsxDialog<TData>({
     () => ({ ...DefaultToolkitTableLabelsForm, ...tableProps?.label?.form }),
     [tableProps?.label]
   );
+  const exportSettingsHeaders = tableProps?.exportSettings?.headers || {};
 
   // Load saved preferences
   useEffect(() => {
@@ -49,7 +50,10 @@ export function ExportXlsxDialog<TData>({
       // Default to all fields selected
       const defaultFields = table
         .getAllColumns()
-        .filter((column) => column.id !== "actions")
+        .filter(
+          (column) =>
+            column.id !== "actions" && !!exportSettingsHeaders[column.id]
+        )
         .reduce(
           (acc, column) => ({
             ...acc,
@@ -59,7 +63,7 @@ export function ExportXlsxDialog<TData>({
         );
       setSelectedFields(defaultFields);
     }
-  }, [table]);
+  }, [table, exportSettingsHeaders]);
 
   const handleExport = async () => {
     try {
@@ -67,10 +71,8 @@ export function ExportXlsxDialog<TData>({
       await exportToExcel(
         table,
         "users",
-        Object.keys(selectedFields).filter((key) => selectedFields[key])
+        Object.keys(exportSettingsHeaders).filter((key) => selectedFields[key])
       );
-      // Save preferences
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedFields));
       onOpenChange(false);
     } catch (error) {
       console.error("Export failed:", error);
@@ -82,7 +84,10 @@ export function ExportXlsxDialog<TData>({
   const toggleAll = (checked: boolean) => {
     const newFields = table
       .getAllColumns()
-      .filter((column) => column.id !== "actions")
+      .filter(
+        (column) =>
+          column.id !== "actions" && !!exportSettingsHeaders[column.id]
+      )
       .reduce(
         (acc, column) => ({
           ...acc,
@@ -117,7 +122,11 @@ export function ExportXlsxDialog<TData>({
             <div className="space-y-4">
               {table
                 .getAllColumns()
-                .filter((column) => column.id !== "actions")
+                .filter(
+                  (column) =>
+                    column.id !== "actions" &&
+                    !!exportSettingsHeaders[column.id]
+                )
                 .map((column) => (
                   <div key={column.id} className="flex items-center space-x-2">
                     <Checkbox
@@ -131,31 +140,12 @@ export function ExportXlsxDialog<TData>({
                       }
                     />
                     <Label htmlFor={column.id} className="capitalize">
-                      {column.id}
+                      {exportSettingsHeaders[column.id]}
                     </Label>
                   </div>
                 ))}
             </div>
           </ScrollArea>
-          {Object.values(selectedFields).some(Boolean) && (
-            <div className="rounded-md bg-muted p-4">
-              <h4 className="mb-2 text-sm font-medium">
-                {formLabels.exportSelectFieldsPreview}
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(selectedFields)
-                  .filter(([_, selected]) => selected)
-                  .map(([field]) => (
-                    <div
-                      key={field}
-                      className="rounded-full bg-primary px-3 py-1 text-xs text-primary-foreground"
-                    >
-                      {field}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
         </div>
         <DialogFooter>
           <Button

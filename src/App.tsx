@@ -306,6 +306,12 @@ export default function App() {
             enableResizing: true,
           },
         ]}
+        exportSettings={{
+          headers: {
+            name: "Name",
+            age: "Age",
+          },
+        }}
         commands={{
           Shortcut: [
             {
