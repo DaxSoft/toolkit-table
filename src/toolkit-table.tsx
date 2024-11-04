@@ -120,6 +120,7 @@ export default function ToolkitTable<ColumnData>(
   }, [tableProps?.commands]);
 
   const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
+
   const onRefresh = tableProps?.settings?.table?.onRefresh;
 
   const handleEdit = useCallback((user: any) => {}, []);
@@ -141,7 +142,7 @@ export default function ToolkitTable<ColumnData>(
 
   const handleCloseForm = useCallback(() => {}, []);
 
-  const hasForm = tableFeatures?.Add || tableFeatures?.Edit;
+  const hasForm = tableFeatures?.Form;
 
   return (
     <>

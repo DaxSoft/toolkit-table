@@ -137,6 +137,7 @@ export const DefaultToolkitTableFeatures: Record<
   [ToolkitTableFeatureTable.Edit]: true,
   [ToolkitTableFeatureTable.Delete]: true,
   [ToolkitTableFeatureTable.Read]: true,
+  [ToolkitTableFeatureTable.Form]: false,
 };
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {

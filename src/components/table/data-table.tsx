@@ -126,6 +126,8 @@ export function DataTable<ColumnData>({
     [tableProps?.label]
   );
 
+  const onEdit = tableProps?.settings?.table?.onEdit;
+
   const columns = useMemo(() => {
     const rowActions = tableProps?.rowActions || [];
 
@@ -135,6 +137,10 @@ export function DataTable<ColumnData>({
         icon: tableIcons.edit,
         label: tableLabels.editLabel,
         callback(context) {
+          if (onEdit) {
+            onEdit(context);
+            return;
+          }
           setOpenForm(() => "edit");
         },
       });
@@ -186,7 +192,13 @@ export function DataTable<ColumnData>({
           },
         ]
       : tableProps.columns;
-  }, [tableProps.columns, tableProps?.rowActions, tableIcons, tableFeatures]);
+  }, [
+    tableProps.columns,
+    tableProps?.rowActions,
+    tableIcons,
+    tableFeatures,
+    onEdit,
+  ]);
 
   const [comparassionToggle, setComparassionToggle] =
     useState<ComparassionToggle>(ComparassionToggle.none);

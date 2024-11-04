@@ -130,6 +130,7 @@ export type ToolkitTableSettingsTable<ColumnData> = {
   onRefresh?: () => Promise<void>;
   rowsPerPage?: number[];
   onDelete?: (context: CellContext<ColumnData, unknown>) => Promise<void>;
+  onEdit?: (context: CellContext<ColumnData, unknown>) => Promise<void>;
 };
 
 export type ToolkitTableSettingsFontSize = {
@@ -165,6 +166,7 @@ export enum ToolkitTableFeatureTable {
   Delete = "Delete",
   Edit = "Edit",
   Read = "Read",
+  Form = "Form",
 }
 
 export type ToolkitTableFeatures = {
