@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const Table = React.forwardRef<
@@ -53,7 +53,7 @@ TableFooter.displayName = "TableFooter";
 
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
-  React.HTMLAttributes<HTMLTableRowElement>
+  HTMLMotionProps<"tr"> & { className?: string }
 >(({ className, ...props }, ref) => (
   <motion.tr
     ref={ref}
@@ -75,7 +75,7 @@ TableRow.displayName = "TableRow";
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
+  HTMLMotionProps<"th"> & { className?: string }
 >(({ className, ...props }, ref) => (
   <motion.th
     ref={ref}
@@ -94,7 +94,7 @@ TableHead.displayName = "TableHead";
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
+  HTMLMotionProps<"td"> & { className?: string }
 >(({ className, ...props }, ref) => (
   <motion.td
     ref={ref}
