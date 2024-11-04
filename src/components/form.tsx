@@ -375,7 +375,7 @@ export function ToolkitForm<ColumnData>({
                       key={fieldKey}
                       fieldProps={field}
                       formMethods={formMethods}
-                      name={`${tab}.${fieldKey}`}
+                      name={`${tab}.${fieldKey}.value`}
                       schema={schema}
                     />
                   ))}
