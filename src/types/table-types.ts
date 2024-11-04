@@ -302,3 +302,35 @@ export type ToolkitTableProps<ColumnData> = {
   form?: Record<string, Record<string, ToolkitTableFormProps>>;
   exportSettings?: ToolkitTableSettingsProps;
 };
+
+export type InferToolkitFormType<
+  T extends Record<string, Record<string, ToolkitTableFormProps>>
+> = {
+  [K in keyof T]: {
+    [P in keyof T[K]]: T[K][P] extends { value: z.ZodType<infer U> }
+      ? U
+      : never;
+  };
+};
+
+export const createToolkitFormSchema = <
+  T extends Record<string, Record<string, ToolkitTableFormProps>>
+>(
+  form: T
+) => {
+  const schema: Record<string, z.ZodObject<any>> = {};
+
+  for (const [tabKey, fields] of Object.entries(form)) {
+    const fieldSchemas: Record<string, z.ZodType<any>> = {};
+
+    for (const [fieldKey, field] of Object.entries(fields)) {
+      if ("value" in field && field.value instanceof z.ZodType) {
+        fieldSchemas[fieldKey] = field.value;
+      }
+    }
+
+    schema[tabKey] = z.object(fieldSchemas);
+  }
+
+  return z.object(schema) as z.ZodType<InferToolkitFormType<T>>;
+};

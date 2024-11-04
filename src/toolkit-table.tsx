@@ -54,6 +54,9 @@ export default function ToolkitTable<ColumnData>(
   tableProps: ToolkitTableProps<ColumnData>
 ) {
   const [openCommand, setOpenCommand] = useState(false);
+  const [openForm, setOpenForm] = useState<"add" | "edit" | undefined>(
+    undefined
+  );
   const loading = tableProps?.loading;
 
   const commandLabels = React.useMemo(
@@ -124,9 +127,6 @@ export default function ToolkitTable<ColumnData>(
 
   const buttonAddCallback = tableProps?.settings?.table?.buttonAddCallback;
   const onRefresh = tableProps?.settings?.table?.onRefresh;
-
-  const [showUserForm, setShowUserForm] = useState(false);
-  const [editingUser, setEditingUser] = useState<any>(null);
 
   const handleEdit = useCallback((user: any) => {}, []);
 
