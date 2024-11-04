@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Table } from "@tanstack/react-table";
 import {
   Dialog,
@@ -13,6 +13,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Download, Loader2 } from "lucide-react";
 import { exportToExcel } from "@/lib/export-xlsx";
+import { ToolkitTableProps } from "@/types/table-types";
+import { DefaultToolkitTableLabelsForm } from "@/types/default-types";
 
 const STORAGE_KEY = "table-export-preferences";
 
@@ -20,17 +22,23 @@ interface ExportDialogProps<TData> {
   table: Table<TData>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  tableProps: ToolkitTableProps<TData>;
 }
 
 export function ExportXlsxDialog<TData>({
   table,
   open,
   onOpenChange,
+  tableProps,
 }: ExportDialogProps<TData>) {
   const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
     {}
   );
   const [isExporting, setIsExporting] = useState(false);
+  const formLabels = useMemo(
+    () => ({ ...DefaultToolkitTableLabelsForm, ...tableProps?.label?.form }),
+    [tableProps?.label]
+  );
 
   // Load saved preferences
   useEffect(() => {
@@ -93,7 +101,7 @@ export function ExportXlsxDialog<TData>({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="fluent-glass sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Export Data</DialogTitle>
+          <DialogTitle>{formLabels.export}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="flex items-center space-x-2">
@@ -103,7 +111,7 @@ export function ExportXlsxDialog<TData>({
               indeterminate={isIndeterminate}
               onCheckedChange={(checked) => toggleAll(!!checked)}
             />
-            <Label htmlFor="select-all">Select All Fields</Label>
+            <Label htmlFor="select-all">{formLabels.exportSelectFields}</Label>
           </div>
           <ScrollArea className="h-[300px] rounded-md border p-4">
             <div className="space-y-4">
@@ -132,7 +140,7 @@ export function ExportXlsxDialog<TData>({
           {Object.values(selectedFields).some(Boolean) && (
             <div className="rounded-md bg-muted p-4">
               <h4 className="mb-2 text-sm font-medium">
-                Selected Fields Preview
+                {formLabels.exportSelectFieldsPreview}
               </h4>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(selectedFields)
@@ -155,7 +163,7 @@ export function ExportXlsxDialog<TData>({
             onClick={() => onOpenChange(false)}
             className="fluent-button-secondary"
           >
-            Cancel
+            {formLabels.exportCancel}
           </Button>
           <Button
             onClick={handleExport}
@@ -167,12 +175,11 @@ export function ExportXlsxDialog<TData>({
             {isExporting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Exporting...
               </>
             ) : (
               <>
                 <Download className="mr-2 h-4 w-4" />
-                Export
+                {formLabels.exportContinue}
               </>
             )}
           </Button>

@@ -76,6 +76,11 @@ export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
   delete: "Delete",
   deleteCancel: "Cancel",
   deleteContinue: "Continue",
+  export: "Export Data - XLSX",
+  exportCancel: "Cancel",
+  exportContinue: "Export",
+  exportSelectFields: "Select All Fields",
+  exportSelectFieldsPreview: "Selected Fields Preview",
 };
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {

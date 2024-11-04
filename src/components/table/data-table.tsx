@@ -695,6 +695,7 @@ export function DataTable<ColumnData>(
         <ExportXlsxDialog
           table={table}
           open={showExportDialog}
+          tableProps={tableProps}
           onOpenChange={setShowExportDialog}
         />
       )}

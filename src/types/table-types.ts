@@ -54,6 +54,11 @@ export type ToolkitTableLabelsForm = {
   delete?: React.ReactNode;
   deleteCancel?: React.ReactNode;
   deleteContinue?: React.ReactNode;
+  export?: React.ReactNode;
+  exportCancel?: React.ReactNode;
+  exportContinue?: React.ReactNode;
+  exportSelectFields?: React.ReactNode;
+  exportSelectFieldsPreview?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
