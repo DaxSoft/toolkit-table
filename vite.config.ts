@@ -8,7 +8,15 @@ import resolve from "@rollup/plugin-node-resolve";
 import postcss from "rollup-plugin-postcss";
 
 export default defineConfig({
-  plugins: [react(), dts()],
+  plugins: [
+    react(),
+    dts({
+      insertTypesEntry: true,
+      include: ["src/**/*"],
+      outDir: "dist/types",
+      tsconfigPath: path.resolve(__dirname, "tsconfig.app.json"),
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

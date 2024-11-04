@@ -64,15 +64,17 @@ export function TableVisualization<ColumnData>({
               <TabsContent className="mt-3 -mb-3" value={`${key}_${n}`}>
                 <ScrollArea className="h-[60vh] rounded-md ">
                   {data.type === "number" ? (
-                    <ChartNumberCard
-                      title={data.title}
-                      data={data.data}
-                      className={cn("w-full")}
-                      averageLabel={tableLabels.averageLabel}
-                      highestLabel={tableLabels.highestLabel}
-                      lowestLabel={tableLabels.lowestLabel}
-                      totalLabel={tableLabels.totalLabel}
-                    />
+                    <div>
+                      <ChartNumberCard
+                        title={data.title}
+                        data={data.data}
+                        className={cn("w-full")}
+                        averageLabel={tableLabels.averageLabel}
+                        highestLabel={tableLabels.highestLabel}
+                        lowestLabel={tableLabels.lowestLabel}
+                        totalLabel={tableLabels.totalLabel}
+                      />
+                    </div>
                   ) : (
                     <>
                       <ChartCustomCard
