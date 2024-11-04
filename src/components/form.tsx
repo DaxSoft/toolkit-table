@@ -147,8 +147,8 @@ export function ToolkitForm<ColumnData>({
 
     Object.entries(form).forEach(([tabKey, fields]) => {
       Object.entries(fields).forEach(([fieldKey, field]) => {
-        if ("value" in field && field.value instanceof z.ZodType) {
-          schemaShape[`${tabKey}.${fieldKey}`] = field.value;
+        if ("value" in field) {
+          schemaShape[`${tabKey}.${fieldKey}`] = processField(field);
         }
       });
     });
@@ -161,4 +161,6 @@ export function ToolkitForm<ColumnData>({
     criteriaMode: tableProps?.settings?.form?.criteriaMode,
     mode: tableProps?.settings?.form?.mode,
   });
+
+  return <></>;
 }

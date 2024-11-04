@@ -27,6 +27,7 @@ import {
   CommandList,
 } from "./components/ui/command";
 import { Toaster } from "./components/ui/sonner";
+import { ToolkitForm } from "./components/form";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -146,6 +147,8 @@ export default function ToolkitTable<ColumnData>(
 
   const handleCloseForm = useCallback(() => {}, []);
 
+  const hasForm = tableFeatures?.Add || tableFeatures?.Edit;
+
   return (
     <>
       <div className="fluent-background" />
@@ -256,15 +259,13 @@ export default function ToolkitTable<ColumnData>(
         </Command>
       </CommandDialog>
 
-      {/* <Dialog open={showUserForm} onOpenChange={handleCloseForm}>
-        <DialogContent className="fluent-glass sm:max-w-[800px]">
-          <DialogHeader>
-            <DialogTitle>
-              {editingUser ? "Edit User" : "Add New User"}
-            </DialogTitle>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog> */}
+      {hasForm && (
+        <ToolkitForm<ColumnData>
+          tableProps={tableProps}
+          setOpenForm={setOpenForm}
+          openForm={openForm}
+        />
+      )}
     </>
   );
 }
