@@ -27,6 +27,8 @@ import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { DefaultToolkitTableLabelsForm } from "@/types/default-types";
 import { Button } from "./ui/button";
+import { Form } from "./ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 // Function to process each field and return the corresponding Zod schema
 function processField(fieldProps: ToolkitTableFormProps): ZodTypeAny {
@@ -186,6 +188,33 @@ export function ToolkitForm<ColumnData>({
     mode: tableProps?.settings?.form?.mode,
   });
 
+  const formComponent = React.useMemo(() => {
+    return (
+      <Form {...formMethods}>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
+            {Object.keys(form).map((tab) => (
+              <TabsTrigger key={tab} value={tab} className="capitalize">
+                {tab}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {Object.entries(form).map(([tab, fields]) => (
+            <TabsContent key={tab} value={tab} className="space-y-4">
+              {/* {Object.entries(fields).map(([fieldKey, field]) => (
+                <FormField
+                  key={fieldKey}
+                  field={field}
+                  name={`${tab}.${fieldKey}`}
+                />
+              ))} */}
+            </TabsContent>
+          ))}
+        </Tabs>
+      </Form>
+    );
+  }, []);
+
   if (isDesktop) {
     return (
       <>
@@ -205,7 +234,7 @@ export function ToolkitForm<ColumnData>({
                 {openForm === "add" ? formLabels.add : formLabels.edit}
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-4 px-4">{}</div>
+            <div className="space-y-4 py-4 px-4">{formComponent}</div>
             <DialogFooter>
               <Button
                 variant="outline"
@@ -236,7 +265,7 @@ export function ToolkitForm<ColumnData>({
             {openForm === "add" ? formLabels.add : formLabels.edit}
           </DrawerTitle>
         </DrawerHeader>
-        <div className="space-y-4 py-4">{}</div>
+        <div className="space-y-4 py-4">{formComponent}</div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button
