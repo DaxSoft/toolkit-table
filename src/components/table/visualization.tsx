@@ -52,16 +52,16 @@ export function TableVisualization<ColumnData>({
       <>
         <Tabs defaultValue={firstKey}>
           <TabsList className="grid w-full grid-cols-2">
-            {keys.map((key) => (
-              <TabsTrigger key={key} value={key}>
+            {keys.map((key, n) => (
+              <TabsTrigger key={`${key}__${n}`} value={key}>
                 {key}
               </TabsTrigger>
             ))}
           </TabsList>
-          {keys.map((key) => {
+          {keys.map((key, n) => {
             const data = charts[key];
             return (
-              <TabsContent className="mt-3 -mb-3" value={key}>
+              <TabsContent className="mt-3 -mb-3" value={`${key}_${n}`}>
                 <ScrollArea className="h-[60vh] rounded-md ">
                   {data.type === "number" ? (
                     <ChartNumberCard
