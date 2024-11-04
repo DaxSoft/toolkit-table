@@ -162,10 +162,22 @@ const FormFieldComponent = ({
   fieldProps,
   formMethods,
   name,
+  schema,
 }: {
   fieldProps: ToolkitTableFormProps;
   formMethods: UseFormReturn<FieldValues, any, undefined>;
   name: string;
+  schema: z.ZodObject<
+    Record<string, any>,
+    "strip",
+    z.ZodTypeAny,
+    {
+      [x: string]: any;
+    },
+    {
+      [x: string]: any;
+    }
+  >;
 }) => {
   switch (fieldProps.type) {
     case ToolkitTableFormType.Text:
@@ -174,6 +186,16 @@ const FormFieldComponent = ({
           control={formMethods.control as any}
           name={name}
           render={({ field, fieldState, formState }) => {
+            let error: string | undefined = undefined;
+
+            try {
+              const result = fieldProps.value.safeParse(field.value);
+              if (!result.success) {
+                const errorMessage = result.error.errors[0].message;
+                error = errorMessage;
+              }
+            } catch (error) {}
+
             return (
               <FormItem>
                 <FormLabel>{fieldProps.label}</FormLabel>
@@ -182,16 +204,17 @@ const FormFieldComponent = ({
                     className={cn("fluent-input")}
                     placeholder={fieldProps?.placeholder}
                     {...field}
+                    {...fieldProps?.inputProps}
                   />
                 </FormControl>
                 {fieldProps?.description && (
                   <FormDescription>{fieldProps?.description}</FormDescription>
                 )}
-                {fieldState?.error && (
+                {!!error && (
                   <p
                     className={cn("text-[0.8rem] font-medium text-destructive")}
                   >
-                    {fieldState?.error?.message}
+                    {error}
                   </p>
                 )}
               </FormItem>
@@ -282,13 +305,18 @@ export function ToolkitForm<ColumnData>({
                     ))}
                   </TabsList>
                   {Object.entries(form).map(([tab, fields]) => (
-                    <TabsContent key={tab} value={tab} className="space-y-4">
+                    <TabsContent
+                      key={tab}
+                      value={tab}
+                      className="mt-6 rounded-md border border-gray-700 p-4 space-y-4"
+                    >
                       {Object.entries(fields).map(([fieldKey, field]) => (
                         <FormFieldMemo
                           key={fieldKey}
                           fieldProps={field}
                           formMethods={formMethods}
                           name={`${tab}.${fieldKey}.value`}
+                          schema={schema}
                         />
                       ))}
                     </TabsContent>
@@ -320,7 +348,7 @@ export function ToolkitForm<ColumnData>({
         }
       }}
     >
-      <DrawerContent className="fluent-glass">
+      <DrawerContent className="windows11-mica fluent-glass">
         <DrawerHeader className="text-left">
           <DrawerTitle>
             {openForm === "add" ? formLabels.add : formLabels.edit}
@@ -337,13 +365,18 @@ export function ToolkitForm<ColumnData>({
                 ))}
               </TabsList>
               {Object.entries(form).map(([tab, fields]) => (
-                <TabsContent key={tab} value={tab} className="space-y-4">
+                <TabsContent
+                  key={tab}
+                  value={tab}
+                  className="mt-6 rounded-md border border-gray-700 p-4 space-y-4"
+                >
                   {Object.entries(fields).map(([fieldKey, field]) => (
                     <FormFieldMemo
                       key={fieldKey}
                       fieldProps={field}
                       formMethods={formMethods}
                       name={`${tab}.${fieldKey}`}
+                      schema={schema}
                     />
                   ))}
                 </TabsContent>

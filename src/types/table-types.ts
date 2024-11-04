@@ -1,4 +1,5 @@
 import { DataPoint } from "@/components/table/chart-number";
+import { InputProps } from "@/components/ui/input";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 import { EChartsOption } from "echarts";
 import { CriteriaMode } from "react-hook-form";
@@ -234,6 +235,7 @@ export type ToolkitTableFormProps =
       description?: React.ReactNode;
       placeholder?: string;
       mask?: string;
+      inputProps?: InputProps;
     }
   | {
       type:
@@ -248,6 +250,7 @@ export type ToolkitTableFormProps =
       decimalScale?: number;
       prefix?: string;
       suffix?: string;
+      inputProps?: InputProps;
     }
   | {
       type: ToolkitTableFormType.Block;

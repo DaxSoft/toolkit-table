@@ -71,7 +71,7 @@
 }
 
 .fluent-glass {
-  background: color-mix(in srgb, hsl(var(--background)) 80%, transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
   backdrop-filter: blur(12px);
   border: 1px solid color-mix(in srgb, hsl(var(--border)) 30%, transparent);
   box-shadow: 
@@ -314,6 +314,29 @@
 
 .dark [cmdk-item][aria-selected="true"] {
   background: rgba(0, 120, 212, 0.3);
+}
+
+.metallic-glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+.input-glass {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.button-glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.button-glass:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes slideIn {

@@ -341,6 +341,9 @@ export default function App() {
                 .string({ message: "Required to define" })
                 .email("Required to be a valid email"),
               label: "Email",
+              inputProps: {
+                type: "email",
+              },
             },
             age: {
               type: ToolkitTableFormType.Number,
