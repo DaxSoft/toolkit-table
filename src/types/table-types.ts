@@ -1,6 +1,7 @@
 import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 import { EChartsOption } from "echarts";
+import { z, ZodNumber, ZodString } from "zod";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -183,7 +184,40 @@ export type ToolkitTableSettingsProps = {
   headers?: Record<string, string>;
 };
 
-export type ToolkitTableFormProps = {};
+export enum ToolkitTableFormType {
+  Text = "Text",
+  Number = "Number",
+  Currency = "Currency",
+  Decimal = "Decimal",
+  Phone = "Phone",
+  Cpf = "Cpf",
+  Cnpj = "Cnpj",
+}
+
+export type ToolkitTableFormProps =
+  | {
+      type:
+        | ToolkitTableFormType.Text
+        | ToolkitTableFormType.Cnpj
+        | ToolkitTableFormType.Cpf
+        | ToolkitTableFormType.Phone;
+      value: ZodString;
+      label: React.ReactNode;
+      description?: React.ReactNode;
+      placeholder?: React.ReactNode;
+      mask?: string;
+    }
+  | {
+      type:
+        | ToolkitTableFormType.Number
+        | ToolkitTableFormType.Currency
+        | ToolkitTableFormType.Decimal;
+      value: ZodNumber;
+      label: React.ReactNode;
+      description?: React.ReactNode;
+      placeholder?: React.ReactNode;
+      mask?: string;
+    };
 
 export type ToolkitTableProps<ColumnData> = {
   label?: ToolkitTableLabels;
@@ -197,6 +231,6 @@ export type ToolkitTableProps<ColumnData> = {
   features?: ToolkitTableFeatures;
   commands?: Record<string, ToolkitTableCommand[]>;
   visualizations?: Record<string, ToolkitTableVisualization>;
-  form?: ToolkitTableFormProps;
+  form?: Record<string, ToolkitTableFormProps[]>;
   exportSettings?: ToolkitTableSettingsProps;
 };

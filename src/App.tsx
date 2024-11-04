@@ -8,7 +8,7 @@ import { FilterPopover } from "./components/table/filter-popover";
 import { Badge } from "./components/ui/badge";
 import { format } from "date-fns";
 import { CellComparison } from "./components/table/cell-comparasion";
-import { ComparassionToggle } from "./types/table-types";
+import { ComparassionToggle, ToolkitTableFormType } from "./types/table-types";
 import { toast } from "sonner";
 import { DataPoint } from "./components/table/chart-number";
 
@@ -327,6 +327,15 @@ export default function App() {
             data: sample.map((d) => ({ category: d.name, value: d.age })),
             type: "number",
           },
+        }}
+        form={{
+          General: [
+            {
+              type: ToolkitTableFormType.Text,
+              value: z.string().email(),
+              label: "Name",
+            },
+          ],
         }}
       />
     </>
