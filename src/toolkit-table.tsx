@@ -3,6 +3,7 @@ import { DataTable } from "./components/table/data-table";
 import { Button } from "./components/ui/button";
 import { motion } from "framer-motion";
 import "./App.css";
+import "./index.css";
 import Ripple from "./components/ui/ripple";
 import { ToolkitTableProps } from "./types/table-types";
 import {
