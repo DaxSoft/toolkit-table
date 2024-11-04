@@ -1,11 +1,4 @@
-import {
-  MoreHorizontal,
-  Pencil,
-  Pin,
-  PinOff,
-  Trash2,
-  Users,
-} from "lucide-react";
+import { MailIcon, Pin, PinOff } from "lucide-react";
 import Table from "./toolkit-table";
 import { z } from "zod";
 import { Checkbox } from "./components/ui/checkbox";
@@ -14,15 +7,8 @@ import { SortButton } from "./components/table/columns";
 import { FilterPopover } from "./components/table/filter-popover";
 import { Badge } from "./components/ui/badge";
 import { format } from "date-fns";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./components/ui/dropdown-menu";
-import { useState } from "react";
 import { CellComparison } from "./components/table/cell-comparasion";
-import { ComparassionToggle } from "./components/table/data-table";
+import { ComparassionToggle, ToolkitTableFormType } from "./types/table-types";
 
 type ColumnSchema = {
   id: string;
@@ -83,33 +69,9 @@ const sample: ColumnSchema[] = [
 ];
 
 export default function App() {
-  const [comparassionToggle, setComparassionToggle] =
-    useState<ComparassionToggle>("none");
-
   return (
     <>
       <Table<ColumnSchema>
-        enableResizing={false}
-        comparassionToggle={comparassionToggle}
-        setComparassionToggle={setComparassionToggle}
-        breadcrumbLabel="Users"
-        breadcrumbIcon={<Users className="h-5 w-5" />}
-        buttonAddLabel="Add User"
-        exportButton="Export"
-        viewButton="View"
-        visualizeButton="Visualization"
-        bulkActionsLabel="Bulk Actions"
-        tableDescription={
-          <>
-            Manage your team members and their account permissions here. Add new
-            users, edit existing ones, and control access levels.
-          </>
-        }
-        defaultColumn={{
-          size: 200, //starting column size
-          minSize: 50, //enforced during column resizing
-          maxSize: 300, //enforced during column resizing
-        }}
         data={sample}
         columns={[
           {
@@ -215,19 +177,25 @@ export default function App() {
             },
             cell: ({ row, table }) => {
               const value = row.getValue("age") as number;
+              const meta: any = table.options?.meta;
+              const comparassionToggle = meta?.comparassionToggle as
+                | ComparassionToggle
+                | undefined;
 
               // Get the next row's value for comparison
               const rowIndex = row.index;
               const nextRow =
                 table.getRowModel().rows[
-                  comparassionToggle === "down" ? rowIndex + 1 : rowIndex - 1
+                  comparassionToggle === ComparassionToggle.down
+                    ? rowIndex + 1
+                    : rowIndex - 1
                 ];
               const nextValue = nextRow?.getValue("age") as number | undefined;
 
               return (
                 <div className="flex items-center">
                   <span>{value}</span>
-                  {comparassionToggle !== "none" && (
+                  {comparassionToggle !== ComparassionToggle.none && (
                     <CellComparison
                       value={value}
                       nextValue={nextValue}
@@ -296,6 +264,10 @@ export default function App() {
             cell: ({ row, table }) => {
               const value = row.getValue("joinDate") as Date;
               const formattedDate = format(value, "PP");
+              const meta: any = table.options?.meta;
+              const comparassionToggle = meta?.comparassionToggle as
+                | ComparassionToggle
+                | undefined;
 
               // Get the next row's value for comparison
               const rowIndex = row.index;
@@ -331,39 +303,71 @@ export default function App() {
             },
             enableResizing: true,
           },
-          {
-            id: "actions",
-            cell: ({ row, table }) => {
-              return (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="fluent-glass">
-                    <DropdownMenuItem
-                      onClick={() =>
-                        (table.options.meta as any)?.onEdit?.(row.original)
-                      }
-                    >
-                      <Pencil className="mr-2 h-4 w-4" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => console.log("Delete:", row.original)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              );
-            },
-            size: 50,
-            enableResizing: false,
-          },
         ]}
+        exportSettings={{
+          headers: {
+            name: "Name",
+            age: "Age",
+          },
+        }}
+        commands={{
+          Shortcut: [
+            {
+              label: "Send e-mail to active users",
+              icon: <MailIcon className="mr-2 h-4 w-4" />,
+              callback() {},
+            },
+          ],
+        }}
+        visualizations={{
+          Age: {
+            title: "Age",
+            data: sample.map((d) => ({ category: d.name, value: d.age })),
+            type: "number",
+          },
+        }}
+        form={{
+          General: {
+            name: {
+              type: ToolkitTableFormType.Text,
+              value: z
+                .string({ message: "Required to define" })
+                .min(1, "At least one letter"),
+              label: "Name",
+            },
+            email: {
+              type: ToolkitTableFormType.Text,
+              value: z
+                .string({ message: "Required to define" })
+                .email("Required to be a valid email"),
+              label: "Email",
+              inputProps: {
+                type: "email",
+              },
+            },
+            age: {
+              type: ToolkitTableFormType.Number,
+              value: z
+                .number({ message: "Required to define" })
+                .min(1, "Required to define"),
+              label: "Age",
+            },
+            status: {
+              type: ToolkitTableFormType.Select,
+              label: "Status",
+              value: z.string(),
+              group: [
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ],
+            },
+            joinDate: {
+              type: ToolkitTableFormType.Date,
+              label: "Join Date",
+              value: z.date(),
+            },
+          },
+        }}
       />
     </>
   );

@@ -5,7 +5,8 @@ import { format } from "date-fns";
 export function exportToExcel<TData>(
   table: Table<TData>,
   filename: string = "export.xlsx",
-  selectedFields?: string[]
+  selectedFields: string[],
+  exportSettingsHeaders: Record<string, any>
 ) {
   // Get visible columns or selected fields
   const columnsToExport = selectedFields
@@ -15,7 +16,7 @@ export function exportToExcel<TData>(
   // Prepare headers
   const headers = columnsToExport
     .filter((col) => col.id !== "actions")
-    .map((col) => getColumnName(col));
+    .map((col) => exportSettingsHeaders[col.id]);
 
   // Prepare data
   const data = table.getFilteredRowModel().rows.map((row) => {

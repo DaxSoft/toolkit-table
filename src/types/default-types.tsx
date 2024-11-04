@@ -1,9 +1,13 @@
 import {
-  ToolkitTableBulkAction,
   ToolkitTableFeatures,
   ToolkitTableFeatureTable,
   ToolkitTableIconsTable,
+  ToolkitTableLabels,
+  ToolkitTableLabelsCommand,
+  ToolkitTableLabelsForm,
   ToolkitTableLabelsTable,
+  ToolkitTableLabelsVisualization,
+  ToolkitTableSettingsFontSize,
 } from "./table-types";
 import {
   ArrowDownIcon,
@@ -11,22 +15,25 @@ import {
   ArrowUpIcon,
   BarChart2Icon,
   ChevronRightIcon,
+  CommandIcon,
   DownloadIcon,
+  EditIcon,
+  ListRestartIcon,
   MoonIcon,
   MoreHorizontalIcon,
   PinIcon,
   PinOffIcon,
   PlusIcon,
-  RefreshCcwIcon,
   SlidersHorizontalIcon,
   SunIcon,
   TableIcon,
   TextIcon,
+  TrashIcon,
 } from "lucide-react";
 
 export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
-  buttonAdd: "Add {{title}}",
-  breadcrumbLabel: "{{title}}",
+  buttonAdd: "Add",
+  breadcrumbLabel: "Table",
   exportLabel: "Export",
   viewLabel: "View",
   comparassionLabelNone: "Comparassion",
@@ -41,6 +48,49 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   bulkActionPinOff: "Unpin Selected",
   name: "Table",
   refreshLabel: "Refresh",
+  visualizationLabel: "Visualization",
+  commandLabel: "Commands",
+  editLabel: "Edit",
+  deleteLabel: <span className="text-red-600">Delete</span>,
+};
+
+export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
+  placeholder: "Type a command or search...",
+  empty: "No results found.",
+};
+
+export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualization =
+  {
+    goBack: "Go Back",
+    title: "Visualization",
+    averageLabel: "Average",
+    highestLabel: "Highest",
+    lowestLabel: "Lowest",
+    totalLabel: "Sum",
+  };
+
+export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
+  add: "Add",
+  edit: "Edit",
+  deleteDescription: "Are you sure?",
+  remove: "Remove",
+  delete: "Delete",
+  deleteCancel: "Cancel",
+  deleteContinue: "Continue",
+  export: "Export Data - XLSX",
+  exportCancel: "Cancel",
+  exportContinue: "Export",
+  exportSelectFields: "Select All Fields",
+  exportSelectFieldsPreview: "Selected Fields Preview",
+  exportingLabel: "Exporting...",
+  goBack: "Go back",
+};
+
+export const DefaultToolkitTableLabels: ToolkitTableLabels = {
+  table: DefaultToolkitTableLabelsTable,
+  command: DefaultToolkitTableLabelsCommand,
+  visualization: DefaultToolkitTableLabelsVisualization,
+  form: DefaultToolkitTableLabelsForm,
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
@@ -61,21 +111,37 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   view: <SlidersHorizontalIcon className="mr-2 h-4 w-4" />,
   visualization: <BarChart2Icon className="mr-2 h-4 w-4" />,
   export: <DownloadIcon className="mr-2 h-4 w-4" />,
-  refresh: <RefreshCcwIcon className="mr-2 h-4 w-4" />,
+  refresh: <ListRestartIcon className="mr-2 h-4 w-4" />,
+  rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
+  command: <CommandIcon className="h-4 w-4" />,
+  edit: <EditIcon className="mr-2 h-4 w-4" />,
+  delete: <TrashIcon className="text-red-600 mr-2 h-4 w-4" />,
 };
 
-export const DefaultToolkitTableFeatures: ToolkitTableFeatures = {
-  table: [
-    ToolkitTableFeatureTable.Comparassion,
-    ToolkitTableFeatureTable.FontSize,
-    ToolkitTableFeatureTable.Theme,
-    ToolkitTableFeatureTable.Add,
-    ToolkitTableFeatureTable.Breadcrumb,
-    ToolkitTableFeatureTable.Description,
-    ToolkitTableFeatureTable.Export,
-    ToolkitTableFeatureTable.Pagination,
-    ToolkitTableFeatureTable.View,
-    ToolkitTableFeatureTable.Visualization,
-    ToolkitTableFeatureTable.Refresh,
-  ],
+export const DefaultToolkitTableFeatures: Record<
+  ToolkitTableFeatureTable,
+  boolean
+> = {
+  [ToolkitTableFeatureTable.Add]: true,
+  [ToolkitTableFeatureTable.Breadcrumb]: true,
+  [ToolkitTableFeatureTable.Comparassion]: true,
+  [ToolkitTableFeatureTable.Description]: true,
+  [ToolkitTableFeatureTable.Export]: true,
+  [ToolkitTableFeatureTable.FontSize]: true,
+  [ToolkitTableFeatureTable.Pagination]: true,
+  [ToolkitTableFeatureTable.Refresh]: true,
+  [ToolkitTableFeatureTable.Theme]: false,
+  [ToolkitTableFeatureTable.View]: true,
+  [ToolkitTableFeatureTable.Visualization]: true,
+  [ToolkitTableFeatureTable.Command]: true,
+  [ToolkitTableFeatureTable.Edit]: true,
+  [ToolkitTableFeatureTable.Delete]: true,
+  [ToolkitTableFeatureTable.Read]: true,
+  [ToolkitTableFeatureTable.Form]: false,
+};
+
+export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
 };

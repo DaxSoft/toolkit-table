@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Table } from "@tanstack/react-table";
 import {
   Dialog,
@@ -13,6 +13,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Download, Loader2 } from "lucide-react";
 import { exportToExcel } from "@/lib/export-xlsx";
+import { ToolkitTableProps } from "@/types/table-types";
+import { DefaultToolkitTableLabelsForm } from "@/types/default-types";
 
 const STORAGE_KEY = "table-export-preferences";
 
@@ -20,17 +22,24 @@ interface ExportDialogProps<TData> {
   table: Table<TData>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  tableProps: ToolkitTableProps<TData>;
 }
 
 export function ExportXlsxDialog<TData>({
   table,
   open,
   onOpenChange,
+  tableProps,
 }: ExportDialogProps<TData>) {
   const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
     {}
   );
   const [isExporting, setIsExporting] = useState(false);
+  const formLabels = useMemo(
+    () => ({ ...DefaultToolkitTableLabelsForm, ...tableProps?.label?.form }),
+    [tableProps?.label]
+  );
+  const exportSettingsHeaders = tableProps?.exportSettings?.headers || {};
 
   // Load saved preferences
   useEffect(() => {
@@ -41,7 +50,10 @@ export function ExportXlsxDialog<TData>({
       // Default to all fields selected
       const defaultFields = table
         .getAllColumns()
-        .filter((column) => column.id !== "actions")
+        .filter(
+          (column) =>
+            column.id !== "actions" && !!exportSettingsHeaders[column.id]
+        )
         .reduce(
           (acc, column) => ({
             ...acc,
@@ -51,7 +63,7 @@ export function ExportXlsxDialog<TData>({
         );
       setSelectedFields(defaultFields);
     }
-  }, [table]);
+  }, [table, exportSettingsHeaders]);
 
   const handleExport = async () => {
     try {
@@ -59,10 +71,9 @@ export function ExportXlsxDialog<TData>({
       await exportToExcel(
         table,
         "users",
-        Object.keys(selectedFields).filter((key) => selectedFields[key])
+        Object.keys(selectedFields).filter((key) => selectedFields[key]) || [],
+        exportSettingsHeaders
       );
-      // Save preferences
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedFields));
       onOpenChange(false);
     } catch (error) {
       console.error("Export failed:", error);
@@ -74,7 +85,10 @@ export function ExportXlsxDialog<TData>({
   const toggleAll = (checked: boolean) => {
     const newFields = table
       .getAllColumns()
-      .filter((column) => column.id !== "actions")
+      .filter(
+        (column) =>
+          column.id !== "actions" && !!exportSettingsHeaders[column.id]
+      )
       .reduce(
         (acc, column) => ({
           ...acc,
@@ -93,7 +107,7 @@ export function ExportXlsxDialog<TData>({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="fluent-glass sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Export Data</DialogTitle>
+          <DialogTitle>{formLabels.export}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="flex items-center space-x-2">
@@ -103,13 +117,17 @@ export function ExportXlsxDialog<TData>({
               indeterminate={isIndeterminate}
               onCheckedChange={(checked) => toggleAll(!!checked)}
             />
-            <Label htmlFor="select-all">Select All Fields</Label>
+            <Label htmlFor="select-all">{formLabels.exportSelectFields}</Label>
           </div>
           <ScrollArea className="h-[300px] rounded-md border p-4">
             <div className="space-y-4">
               {table
                 .getAllColumns()
-                .filter((column) => column.id !== "actions")
+                .filter(
+                  (column) =>
+                    column.id !== "actions" &&
+                    !!exportSettingsHeaders[column.id]
+                )
                 .map((column) => (
                   <div key={column.id} className="flex items-center space-x-2">
                     <Checkbox
@@ -123,31 +141,12 @@ export function ExportXlsxDialog<TData>({
                       }
                     />
                     <Label htmlFor={column.id} className="capitalize">
-                      {column.id}
+                      {exportSettingsHeaders[column.id]}
                     </Label>
                   </div>
                 ))}
             </div>
           </ScrollArea>
-          {Object.values(selectedFields).some(Boolean) && (
-            <div className="rounded-md bg-muted p-4">
-              <h4 className="mb-2 text-sm font-medium">
-                Selected Fields Preview
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(selectedFields)
-                  .filter(([_, selected]) => selected)
-                  .map(([field]) => (
-                    <div
-                      key={field}
-                      className="rounded-full bg-primary px-3 py-1 text-xs text-primary-foreground"
-                    >
-                      {field}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
         </div>
         <DialogFooter>
           <Button
@@ -155,7 +154,7 @@ export function ExportXlsxDialog<TData>({
             onClick={() => onOpenChange(false)}
             className="fluent-button-secondary"
           >
-            Cancel
+            {formLabels.exportCancel}
           </Button>
           <Button
             onClick={handleExport}
@@ -167,12 +166,11 @@ export function ExportXlsxDialog<TData>({
             {isExporting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Exporting...
               </>
             ) : (
               <>
                 <Download className="mr-2 h-4 w-4" />
-                Export
+                {formLabels.exportContinue}
               </>
             )}
           </Button>
