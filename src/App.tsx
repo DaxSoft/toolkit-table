@@ -334,6 +334,7 @@ export default function App() {
           Age: {
             title: "Age",
             data: sample.map((d) => ({ category: d.name, value: d.age })),
+            type: "number",
           },
           "Age - Join Date": {
             title: "Age per Join Date",
@@ -341,6 +342,7 @@ export default function App() {
               category: format(d.joinDate, "PP"),
               value: d.age,
             })),
+            type: "number",
           },
         }}
       />

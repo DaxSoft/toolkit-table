@@ -1,5 +1,6 @@
 import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
+import { EChartsOption } from "echarts";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -144,6 +145,8 @@ export type ToolkitTableCommand = {
 export type ToolkitTableVisualization = {
   title: React.ReactNode;
   data: DataPoint[];
+  type: "number" | "custom";
+  chart?: EChartsOption;
 };
 
 export type ToolkitTableProps<ColumnData> = {

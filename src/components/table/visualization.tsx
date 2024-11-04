@@ -13,7 +13,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -24,6 +23,7 @@ import { useMemo } from "react";
 import { DefaultToolkitTableLabelsVisualization } from "@/types/default-types";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
+import { ChartCustomCard } from "./chart-custom";
 
 export function TableVisualization<ColumnData>({
   showVisualizationDialog,
@@ -63,15 +63,26 @@ export function TableVisualization<ColumnData>({
             return (
               <TabsContent className="mt-3 -mb-3" value={key}>
                 <ScrollArea className="h-[60vh] rounded-md ">
-                  <ChartNumberCard
-                    title={data.title}
-                    data={data.data}
-                    className="w-full"
-                    averageLabel={tableLabels.averageLabel}
-                    highestLabel={tableLabels.highestLabel}
-                    lowestLabel={tableLabels.lowestLabel}
-                    totalLabel={tableLabels.totalLabel}
-                  />
+                  {data.type === "number" ? (
+                    <ChartNumberCard
+                      title={data.title}
+                      data={data.data}
+                      className={cn("w-full")}
+                      averageLabel={tableLabels.averageLabel}
+                      highestLabel={tableLabels.highestLabel}
+                      lowestLabel={tableLabels.lowestLabel}
+                      totalLabel={tableLabels.totalLabel}
+                    />
+                  ) : (
+                    <>
+                      <ChartCustomCard
+                        title={data.title}
+                        data={data.data}
+                        className={cn("w-full")}
+                        chart={data.chart}
+                      />
+                    </>
+                  )}
                 </ScrollArea>
               </TabsContent>
             );
