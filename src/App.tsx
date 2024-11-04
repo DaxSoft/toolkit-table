@@ -329,13 +329,43 @@ export default function App() {
           },
         }}
         form={{
-          General: [
-            {
+          General: {
+            name: {
               type: ToolkitTableFormType.Text,
-              value: z.string().email(),
+              value: z
+                .string({ message: "Required to define" })
+                .min(1, "At least one letter"),
               label: "Name",
             },
-          ],
+            email: {
+              type: ToolkitTableFormType.Text,
+              value: z
+                .string({ message: "Required to define" })
+                .email("Required to be a valid email"),
+              label: "Email",
+            },
+            age: {
+              type: ToolkitTableFormType.Number,
+              value: z
+                .number({ message: "Required to define" })
+                .min(1, "Required to define"),
+              label: "Age",
+            },
+            status: {
+              type: ToolkitTableFormType.Select,
+              label: "Status",
+              value: z.string(),
+              group: [
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ],
+            },
+            joinDate: {
+              type: ToolkitTableFormType.Date,
+              label: "Join Date",
+              value: z.date(),
+            },
+          },
         }}
       />
     </>

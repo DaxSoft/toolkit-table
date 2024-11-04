@@ -1,7 +1,7 @@
 import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 import { EChartsOption } from "echarts";
-import { z, ZodNumber, ZodString } from "zod";
+import { z, ZodBoolean, ZodDate, ZodEnum, ZodNumber, ZodString } from "zod";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -192,6 +192,17 @@ export enum ToolkitTableFormType {
   Phone = "Phone",
   Cpf = "Cpf",
   Cnpj = "Cnpj",
+  Block = "Block",
+  Divisor = "Divisor",
+  Alert = "Alert",
+  Checkbox = "Checkbox",
+  Switch = "Switch",
+  Date = "Date",
+  RadioGroup = "RadioGroup",
+  Select = "Select",
+  Slider = "Slider",
+  Column = "Column",
+  Tab = "Tab",
 }
 
 export type ToolkitTableFormProps =
@@ -220,6 +231,60 @@ export type ToolkitTableFormProps =
       decimalScale?: number;
       prefix?: string;
       suffix?: string;
+    }
+  | {
+      type: ToolkitTableFormType.Block;
+      value: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.Alert;
+      value: React.ReactNode;
+      title?: React.ReactNode;
+      icon?: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.Checkbox | ToolkitTableFormType.Switch;
+      value: ZodBoolean;
+      label: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.Date;
+      value: ZodDate;
+      label: React.ReactNode;
+      description?: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.RadioGroup;
+      value: ZodString;
+      label: React.ReactNode;
+      group: Array<{ value: string; label: React.ReactNode }>;
+      description?: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.Select;
+      value: ZodString;
+      label: React.ReactNode;
+      group: Array<{ value: string; label: React.ReactNode }>;
+      description?: React.ReactNode;
+      placeholder?: React.ReactNode;
+    }
+  | {
+      type: ToolkitTableFormType.Slider;
+      value: ZodNumber;
+      label: React.ReactNode;
+      description?: React.ReactNode;
+      max: number;
+      min: number;
+      step: number;
+    }
+  | {
+      type: ToolkitTableFormType.Column;
+      value: Record<string, ToolkitTableFormProps>;
+    }
+  | {
+      type: ToolkitTableFormType.Tab;
+      value: Record<string, ToolkitTableFormProps>;
+      tabValue: string;
     };
 
 export type ToolkitTableProps<ColumnData> = {
@@ -234,6 +299,6 @@ export type ToolkitTableProps<ColumnData> = {
   features?: ToolkitTableFeatures;
   commands?: Record<string, ToolkitTableCommand[]>;
   visualizations?: Record<string, ToolkitTableVisualization>;
-  form?: Record<string, ToolkitTableFormProps[]>;
+  form?: Record<string, Record<string, ToolkitTableFormProps>>;
   exportSettings?: ToolkitTableSettingsProps;
 };
