@@ -81,6 +81,7 @@ export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
   exportContinue: "Export",
   exportSelectFields: "Select All Fields",
   exportSelectFieldsPreview: "Selected Fields Preview",
+  exportingLabel: "Exporting...",
 };
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
@@ -133,6 +134,7 @@ export const DefaultToolkitTableFeatures: Record<
   [ToolkitTableFeatureTable.Command]: true,
   [ToolkitTableFeatureTable.Edit]: true,
   [ToolkitTableFeatureTable.Delete]: true,
+  [ToolkitTableFeatureTable.Read]: true,
 };
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {

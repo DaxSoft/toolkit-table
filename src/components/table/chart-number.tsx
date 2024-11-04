@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { EChartsOption } from "echarts";
 import ReactECharts from "echarts-for-react";
 import { ArrowDown, ArrowUp, TrendingUp } from "lucide-react";
 import { ReactNode, useMemo } from "react";
@@ -38,7 +39,7 @@ export function ChartNumberCard({
     };
   }, [data]);
 
-  const options = {
+  const options: EChartsOption = {
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -134,6 +135,11 @@ export function ChartNumberCard({
         data: data.map((d) => d.value),
       },
     ],
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
   };
 
   return (

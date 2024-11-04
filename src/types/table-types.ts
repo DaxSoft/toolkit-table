@@ -59,6 +59,7 @@ export type ToolkitTableLabelsForm = {
   exportContinue?: React.ReactNode;
   exportSelectFields?: React.ReactNode;
   exportSelectFieldsPreview?: React.ReactNode;
+  exportingLabel?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {
@@ -144,6 +145,7 @@ export enum ToolkitTableFeatureTable {
   Command = "Command",
   Delete = "Delete",
   Edit = "Edit",
+  Read = "Read",
 }
 
 export type ToolkitTableFeatures = {
