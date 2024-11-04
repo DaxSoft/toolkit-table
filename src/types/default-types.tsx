@@ -71,6 +71,7 @@ export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualiza
 
 export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
   add: "Add",
+  edit: "Edit",
   deleteDescription: "Are you sure?",
   remove: "Remove",
   delete: "Delete",
@@ -82,6 +83,7 @@ export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {
   exportSelectFields: "Select All Fields",
   exportSelectFieldsPreview: "Selected Fields Preview",
   exportingLabel: "Exporting...",
+  goBack: "Go back",
 };
 
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {

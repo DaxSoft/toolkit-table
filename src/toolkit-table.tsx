@@ -2,12 +2,6 @@ import React, { useState, useCallback, Suspense } from "react";
 import { DataTable } from "./components/table/data-table";
 import { Button } from "./components/ui/button";
 import { motion } from "framer-motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./components/ui/dialog";
 import "./App.css";
 import Ripple from "./components/ui/ripple";
 import { ToolkitTableProps } from "./types/table-types";
@@ -26,7 +20,6 @@ import {
   CommandItem,
   CommandList,
 } from "./components/ui/command";
-import { Toaster } from "./components/ui/sonner";
 import { ToolkitForm } from "./components/form";
 
 const containerVariants = {
@@ -136,6 +129,7 @@ export default function ToolkitTable<ColumnData>(
       buttonAddCallback();
       return;
     }
+    setOpenForm(() => "add");
   }, [buttonAddCallback]);
 
   const handleRefresh = useCallback(() => {
@@ -238,7 +232,10 @@ export default function ToolkitTable<ColumnData>(
 
             <Suspense fallback={<></>}>
               <motion.div variants={itemVariants}>
-                <DataTable<ColumnData> {...tableProps} />
+                <DataTable<ColumnData>
+                  tableProps={tableProps}
+                  setOpenForm={setOpenForm}
+                />
               </motion.div>
             </Suspense>
           </motion.div>

@@ -59,6 +59,7 @@ export type ToolkitTableLabelsVisualization = {
 
 export type ToolkitTableLabelsForm = {
   add?: React.ReactNode;
+  edit?: React.ReactNode;
   remove?: React.ReactNode;
   deleteDescription?: React.ReactNode;
   delete?: React.ReactNode;
@@ -70,6 +71,7 @@ export type ToolkitTableLabelsForm = {
   exportSelectFields?: React.ReactNode;
   exportSelectFieldsPreview?: React.ReactNode;
   exportingLabel?: React.ReactNode;
+  goBack?: React.ReactNode;
 };
 
 export type ToolkitTableLabels = {

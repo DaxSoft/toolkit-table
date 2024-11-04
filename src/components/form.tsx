@@ -8,6 +8,25 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodTypeAny } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "./ui/drawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import { ScrollArea } from "./ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { DefaultToolkitTableLabelsForm } from "@/types/default-types";
+import { Button } from "./ui/button";
 
 // Function to process each field and return the corresponding Zod schema
 function processField(fieldProps: ToolkitTableFormProps): ZodTypeAny {
@@ -139,6 +158,11 @@ export function ToolkitForm<ColumnData>({
 }: ToolkitFormProps<ColumnData>) {
   const form = tableProps?.form || {};
 
+  const formLabels = React.useMemo(
+    () => ({ ...DefaultToolkitTableLabelsForm, ...tableProps?.label?.form }),
+    [tableProps?.label]
+  );
+
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [activeTab, setActiveTab] = React.useState(Object.keys(form)[0]);
 
@@ -162,5 +186,69 @@ export function ToolkitForm<ColumnData>({
     mode: tableProps?.settings?.form?.mode,
   });
 
-  return <></>;
+  if (isDesktop) {
+    return (
+      <>
+        <Dialog
+          open={Boolean(openForm)}
+          onOpenChange={(open) => {
+            if (!open) {
+              setOpenForm(undefined);
+            }
+          }}
+        >
+          <DialogContent
+            className={cn(["windows11-mica fluent-glass sm:max-w-[960px]"])}
+          >
+            <DialogHeader>
+              <DialogTitle>
+                {openForm === "add" ? formLabels.add : formLabels.edit}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4 px-4">{}</div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setOpenForm(undefined)}
+                className="fluent-button-secondary"
+              >
+                {formLabels.goBack}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  }
+
+  return (
+    <Drawer
+      open={Boolean(openForm)}
+      onOpenChange={(open) => {
+        if (!open) {
+          setOpenForm(undefined);
+        }
+      }}
+    >
+      <DrawerContent className="fluent-glass">
+        <DrawerHeader className="text-left">
+          <DrawerTitle>
+            {openForm === "add" ? formLabels.add : formLabels.edit}
+          </DrawerTitle>
+        </DrawerHeader>
+        <div className="space-y-4 py-4">{}</div>
+        <DrawerFooter className="pt-2">
+          <DrawerClose asChild>
+            <Button
+              variant="outline"
+              onClick={() => setOpenForm(undefined)}
+              className="fluent-button-secondary"
+            >
+              {formLabels.goBack}
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
 }

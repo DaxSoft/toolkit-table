@@ -84,9 +84,13 @@ const rowVariants = {
   exit: { opacity: 0, x: 20 },
 };
 
-export function DataTable<ColumnData>(
-  tableProps: ToolkitTableProps<ColumnData>
-) {
+export function DataTable<ColumnData>({
+  tableProps,
+  setOpenForm,
+}: {
+  tableProps: ToolkitTableProps<ColumnData>;
+  setOpenForm: React.Dispatch<React.SetStateAction<"add" | "edit">>;
+}) {
   const data = tableProps.data;
   const [currentDelete, setCurrentDelete] = useState<
     CellContext<ColumnData, unknown> | undefined
@@ -130,7 +134,9 @@ export function DataTable<ColumnData>(
         action: "edit",
         icon: tableIcons.edit,
         label: tableLabels.editLabel,
-        callback(context) {},
+        callback(context) {
+          setOpenForm(() => "edit");
+        },
       });
     }
 
