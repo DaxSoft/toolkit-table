@@ -1,9 +1,15 @@
 {
   "name": "@vorlefan/toolkit-table",
-  "private": false,
   "version": "0.0.1",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Michael Willian",
+    "email": "dax-soft@live.com"
+  },
   "scripts": {
     "dev": "vite --port 3000",
     "build": "tsc -b && vite build",
