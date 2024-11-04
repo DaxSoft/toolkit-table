@@ -1,6 +1,7 @@
 import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 import { EChartsOption } from "echarts";
+import { CriteriaMode } from "react-hook-form";
 import {
   z,
   ZodBoolean,
@@ -134,9 +135,15 @@ export type ToolkitTableSettingsFontSize = {
   lg?: string;
 };
 
+export type ToolkitTableSettingsForm = {
+  criteriaMode?: CriteriaMode;
+  mode?: "all" | "onBlur" | "onChange" | "onSubmit" | "onTouched";
+};
+
 export type ToolkitTableSettings<ColumnData> = {
   table?: ToolkitTableSettingsTable<ColumnData>;
   fontSize?: ToolkitTableSettingsFontSize;
+  form?: ToolkitTableSettingsForm;
 };
 
 export enum ToolkitTableFeatureTable {

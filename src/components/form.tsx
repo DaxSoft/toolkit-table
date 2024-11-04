@@ -158,5 +158,7 @@ export function ToolkitForm<ColumnData>({
 
   const formMethods = useForm({
     resolver: zodResolver(schema),
+    criteriaMode: tableProps?.settings?.form?.criteriaMode,
+    mode: tableProps?.settings?.form?.mode,
   });
 }
