@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { CellComparison } from "./components/table/cell-comparasion";
 import { ComparassionToggle } from "./types/table-types";
 import { toast } from "sonner";
+import { DataPoint } from "./components/table/chart-number";
 
 type ColumnSchema = {
   id: string;
@@ -342,7 +343,11 @@ export default function App() {
               category: format(d.joinDate, "PP"),
               value: d.age,
             })),
-            type: "number",
+            type: "custom",
+            chart: (data: any) => {
+              const values = data as DataPoint[];
+              return {};
+            },
           },
         }}
       />

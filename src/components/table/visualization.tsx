@@ -77,7 +77,7 @@ export function TableVisualization<ColumnData>({
                     <>
                       <ChartCustomCard
                         title={data.title}
-                        data={data.data}
+                        data={data.data as Record<string, any>[]}
                         className={cn("w-full")}
                         chart={data.chart}
                       />

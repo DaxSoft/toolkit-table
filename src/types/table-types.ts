@@ -142,12 +142,18 @@ export type ToolkitTableCommand = {
   icon?: React.ReactNode;
 };
 
-export type ToolkitTableVisualization = {
-  title: React.ReactNode;
-  data: DataPoint[];
-  type: "number" | "custom";
-  chart?: EChartsOption;
-};
+export type ToolkitTableVisualization =
+  | {
+      title: React.ReactNode;
+      data: DataPoint[];
+      type: "number";
+    }
+  | {
+      title: React.ReactNode;
+      data: Record<string, any>[];
+      type: "custom";
+      chart: (data: Record<string, any>[]) => EChartsOption;
+    };
 
 export type ToolkitTableProps<ColumnData> = {
   label?: ToolkitTableLabels;
