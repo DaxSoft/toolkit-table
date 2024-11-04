@@ -287,6 +287,14 @@
   background: rgba(32, 32, 32, 0.7);
 }
 
+.fluent-inpout {
+  @apply h-10 px-4 rounded-lg border border-border/30 bg-background/80 backdrop-blur-sm;
+  @apply transition-all duration-200;
+  @apply hover:border-border/50;
+  @apply focus:border-accent focus:ring-2 focus:ring-accent/20;
+  box-shadow: var(--shadow-sm);
+}
+
 [cmdk-dialog] {
   max-width: 640px;
   width: 100%;

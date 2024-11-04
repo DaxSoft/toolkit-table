@@ -5,7 +5,7 @@ import {
   ToolkitTableProps,
 } from "@/types/table-types";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm, UseFormReturn } from "react-hook-form";
 import { z, ZodTypeAny } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,8 +27,19 @@ import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { DefaultToolkitTableLabelsForm } from "@/types/default-types";
 import { Button } from "./ui/button";
-import { Form } from "./ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+} from "./ui/form";
 
 // Function to process each field and return the corresponding Zod schema
 function processField(fieldProps: ToolkitTableFormProps): ZodTypeAny {
@@ -147,6 +158,55 @@ function createSchemaFromFields(
   return z.object(fieldSchemas);
 }
 
+const FormFieldComponent = ({
+  fieldProps,
+  formMethods,
+  name,
+}: {
+  fieldProps: ToolkitTableFormProps;
+  formMethods: UseFormReturn<FieldValues, any, undefined>;
+  name: string;
+}) => {
+  switch (fieldProps.type) {
+    case ToolkitTableFormType.Text:
+      return (
+        <FormField
+          control={formMethods.control as any}
+          name={name}
+          render={({ field, fieldState, formState }) => {
+            return (
+              <FormItem>
+                <FormLabel>{fieldProps.label}</FormLabel>
+                <FormControl>
+                  <Input
+                    className={cn("fluent-input")}
+                    placeholder={fieldProps?.placeholder}
+                    {...field}
+                  />
+                </FormControl>
+                {fieldProps?.description && (
+                  <FormDescription>{fieldProps?.description}</FormDescription>
+                )}
+                {fieldState?.error && (
+                  <p
+                    className={cn("text-[0.8rem] font-medium text-destructive")}
+                  >
+                    {fieldState?.error?.message}
+                  </p>
+                )}
+              </FormItem>
+            );
+          }}
+        />
+      );
+
+    default:
+      return <></>;
+  }
+};
+
+const FormFieldMemo = React.memo(FormFieldComponent);
+
 export type ToolkitFormProps<ColumnData> = {
   tableProps: ToolkitTableProps<ColumnData>;
   openForm?: "add" | "edit";
@@ -184,35 +244,12 @@ export function ToolkitForm<ColumnData>({
 
   const formMethods = useForm({
     resolver: zodResolver(schema),
-    criteriaMode: tableProps?.settings?.form?.criteriaMode,
-    mode: tableProps?.settings?.form?.mode,
+    criteriaMode: tableProps?.settings?.form?.criteriaMode || "all",
+    mode: tableProps?.settings?.form?.mode || "onChange",
   });
 
-  const formComponent = React.useMemo(() => {
-    return (
-      <Form {...formMethods}>
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
-            {Object.keys(form).map((tab) => (
-              <TabsTrigger key={tab} value={tab} className="capitalize">
-                {tab}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {Object.entries(form).map(([tab, fields]) => (
-            <TabsContent key={tab} value={tab} className="space-y-4">
-              {/* {Object.entries(fields).map(([fieldKey, field]) => (
-                <FormField
-                  key={fieldKey}
-                  field={field}
-                  name={`${tab}.${fieldKey}`}
-                />
-              ))} */}
-            </TabsContent>
-          ))}
-        </Tabs>
-      </Form>
-    );
+  React.useEffect(() => {
+    formMethods.trigger();
   }, []);
 
   if (isDesktop) {
@@ -234,7 +271,31 @@ export function ToolkitForm<ColumnData>({
                 {openForm === "add" ? formLabels.add : formLabels.edit}
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-4 px-4">{formComponent}</div>
+            <div className="space-y-4 py-4 px-4">
+              <Form {...formMethods}>
+                <Tabs value={activeTab} onValueChange={setActiveTab}>
+                  <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
+                    {Object.keys(form).map((tab) => (
+                      <TabsTrigger key={tab} value={tab} className="capitalize">
+                        {tab}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                  {Object.entries(form).map(([tab, fields]) => (
+                    <TabsContent key={tab} value={tab} className="space-y-4">
+                      {Object.entries(fields).map(([fieldKey, field]) => (
+                        <FormFieldMemo
+                          key={fieldKey}
+                          fieldProps={field}
+                          formMethods={formMethods}
+                          name={`${tab}.${fieldKey}.value`}
+                        />
+                      ))}
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              </Form>
+            </div>
             <DialogFooter>
               <Button
                 variant="outline"
@@ -265,7 +326,31 @@ export function ToolkitForm<ColumnData>({
             {openForm === "add" ? formLabels.add : formLabels.edit}
           </DrawerTitle>
         </DrawerHeader>
-        <div className="space-y-4 py-4">{formComponent}</div>
+        <div className="space-y-4 py-4">
+          <Form {...formMethods}>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
+                {Object.keys(form).map((tab) => (
+                  <TabsTrigger key={tab} value={tab} className="capitalize">
+                    {tab}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              {Object.entries(form).map(([tab, fields]) => (
+                <TabsContent key={tab} value={tab} className="space-y-4">
+                  {Object.entries(fields).map(([fieldKey, field]) => (
+                    <FormFieldMemo
+                      key={fieldKey}
+                      fieldProps={field}
+                      formMethods={formMethods}
+                      name={`${tab}.${fieldKey}`}
+                    />
+                  ))}
+                </TabsContent>
+              ))}
+            </Tabs>
+          </Form>
+        </div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button
