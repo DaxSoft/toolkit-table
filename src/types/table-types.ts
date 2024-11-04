@@ -1,7 +1,15 @@
 import { DataPoint } from "@/components/table/chart-number";
 import { CellContext, ColumnDef, Row } from "@tanstack/react-table";
 import { EChartsOption } from "echarts";
-import { z, ZodBoolean, ZodDate, ZodEnum, ZodNumber, ZodString } from "zod";
+import {
+  z,
+  ZodBoolean,
+  ZodDate,
+  ZodEnum,
+  ZodLiteral,
+  ZodNumber,
+  ZodString,
+} from "zod";
 
 export type SortedType = "false" | "asc" | "desc";
 export type FontSize = "sm" | "md" | "lg";
@@ -215,7 +223,7 @@ export type ToolkitTableFormProps =
       value: ZodString;
       label: React.ReactNode;
       description?: React.ReactNode;
-      placeholder?: React.ReactNode;
+      placeholder?: string;
       mask?: string;
     }
   | {
@@ -226,7 +234,7 @@ export type ToolkitTableFormProps =
       value: ZodNumber;
       label: React.ReactNode;
       description?: React.ReactNode;
-      placeholder?: React.ReactNode;
+      placeholder?: string;
       mask?: string;
       decimalScale?: number;
       prefix?: string;
@@ -257,16 +265,22 @@ export type ToolkitTableFormProps =
       type: ToolkitTableFormType.RadioGroup;
       value: ZodString;
       label: React.ReactNode;
-      group: Array<{ value: string; label: React.ReactNode }>;
+      group: Array<{
+        value: string;
+        label: React.ReactNode;
+      }>;
       description?: React.ReactNode;
     }
   | {
       type: ToolkitTableFormType.Select;
       value: ZodString;
       label: React.ReactNode;
-      group: Array<{ value: string; label: React.ReactNode }>;
+      group: Array<{
+        value: string;
+        label: React.ReactNode;
+      }>;
       description?: React.ReactNode;
-      placeholder?: React.ReactNode;
+      placeholder?: string;
     }
   | {
       type: ToolkitTableFormType.Slider;
@@ -283,7 +297,7 @@ export type ToolkitTableFormProps =
     }
   | {
       type: ToolkitTableFormType.Tab;
-      value: Record<string, ToolkitTableFormProps>;
+      value: ZodLiteral<Record<string, ToolkitTableFormProps>>;
       tabValue: string;
     };
 
@@ -311,26 +325,4 @@ export type InferToolkitFormType<
       ? U
       : never;
   };
-};
-
-export const createToolkitFormSchema = <
-  T extends Record<string, Record<string, ToolkitTableFormProps>>
->(
-  form: T
-) => {
-  const schema: Record<string, z.ZodObject<any>> = {};
-
-  for (const [tabKey, fields] of Object.entries(form)) {
-    const fieldSchemas: Record<string, z.ZodType<any>> = {};
-
-    for (const [fieldKey, field] of Object.entries(fields)) {
-      if ("value" in field && field.value instanceof z.ZodType) {
-        fieldSchemas[fieldKey] = field.value;
-      }
-    }
-
-    schema[tabKey] = z.object(fieldSchemas);
-  }
-
-  return z.object(schema) as z.ZodType<InferToolkitFormType<T>>;
 };
