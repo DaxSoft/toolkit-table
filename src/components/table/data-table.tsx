@@ -30,7 +30,13 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { DataTablePagination } from "./pagination";
-import { ArrowUpDown, ArrowDown, ArrowUp } from "lucide-react";
+import {
+  ArrowUpDown,
+  ArrowDown,
+  ArrowUp,
+  EditIcon,
+  TrashIcon,
+} from "lucide-react";
 import { applyFilter } from "@/lib/filters";
 import { ExportXlsxDialog } from "@/components/export/export-xlsx.dialog";
 import { cn } from "@/lib/utils";
@@ -71,6 +77,11 @@ export function DataTable<ColumnData>(
 ) {
   const data = tableProps.data;
 
+  const tableFeatures = useMemo(
+    () => ({ ...DefaultToolkitTableFeatures, ...tableProps?.features?.table }),
+
+    [tableProps?.features?.table]
+  );
   const tableLabels = useMemo(
     () => ({ ...DefaultToolkitTableLabelsTable, ...tableProps?.label?.table }),
     [tableProps?.label]
@@ -83,6 +94,25 @@ export function DataTable<ColumnData>(
 
   const columns = useMemo(() => {
     const rowActions = tableProps?.rowActions || [];
+
+    if (tableFeatures?.Edit === true) {
+      rowActions.push({
+        action: "edit",
+        icon: tableIcons.edit,
+        label: tableLabels.editLabel,
+        callback(context) {},
+      });
+    }
+
+    if (tableFeatures?.Delete === true) {
+      rowActions.push({
+        action: "delete",
+        icon: tableIcons.delete,
+        label: tableLabels.deleteLabel,
+        callback(context) {},
+      });
+    }
+
     return rowActions.length > 0
       ? [
           ...tableProps.columns,
@@ -118,7 +148,7 @@ export function DataTable<ColumnData>(
           },
         ]
       : tableProps.columns;
-  }, [tableProps.columns, tableProps?.rowActions, tableIcons]);
+  }, [tableProps.columns, tableProps?.rowActions, tableIcons, tableFeatures]);
 
   const settingsTable = useMemo(
     () => tableProps?.settings?.table,
@@ -128,12 +158,6 @@ export function DataTable<ColumnData>(
   const fontSizeClasses = useMemo(
     () => ({ ...DefaultFontSizeClasses, ...tableProps?.settings?.fontSize }),
     [tableProps?.settings?.fontSize]
-  );
-
-  const tableFeatures = useMemo(
-    () => ({ ...DefaultToolkitTableFeatures, ...tableProps?.features?.table }),
-
-    [tableProps?.features?.table]
   );
 
   const [comparassionToggle, setComparassionToggle] =

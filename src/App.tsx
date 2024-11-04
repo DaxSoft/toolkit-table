@@ -306,22 +306,6 @@ export default function App() {
             enableResizing: true,
           },
         ]}
-        rowActions={[
-          {
-            action: "edit",
-            icon: <EditIcon className="mr-2 h-4 w-4" />,
-            label: "Edit",
-            callback(context) {},
-            disabled: true,
-          },
-          {
-            action: "delete",
-            icon: <TrashIcon className="text-red-600 mr-2 h-4 w-4" />,
-            label: <span className="text-red-600">Delete</span>,
-            callback(context) {},
-            disabled: true,
-          },
-        ]}
         commands={{
           Shortcut: [
             {

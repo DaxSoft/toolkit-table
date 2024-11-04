@@ -29,6 +29,8 @@ export type ToolkitTableLabelsTable = {
   refreshLabel?: React.ReactNode;
   visualizationLabel?: React.ReactNode;
   commandLabel?: React.ReactNode;
+  editLabel?: React.ReactNode;
+  deleteLabel?: React.ReactNode;
 };
 
 export type ToolkitTableLabelsCommand = {
@@ -45,10 +47,16 @@ export type ToolkitTableLabelsVisualization = {
   totalLabel?: React.ReactNode;
 };
 
+export type ToolkitTableLabelsForm = {
+  add?: React.ReactNode;
+  remove?: React.ReactNode;
+};
+
 export type ToolkitTableLabels = {
   table: ToolkitTableLabelsTable;
   command: ToolkitTableLabelsCommand;
   visualization: ToolkitTableLabelsVisualization;
+  form: ToolkitTableLabelsForm;
 };
 
 export type ToolkitTableIconsTable = {
@@ -72,6 +80,8 @@ export type ToolkitTableIconsTable = {
   refresh?: React.ReactNode;
   rowAction?: React.ReactNode;
   command?: React.ReactNode;
+  edit?: React.ReactNode;
+  delete?: React.ReactNode;
 };
 
 export type ToolkitTableIcons = {
@@ -122,6 +132,8 @@ export enum ToolkitTableFeatureTable {
   Breadcrumb = "Breadcrumb",
   Refresh = "Refresh",
   Command = "Command",
+  Delete = "Delete",
+  Edit = "Edit",
 }
 
 export type ToolkitTableFeatures = {
@@ -155,6 +167,8 @@ export type ToolkitTableVisualization =
       chart: (title: string, data: Record<string, any>[]) => EChartsOption;
     };
 
+export type ToolkitTableFormProps = {};
+
 export type ToolkitTableProps<ColumnData> = {
   label?: ToolkitTableLabels;
   icons?: ToolkitTableIcons;
@@ -167,4 +181,5 @@ export type ToolkitTableProps<ColumnData> = {
   features?: ToolkitTableFeatures;
   commands?: Record<string, ToolkitTableCommand[]>;
   visualizations?: Record<string, ToolkitTableVisualization>;
+  form?: ToolkitTableFormProps;
 };

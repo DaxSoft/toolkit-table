@@ -4,6 +4,7 @@ import {
   ToolkitTableIconsTable,
   ToolkitTableLabels,
   ToolkitTableLabelsCommand,
+  ToolkitTableLabelsForm,
   ToolkitTableLabelsTable,
   ToolkitTableLabelsVisualization,
   ToolkitTableSettingsFontSize,
@@ -16,6 +17,7 @@ import {
   ChevronRightIcon,
   CommandIcon,
   DownloadIcon,
+  EditIcon,
   ListRestartIcon,
   MoonIcon,
   MoreHorizontalIcon,
@@ -26,6 +28,7 @@ import {
   SunIcon,
   TableIcon,
   TextIcon,
+  TrashIcon,
 } from "lucide-react";
 
 export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
@@ -47,6 +50,8 @@ export const DefaultToolkitTableLabelsTable: ToolkitTableLabelsTable = {
   refreshLabel: "Refresh",
   visualizationLabel: "Visualization",
   commandLabel: "Commands",
+  editLabel: "Edit",
+  deleteLabel: <span className="text-red-600">Delete</span>,
 };
 
 export const DefaultToolkitTableLabelsCommand: ToolkitTableLabelsCommand = {
@@ -64,10 +69,13 @@ export const DefaultToolkitTableLabelsVisualization: ToolkitTableLabelsVisualiza
     totalLabel: "Sum",
   };
 
+export const DefaultToolkitTableLabelsForm: ToolkitTableLabelsForm = {};
+
 export const DefaultToolkitTableLabels: ToolkitTableLabels = {
   table: DefaultToolkitTableLabelsTable,
   command: DefaultToolkitTableLabelsCommand,
   visualization: DefaultToolkitTableLabelsVisualization,
+  form: DefaultToolkitTableLabelsForm,
 };
 
 export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
@@ -91,6 +99,8 @@ export const DefaultToolkitTableIcons: ToolkitTableIconsTable = {
   refresh: <ListRestartIcon className="mr-2 h-4 w-4" />,
   rowAction: <MoreHorizontalIcon className="h-4 w-4" />,
   command: <CommandIcon className="h-4 w-4" />,
+  edit: <EditIcon className="mr-2 h-4 w-4" />,
+  delete: <TrashIcon className="text-red-600 mr-2 h-4 w-4" />,
 };
 
 export const DefaultToolkitTableFeatures: Record<
@@ -109,6 +119,8 @@ export const DefaultToolkitTableFeatures: Record<
   [ToolkitTableFeatureTable.View]: true,
   [ToolkitTableFeatureTable.Visualization]: true,
   [ToolkitTableFeatureTable.Command]: true,
+  [ToolkitTableFeatureTable.Edit]: true,
+  [ToolkitTableFeatureTable.Delete]: true,
 };
 
 export const DefaultFontSizeClasses: ToolkitTableSettingsFontSize = {
