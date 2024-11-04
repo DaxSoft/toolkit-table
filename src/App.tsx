@@ -1,4 +1,4 @@
-import { EditIcon, MailIcon, Pin, PinOff, TrashIcon } from "lucide-react";
+import { MailIcon, Pin, PinOff } from "lucide-react";
 import Table from "./toolkit-table";
 import { z } from "zod";
 import { Checkbox } from "./components/ui/checkbox";
@@ -9,8 +9,6 @@ import { Badge } from "./components/ui/badge";
 import { format } from "date-fns";
 import { CellComparison } from "./components/table/cell-comparasion";
 import { ComparassionToggle, ToolkitTableFormType } from "./types/table-types";
-import { toast } from "sonner";
-import { DataPoint } from "./components/table/chart-number";
 
 type ColumnSchema = {
   id: string;
