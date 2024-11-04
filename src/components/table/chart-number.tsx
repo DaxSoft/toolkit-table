@@ -10,7 +10,7 @@ export interface DataPoint {
 }
 
 interface ChartNumberCardProps {
-  title: ReactNode;
+  title: string;
   data: DataPoint[];
   className?: string;
   highestLabel?: React.ReactNode;

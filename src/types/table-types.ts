@@ -144,15 +144,15 @@ export type ToolkitTableCommand = {
 
 export type ToolkitTableVisualization =
   | {
-      title: React.ReactNode;
+      title: string;
       data: DataPoint[];
       type: "number";
     }
   | {
-      title: React.ReactNode;
+      title: string;
       data: Record<string, any>[];
       type: "custom";
-      chart: (data: Record<string, any>[]) => EChartsOption;
+      chart: (title: string, data: Record<string, any>[]) => EChartsOption;
     };
 
 export type ToolkitTableProps<ColumnData> = {

@@ -337,18 +337,6 @@ export default function App() {
             data: sample.map((d) => ({ category: d.name, value: d.age })),
             type: "number",
           },
-          "Age - Join Date": {
-            title: "Age per Join Date",
-            data: sample.map((d) => ({
-              category: format(d.joinDate, "PP"),
-              value: d.age,
-            })),
-            type: "custom",
-            chart: (data: any) => {
-              const values = data as DataPoint[];
-              return {};
-            },
-          },
         }}
       />
     </>

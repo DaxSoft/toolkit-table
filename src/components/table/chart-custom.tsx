@@ -11,10 +11,10 @@ export interface DataPoint {
 }
 
 export type ChartCustomCardProps = {
-  title: ReactNode;
+  title: string;
   data: Record<string, any>[];
   className?: string;
-  chart: (data: Record<string, any>[]) => EChartsOption;
+  chart: (title: string, data: Record<string, any>[]) => EChartsOption;
 };
 
 export function ChartCustomCard({
@@ -23,12 +23,12 @@ export function ChartCustomCard({
   className,
   chart,
 }: ChartCustomCardProps) {
-  const { dupData, echarts, graphicId, myChart } = useEcharts("chart", {});
+  const { dupData, echarts, graphicId, myChart } = useEcharts(title, {});
   const { width } = useViewportDimensions();
 
   useEffect(() => {
     if (dupData === true && !!myChart) {
-      myChart.setOption(chart(data));
+      myChart.setOption(chart(title, data));
 
       myChart.resize({
         width: "auto",
