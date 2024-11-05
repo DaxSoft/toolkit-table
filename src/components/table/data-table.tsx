@@ -457,11 +457,11 @@ export function DataTable<ColumnData>({
                       <ArrowUp className="h-4 w-4" />
                     )}
                     {comparassionToggle === "none" ? (
-                      <>Comparassion</>
+                      <>{tableLabels.comparassionLabelNone}</>
                     ) : comparassionToggle === "down" ? (
-                      <>Next row</>
+                      <>{tableLabels.comparassionLabelDown}</>
                     ) : (
-                      <>Previous row</>
+                      <>{tableLabels.comparassionLabelUp}</>
                     )}
                   </motion.div>
                 </AnimatePresence>
